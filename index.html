@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Climatização Escolar · Fortaleza</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <div>
+        <div class="eyebrow">Secretaria Municipal da Educação · COINF</div>
+        <h1>Climatização Escolar<br><span class="thin">Fortaleza</span></h1>
+        <p class="sub">Mapa do parque escolar — 512 unidades (exclui CRP e CAEE). Cor do ponto pelo status geral. Filtre por regional, distrito, bairro e status.</p>
+      </div>
+      <div class="badge" id="badge">512 UNIDADES · DADOS REAIS</div>
+    </header>
+    <div class="faixa"><i></i><i></i><i></i></div>
+
+    <div class="card">
+      <div class="maphead">
+        <h2>Mapa do parque</h2>
+        <div class="count"><b id="contagem">512</b> escolas no mapa<span id="sem-coord"></span></div>
+      </div>
+
+      <div class="filtros">
+        <div class="chiprow" id="f-regional"></div>
+        <div class="selgroup">
+          <label for="sel-distrito">Distrito</label>
+          <select id="sel-distrito"><option value="">Todos</option></select>
+        </div>
+        <div class="selgroup">
+          <label for="sel-bairro">Bairro</label>
+          <select id="sel-bairro"><option value="">Todos</option></select>
+        </div>
+        <div class="selgroup">
+          <label for="sel-status">Status geral</label>
+          <select id="sel-status"><option value="">Todos</option></select>
+        </div>
+        <button class="btn-limpar" id="f-limpar" type="button">Limpar</button>
+      </div>
+
+      <div id="map"></div>
+
+      <div class="legend">
+        <span><i class="dot d-clim"></i>Climatizada</span>
+        <span><i class="dot d-parc"></i>Parcial</span>
+        <span><i class="dot d-pipe"></i>Em andamento</span>
+        <span><i class="dot d-init"></i>A iniciar</span>
+        <span class="nota">posições por centroide de bairro · geocodificação pendente</span>
+      </div>
+    </div>
+
+    <p class="nota-base">
+      <b>Posicionamento.</b> A base não traz latitude/longitude nem endereço de rua, então cada escola
+      é posicionada no centroide do seu bairro (com leve dispersão quando há várias no mesmo bairro).
+      Próximo passo técnico do mapa: geocodificar endereços para posição exata.
+    </p>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="data/bairros.js"></script>
+  <script src="data/escolas.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
