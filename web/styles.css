@@ -81,3 +81,56 @@ h1 .thin{font-weight:500;font-style:italic;color:var(--laranja)}
 .nota-base{font-size:12.5px;color:var(--ink2);background:#FBF6EC;border:1px dashed var(--line);
   border-radius:6px;padding:13px 16px;margin-top:18px;line-height:1.6}
 .nota-base b{color:var(--ink)}
+
+/* ===== drawer / ficha (Camada 2) ===== */
+.scrim{position:fixed;inset:0;background:rgba(20,18,15,.4);opacity:0;pointer-events:none;
+  transition:.2s;z-index:1000}
+.scrim.on{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;height:100%;width:min(480px,94vw);background:var(--panel);
+  border-left:2px solid var(--ink);transform:translateX(100%);
+  transition:transform .26s cubic-bezier(.4,0,.2,1);z-index:1001;overflow-y:auto;
+  box-shadow:-20px 0 50px rgba(0,0,0,.12)}
+.drawer.on{transform:translateX(0)}
+.dr-head{padding:22px 22px 18px;border-bottom:1px solid var(--line);position:relative}
+.dr-head .sge{font-family:'Spline Sans Mono',monospace;font-size:12px;color:var(--laranja);letter-spacing:.06em}
+.dr-head h3{font-family:'Fraunces',serif;font-size:25px;font-weight:600;line-height:1.05;margin:6px 0 10px}
+.dr-head .st{font-family:'Spline Sans Mono',monospace;font-size:11px;padding:4px 10px;border-radius:20px;
+  display:inline-block;border:1px solid transparent}
+.close{position:absolute;top:16px;right:18px;font-size:26px;cursor:pointer;color:var(--ink2);
+  background:0;border:0;line-height:1}
+.dr-body{padding:6px 22px 48px}
+.sect{font-family:'Spline Sans Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink2);margin:24px 0 8px;padding-top:14px;border-top:2px solid var(--ink)}
+.kv{display:flex;justify-content:space-between;gap:14px;padding:8px 0;border-bottom:1px dotted var(--line);font-size:14px}
+.kv .k{color:var(--ink2)} .kv .v{text-align:right;font-weight:500}
+.empty{background:#F2EEE4;border:1px dashed var(--line);border-radius:5px;padding:12px 14px;
+  font-size:13px;color:var(--ink2);margin-top:8px}
+
+/* estagio do repasse - gargalo */
+.gargalo{background:#FBF0D9;border:1px solid #F0DCAE;color:#9A6B12;border-radius:6px;
+  padding:10px 12px;font-size:12.5px;margin-top:8px}
+.gargalo b{color:#7A540D}
+
+/* O.S. */
+.os-card{border:1px solid var(--line);border-radius:6px;padding:12px 14px;margin-top:10px;background:#fff}
+.os-card .os-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.os-card .os-num{font-family:'Spline Sans Mono',monospace;font-size:12px;font-weight:600}
+.os-card .os-tipo{font-family:'Spline Sans Mono',monospace;font-size:10px;letter-spacing:.06em;
+  padding:2px 7px;border-radius:3px;background:#EDEAE2;color:var(--ink2)}
+.os-card .os-meta{font-size:12.5px;color:var(--ink2);margin-top:6px;display:flex;gap:14px;flex-wrap:wrap}
+.os-card .vermelho{color:var(--vermelho);font-weight:600}
+
+/* execucao - custos (foco Paco) */
+.exec-bloco{border:1px solid var(--line);border-radius:6px;overflow:hidden;margin-top:12px;background:#fff}
+.exec-bloco .exec-h{display:flex;justify-content:space-between;align-items:center;
+  padding:12px 14px;background:#F1ECE0;border-bottom:1px solid var(--line)}
+.exec-bloco .exec-h .et{font-family:'Spline Sans Mono',monospace;font-size:12px;font-weight:600;letter-spacing:.05em}
+.exec-bloco .exec-h .gasto{text-align:right}
+.exec-bloco .exec-h .gasto .lab{font-family:'Spline Sans Mono',monospace;font-size:9.5px;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--ink2)}
+.exec-bloco .exec-h .gasto .val{font-family:'Fraunces',serif;font-size:21px;font-weight:700;color:var(--verde);line-height:1}
+.btu{display:flex;gap:6px;flex-wrap:wrap;padding:12px 14px 6px}
+.btu .chip{font-family:'Spline Sans Mono',monospace;font-size:11px;border:1px solid var(--line);
+  border-radius:14px;padding:3px 9px;color:var(--ink2)}
+.btu .chip b{color:var(--ink)}
+.exec-custos{padding:4px 14px 12px}

@@ -1,70 +1,72 @@
-// Portal da Climatizacao Escolar - Camada 1 (Mapa)
-// Le os dados (data/escolas.js), posiciona por centroide de bairro e
-// colore por STATUS GERAL em 4 categorias.
+// Portal da Climatizacao Escolar - Fortaleza
+// Camada 1 (mapa) + Camada 2 (ficha da escola)
 
 const DOTCOL = { clim:"#3F9A52", parc:"#6FB97C", pipeline:"#E2A030", iniciar:"#A9A296" };
 const STCLS  = { clim:"st-clim", parc:"st-parc", pipeline:"st-pipe", iniciar:"st-init" };
 
-// Mapeia o status da regua macro nas 4 categorias de cor.
+const ESCOLAS     = window.ESCOLAS || [];
+const DIAGNOSTICO = window.DIAGNOSTICO || {};
+const OS          = window.OS || {};
+const EXECUCAO    = window.EXECUCAO || {};
+const LIMITE_DIAS_OS = 15;
+
 function bucket(status) {
   const s = (status || "0. A INICIAR").trim();
   if (s === "9. CLIMATIZADA") return "clim";
   if (s === "10. CLIMATIZADA PARCIAL") return "parc";
   if (s === "0. A INICIAR") return "iniciar";
-  return "pipeline"; // estagios 1 a 6
+  return "pipeline";
 }
 
+function moeda(v) {
+  if (v === null || v === undefined || v === "" || isNaN(v)) return "—";
+  return Number(v).toLocaleString("pt-BR", { style:"currency", currency:"BRL" });
+}
+function moeda0(v){ // mostra R$ 0 como tracinho? mantemos 0 quando explicito
+  return moeda(v);
+}
+function data(v){
+  if(!v) return "—";
+  const s = String(v).split(" ")[0];
+  const m = s.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  return m ? `${m[3]}/${m[2]}/${m[1]}` : s;
+}
+function txt(v){ return (v===null||v===undefined||v==="") ? "—" : v; }
+
+// ---------- mapa ----------
 const map = L.map("map", { scrollWheelZoom: false }).setView([-3.768, -38.545], 11.4);
 L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
   maxZoom: 18, attribution: "&copy; OpenStreetMap"
 }).addTo(map);
 const layer = L.layerGroup().addTo(map);
 
-let TODAS = [];      // escolas com coordenada
-let SEM_COORD = [];  // bairro fora do dicionario de centroides
+let TODAS = [], SEM_COORD = [];
+let nGeo = 0, nCentroide = 0;
 
-// Espalha deterministicamente varias escolas do mesmo bairro ao redor do centroide.
 function jitter(base, i, total) {
   if (total <= 1) return base;
-  const raio = 0.0042; // ~470 m
+  const raio = 0.0042;
   const ang = (2 * Math.PI * i) / total;
   const r = raio * (0.35 + 0.65 * ((i % 3) / 2));
   return [base[0] + r * Math.cos(ang), base[1] + r * Math.sin(ang) * 0.85];
 }
 
-function fmtMoeda(v) {
-  if (v === null || v === undefined || v === "" ) return "—";
-  const n = typeof v === "number" ? v : parseFloat(String(v).replace(/[^\d.,-]/g, "").replace(",", "."));
-  if (isNaN(n) || n === 0) return "—";
-  return n.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-}
-
-function popupHtml(e) {
-  const b = bucket(e.status);
-  return `<div class="popup-escola">
-    <div class="sge">SGE ${e.sge} · ${e.tipo || ""}</div>
-    <h3>${e.nome}</h3>
-    <span class="st ${STCLS[b]}">${e.status || "0. A INICIAR"}</span>
-    <dl>
-      <dt>Regional</dt><dd>${e.regional || "—"}</dd>
-      <dt>Distrito</dt><dd>${e.distrito || "—"}</dd>
-      <dt>Bairro</dt><dd>${e.bairro || "—"}</dd>
-      <dt>Salas</dt><dd>${e.salas ?? "—"}</dd>
-      <dt>Subestação</dt><dd>${e.subestacao || "—"}</dd>
-      <dt>Valor adeq.</dt><dd>${fmtMoeda(e.valorTotal)}</dd>
-    </dl>
-  </div>`;
-}
-
-function preencheSelect(id, valores, ordenarNum) {
-  const sel = document.getElementById(id);
-  const arr = [...valores].filter(v => v !== null && v !== undefined && v !== "");
-  arr.sort(ordenarNum ? (a, b) => Number(a) - Number(b)
-                      : (a, b) => String(a).localeCompare(String(b), "pt-BR"));
-  for (const v of arr) {
-    const o = document.createElement("option");
-    o.value = v; o.textContent = v;
-    sel.appendChild(o);
+function preparaCoordenadas(escolas) {
+  const semCoord = [];
+  for (const e of escolas) {
+    if (typeof e.lat === "number" && typeof e.lng === "number") {
+      e._latlng = [e.lat, e.lng]; e._fonte = "geocode"; TODAS.push(e); nGeo++;
+    } else {
+      semCoord.push(e);
+    }
+  }
+  // fallback: centroide de bairro com dispersao
+  const porBairro = {};
+  for (const e of semCoord) (porBairro[e.bairro] = porBairro[e.bairro] || []).push(e);
+  for (const [bairro, lista] of Object.entries(porBairro)) {
+    const base = window.BAIRRO_CENTROIDES[bairro];
+    if (!base) { SEM_COORD.push(...lista); continue; }
+    lista.forEach((e, i) => { e._latlng = jitter(base, i, lista.length); e._fonte = "centroide"; TODAS.push(e); nCentroide++; });
   }
 }
 
@@ -72,6 +74,7 @@ let regionalAtiva = "all";
 
 function montaChipsRegional(escolas) {
   const regs = ["all", ...[...new Set(escolas.map(e => e.regional))]
+    .filter(r => r !== null && r !== undefined)
     .sort((a, b) => Number(a) - Number(b))];
   const box = document.getElementById("f-regional");
   box.innerHTML = regs.map((r, i) =>
@@ -79,17 +82,21 @@ function montaChipsRegional(escolas) {
   ).join("");
   box.querySelectorAll("button").forEach(b => b.onclick = () => {
     box.querySelectorAll("button").forEach(x => x.classList.remove("on"));
-    b.classList.add("on");
-    regionalAtiva = b.dataset.r;
-    aplicaFiltros();
+    b.classList.add("on"); regionalAtiva = b.dataset.r; aplicaFiltros();
   });
+}
+
+function preencheSelect(id, valores) {
+  const sel = document.getElementById(id);
+  [...valores].filter(v => v !== null && v !== undefined && v !== "")
+    .sort((a, b) => String(a).localeCompare(String(b), "pt-BR"))
+    .forEach(v => { const o = document.createElement("option"); o.value = v; o.textContent = v; sel.appendChild(o); });
 }
 
 function aplicaFiltros() {
   const fd = document.getElementById("sel-distrito").value;
   const fb = document.getElementById("sel-bairro").value;
   const fs = document.getElementById("sel-status").value;
-
   layer.clearLayers();
   let n = 0;
   for (const e of TODAS) {
@@ -101,50 +108,155 @@ function aplicaFiltros() {
       radius: 5, weight: 1.4, color: "rgba(0,0,0,.35)",
       fillColor: DOTCOL[bucket(e.status)], fillOpacity: .9
     });
-    m.bindPopup(popupHtml(e));
+    m.on("click", () => abreFicha(e.sge));
+    m.bindTooltip(`${e.nome}`, { direction: "top", offset: [0, -4] });
     layer.addLayer(m);
     n++;
   }
   document.getElementById("contagem").textContent = n;
 }
 
-function init(escolas) {
-  const porBairro = {};
-  for (const e of escolas) (porBairro[e.bairro] = porBairro[e.bairro] || []).push(e);
-  for (const [bairro, lista] of Object.entries(porBairro)) {
-    const base = window.BAIRRO_CENTROIDES[bairro];
-    if (!base) { SEM_COORD.push(...lista); continue; }
-    lista.forEach((e, i) => { e._latlng = jitter(base, i, lista.length); TODAS.push(e); });
+// ---------- ficha (Camada 2) ----------
+function kv(k, v){ return `<div class="kv"><span class="k">${k}</span><span class="v">${v}</span></div>`; }
+
+function blocoDiagnostico(sge){
+  const d = DIAGNOSTICO[sge];
+  let h = `<div class="sect">Diagnóstico (estudo do Ed)</div>`;
+  if (!d) { return h + `<div class="empty">Sem registro de diagnóstico.</div>`; }
+  h += kv("Salas climatizáveis", txt(d.salasClim));
+  h += kv("Salas fora", txt(d.salasFora));
+  h += kv("Necessita subestação", txt(d.necessitaSub));
+  h += kv("Estágio do repasse", txt(d.estagio));
+  if (d.estagio) {
+    const est = d.estagio;
+    if (/^2\./.test(est)) h += `<div class="gargalo"><b>Atenção:</b> estudo concluído, aguardando repasse — cobrar o <b>Ed</b>.</div>`;
+    else if (/^3\./.test(est)) h += `<div class="gargalo"><b>Atenção:</b> repassado ao Luccas, aguardando O.S. elétrica — cobrar o <b>Luccas</b>.</div>`;
   }
+  h += kv("Data visita", data(d.dataVisita));
+  h += kv("Data estudo (Ed)", data(d.dataEstudo));
+  h += kv("Data repasse (Luccas)", data(d.dataRepasse));
+  h += kv("Data O.S. elétrica", data(d.dataOsEletrica));
+  h += kv("Responsável", txt(d.responsavel));
+  if (d.obs) h += kv("Observação", d.obs);
+  return h;
+}
 
-  montaChipsRegional(escolas);
-  preencheSelect("sel-distrito", new Set(escolas.map(e => e.distrito)), false);
-  preencheSelect("sel-bairro", new Set(escolas.map(e => e.bairro)), false);
-  preencheSelect("sel-status", new Set(escolas.map(e => e.status)), false);
+function blocoOS(sge){
+  const lista = OS[sge] || [];
+  let h = `<div class="sect">Ordens de serviço (${lista.length})</div>`;
+  if (!lista.length) return h + `<div class="empty">Nenhuma O.S. cadastrada para esta escola.</div>`;
+  for (const o of lista) {
+    const atras = (o.diasEstagio != null && o.diasEstagio > LIMITE_DIAS_OS);
+    h += `<div class="os-card">
+      <div class="os-top">
+        <span class="os-num">${txt(o.numero)}</span>
+        <span class="os-tipo">${txt(o.tipo)}${o.responsavel ? " · " + o.responsavel : ""}</span>
+      </div>
+      <div class="os-meta">
+        <span>Estágio: <b>${o.estagio || "—"}</b></span>
+        ${o.diasEstagio != null ? `<span class="${atras?"vermelho":""}">${o.diasEstagio} dias no estágio${atras?" ⚠":""}</span>` : ""}
+        ${o.valor != null ? `<span>${moeda(o.valor)}</span>` : ""}
+        ${o.prioridade ? `<span>Prioridade: ${o.prioridade}</span>` : ""}
+      </div>
+      ${o.obs ? `<div class="os-meta">${o.obs}</div>` : ""}
+    </div>`;
+  }
+  return h;
+}
 
-  ["sel-distrito", "sel-bairro", "sel-status"].forEach(id =>
+function blocoExecucao(sge){
+  const lista = EXECUCAO[sge] || [];
+  let h = `<div class="sect">Execução · custos (foco do Paço)</div>`;
+  if (!lista.length) return h + `<div class="empty">Sem dados de execução (2025/26) para esta escola.</div>`;
+  for (const x of lista) {
+    const btus = [["12K",x.ar12],["18K",x.ar18],["24K",x.ar24],["36K",x.ar36],["48K",x.ar48]]
+      .filter(([_,q]) => q).map(([k,q]) => `<span class="chip"><b>${q}×</b> ${k}</span>`).join("");
+    h += `<div class="exec-bloco">
+      <div class="exec-h">
+        <span class="et">${txt(x.etapa)}${x.totalMaq?` · ${x.totalMaq} máquinas`:""}</span>
+        <span class="gasto"><span class="lab">total gasto</span><br><span class="val">${moeda(x.totalGasto)}</span></span>
+      </div>
+      ${btus ? `<div class="btu">${btus}</div>` : ""}
+      <div class="exec-custos">
+        ${kv("Valor máquinas", moeda(x.valorMaq))}
+        ${kv("Serv. civil", moeda(x.servCivil))}
+        ${kv("Serv. elétrica", moeda(x.servEletrica))}
+        ${kv("Serv. instalação", moeda(x.servInstalacao))}
+        ${(x.statusCivil||x.statusEletrica||x.statusInstalacao) ? kv("Status (civil/elét./instal.)", `${txt(x.statusCivil)} / ${txt(x.statusEletrica)} / ${txt(x.statusInstalacao)}`) : ""}
+        ${x.equipe ? kv("Equipe", x.equipe) : ""}
+        ${(x.inicio||x.fim) ? kv("Início → Fim", `${data(x.inicio)} → ${data(x.fim)}`) : ""}
+      </div>
+    </div>`;
+  }
+  return h;
+}
+
+function abreFicha(sge){
+  const e = ESCOLAS.find(x => x.sge === sge); if (!e) return;
+  const b = bucket(e.status);
+  document.getElementById("dr-sge").textContent = `SGE ${e.sge} · ${e.tipo || ""}`;
+  document.getElementById("dr-nome").textContent = e.nome || "";
+  const st = document.getElementById("dr-status");
+  st.textContent = e.status || "0. A INICIAR";
+  st.className = "st " + STCLS[b];
+
+  let h = `<div class="sect">Cadastro</div>`;
+  h += kv("Regional", txt(e.regional));
+  h += kv("Distrito", txt(e.distrito));
+  h += kv("Bairro", txt(e.bairro));
+  h += kv("Território", txt(e.territorio));
+  h += kv("Etapa", txt(e.etapa));
+  h += kv("Nº de salas", txt(e.salas));
+  h += kv("Subestação", `${txt(e.subestacao)}${e.potenciaSub ? " · " + e.potenciaSub : ""}`);
+  if (e.endereco) h += kv("Endereço", e.endereco);
+
+  h += `<div class="sect">Valores de adequação</div>`;
+  h += kv("Adeq. civil", moeda(e.valorCivil));
+  h += kv("Adeq. elétrica", moeda(e.valorEletrica));
+  h += kv("Total adequação", moeda(e.valorTotal));
+  if (e.asCivil) h += kv("Nº A.S. civil", e.asCivil);
+  if (e.asEletrica) h += kv("Nº A.S. elétrica", e.asEletrica);
+
+  h += blocoDiagnostico(sge);
+  h += blocoOS(sge);
+  h += blocoExecucao(sge);
+
+  document.getElementById("dr-body").innerHTML = h;
+  document.getElementById("drawer").classList.add("on");
+  document.getElementById("scrim").classList.add("on");
+  document.getElementById("drawer").setAttribute("aria-hidden", "false");
+}
+
+function fechaFicha(){
+  document.getElementById("drawer").classList.remove("on");
+  document.getElementById("scrim").classList.remove("on");
+  document.getElementById("drawer").setAttribute("aria-hidden", "true");
+}
+
+// ---------- init ----------
+function init(){
+  preparaCoordenadas(ESCOLAS);
+  montaChipsRegional(ESCOLAS);
+  preencheSelect("sel-distrito", new Set(ESCOLAS.map(e => e.distrito)));
+  preencheSelect("sel-bairro", new Set(ESCOLAS.map(e => e.bairro)));
+  preencheSelect("sel-status", new Set(ESCOLAS.map(e => e.status)));
+
+  ["sel-distrito","sel-bairro","sel-status"].forEach(id =>
     document.getElementById(id).addEventListener("change", aplicaFiltros));
   document.getElementById("f-limpar").addEventListener("click", () => {
     regionalAtiva = "all";
-    document.querySelectorAll("#f-regional button").forEach((b, i) =>
-      b.classList.toggle("on", i === 0));
-    ["sel-distrito", "sel-bairro", "sel-status"].forEach(id =>
-      document.getElementById(id).value = "");
+    document.querySelectorAll("#f-regional button").forEach((b,i) => b.classList.toggle("on", i===0));
+    ["sel-distrito","sel-bairro","sel-status"].forEach(id => document.getElementById(id).value = "");
     aplicaFiltros();
   });
+  document.getElementById("dr-close").addEventListener("click", fechaFicha);
+  document.getElementById("scrim").addEventListener("click", fechaFicha);
+  document.addEventListener("keydown", e => { if (e.key === "Escape") fechaFicha(); });
 
-  if (SEM_COORD.length) {
-    document.getElementById("sem-coord").textContent =
-      ` · ${SEM_COORD.length} sem coordenada`;
-  }
+  const nota = document.getElementById("sem-coord");
+  nota.textContent = ` · ${nGeo} geocodificadas, ${nCentroide} por bairro` +
+    (SEM_COORD.length ? `, ${SEM_COORD.length} sem posição` : "");
   aplicaFiltros();
 }
 
-if (window.ESCOLAS && Array.isArray(window.ESCOLAS)) {
-  init(window.ESCOLAS);
-} else {
-  fetch("data/escolas.json").then(r => r.json()).then(init).catch(err => {
-    document.getElementById("map").innerHTML =
-      `<p style="padding:20px">Erro ao carregar dados: ${err}.</p>`;
-  });
-}
+init();
