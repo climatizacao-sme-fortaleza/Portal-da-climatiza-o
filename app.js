@@ -93,14 +93,20 @@ function preencheSelect(id, valores) {
     .forEach(v => { const o = document.createElement("option"); o.value = v; o.textContent = v; sel.appendChild(o); });
 }
 
-// predicado compartilhado entre mapa e lista (so os filtros estruturais; a busca textual e so da lista)
-function passaFiltro(e) {
+// recorte geografico: regional + distrito + bairro (usado pelo panorama/funil)
+function passaFiltroGeo(e) {
   const fd = document.getElementById("sel-distrito").value;
   const fb = document.getElementById("sel-bairro").value;
-  const fs = document.getElementById("sel-status").value;
   if (regionalAtiva !== "all" && String(e.regional) !== regionalAtiva) return false;
   if (fd && String(e.distrito) !== fd) return false;
   if (fb && e.bairro !== fb) return false;
+  return true;
+}
+
+// predicado compartilhado entre mapa e lista (geografico + status; a busca textual e so da lista)
+function passaFiltro(e) {
+  if (!passaFiltroGeo(e)) return false;
+  const fs = document.getElementById("sel-status").value;
   if (fs && e.status !== fs) return false;
   return true;
 }
@@ -121,6 +127,70 @@ function aplicaFiltros() {
   }
   document.getElementById("contagem").textContent = n;
   renderLista();
+  renderPanorama();
+}
+
+// ---------- panorama / funil (Camada 3) ----------
+const FUNIL = [
+  ["0. A INICIAR", "iniciar", "A iniciar"],
+  ["1. VISTORIA", "pipeline", "Vistoria"],
+  ["2. ANALISE ELETRICA E CIVIL", "pipeline", "Análise elétrica e civil"],
+  ["3. ORÇAMENTO E PLANTA", "pipeline", "Orçamento e planta"],
+  ["4. APROVAÇÃO A.S.", "pipeline", "Aprovação A.S."],
+  ["5. EXECUÇÃO DAS ADEQUAÇÕES", "pipeline", "Execução das adequações"],
+  ["6. ENTREGA DE MÁQUINAS", "pipeline", "Entrega de máquinas"],
+  ["9. CLIMATIZADA", "clim", "Climatizada"],
+  ["10. CLIMATIZADA PARCIAL", "parc", "Climatizada parcial"]
+];
+
+function renderPanorama() {
+  const base = ESCOLAS.filter(passaFiltroGeo);
+  const total = base.length;
+
+  // contagem por status + por bucket
+  const cont = {};
+  let nClim = 0, nParc = 0, nInic = 0, nAnd = 0, nSemSub = 0, invest = 0;
+  for (const e of base) {
+    cont[e.status] = (cont[e.status] || 0) + 1;
+    const b = bucket(e.status);
+    if (b === "clim") nClim++; else if (b === "parc") nParc++;
+    else if (b === "iniciar") nInic++; else nAnd++;
+    if (String(e.subestacao).trim().toUpperCase() === "NÃO") nSemSub++;
+    const arr = EXECUCAO[e.sge];
+    if (arr) for (const x of arr) if (typeof x.totalGasto === "number") invest += x.totalGasto;
+  }
+
+  document.getElementById("pano-total").textContent = total;
+
+  const kpis = [
+    { lab: "Climatizadas", val: nClim, cls: "k-clim" },
+    { lab: "Parciais", val: nParc, cls: "k-parc" },
+    { lab: "Em andamento", val: nAnd, cls: "k-and" },
+    { lab: "A iniciar", val: nInic, cls: "k-init" },
+    { lab: "Investido · execução", val: moeda(invest), cls: "k-inv" },
+    { lab: "Represa · sem subestação", val: nSemSub, cls: "k-sub" }
+  ];
+  document.getElementById("kpis").innerHTML = kpis.map(k =>
+    `<div class="kpi ${k.cls}"><div class="kpi-val">${k.val}</div><div class="kpi-lab">${k.lab}</div></div>`
+  ).join("");
+
+  const fsAtivo = document.getElementById("sel-status").value;
+  const max = Math.max(1, ...FUNIL.map(([s]) => cont[s] || 0));
+  document.getElementById("funil").innerHTML = FUNIL.map(([s, b, lab]) => {
+    const c = cont[s] || 0;
+    const pct = Math.round((c / max) * 100);
+    return `<button class="fbar${fsAtivo === s ? " on" : ""}" data-s="${s}">
+      <span class="fbar-lab">${lab}</span>
+      <span class="fbar-track"><span class="fbar-fill bk-${b}" style="width:${pct}%"></span></span>
+      <span class="fbar-num">${c}</span>
+    </button>`;
+  }).join("");
+
+  document.querySelectorAll("#funil .fbar").forEach(btn => btn.onclick = () => {
+    const sel = document.getElementById("sel-status");
+    sel.value = (sel.value === btn.dataset.s) ? "" : btn.dataset.s; // alterna
+    aplicaFiltros();
+  });
 }
 
 // ---------- lista / busca ----------
