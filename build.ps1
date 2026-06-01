@@ -26,23 +26,15 @@ function Txt($v) {
   return $s
 }
 
-# ---- geocode cache (address -> {lat,lng,src}) ----
-$geo = @{}
-$cacheFile = Join-Path $base "geocode_cache.json"
-if (Test-Path $cacheFile) {
-  $j = Get-Content $cacheFile -Raw -Encoding UTF8 | ConvertFrom-Json
-  foreach ($p in $j.PSObject.Properties) { $geo[$p.Name] = $p.Value }
-}
-
-# ---- ESCOLA ----
+# ---- ESCOLA ---- (LAT/LNG vem prontos da planilha, sem geocodificar)
 $er = Import-Csv (Join-Path $base "ESCOLA.csv") -Encoding UTF8
 $ec = $er[0].PSObject.Properties.Name
 $escolas = foreach ($r in $er) {
   $addr = Txt $r.($ec[20])
-  $lat = $null; $lng = $null; $gsrc = $null
-  if ($addr -and $geo.ContainsKey($addr) -and $geo[$addr].lat) {
-    $lat = [double]$geo[$addr].lat; $lng = [double]$geo[$addr].lng; $gsrc = $geo[$addr].src
-  }
+  $lat = Num $r.($ec[21])
+  $lng = Num $r.($ec[22])
+  $gsrc = $null
+  if ($null -ne $lat -and $null -ne $lng) { $gsrc = "planilha" }
   [ordered]@{
     sge = Txt $r.($ec[0]); tipo = Txt $r.($ec[1]); nome = Txt $r.($ec[2]);
     endereco = Txt $r.($ec[3]); bairro = Txt $r.($ec[4]); codBairro = Txt $r.($ec[5]);
