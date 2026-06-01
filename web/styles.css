@@ -82,6 +82,46 @@ h1 .thin{font-weight:500;font-style:italic;color:var(--laranja)}
   border-radius:6px;padding:13px 16px;margin-top:18px;line-height:1.6}
 .nota-base b{color:var(--ink)}
 
+/* ===== panorama / funil (Camada 3) ===== */
+.panorama{margin-top:18px}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.kpi{background:var(--panel);padding:16px 18px;display:flex;flex-direction:column;gap:5px;
+  border-left:3px solid var(--cinza)}
+.kpi.k-clim{border-left-color:var(--verde)}
+.kpi.k-parc{border-left-color:var(--verde2)}
+.kpi.k-and{border-left-color:var(--amarelo)}
+.kpi.k-init{border-left-color:var(--cinza)}
+.kpi.k-inv{border-left-color:var(--azul)}
+.kpi.k-sub{border-left-color:var(--vermelho)}
+.kpi-val{font-family:'Fraunces',serif;font-weight:700;font-size:30px;line-height:1;color:var(--ink)}
+.kpi.k-inv .kpi-val{font-size:23px}
+.kpi-lab{font-family:'Spline Sans Mono',monospace;font-size:10.5px;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--ink2)}
+.kpi-sub{font-size:11px;color:var(--ink2)}
+
+.funil-wrap{padding:16px 18px 20px}
+.funil-tit{font-family:'Spline Sans Mono',monospace;font-size:11px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink2);margin-bottom:12px}
+.funil-dica{text-transform:none;letter-spacing:0;font-size:10.5px;color:var(--cinza)}
+.funil{display:flex;flex-direction:column;gap:7px}
+.fbar{display:grid;grid-template-columns:190px 1fr 48px;align-items:center;gap:12px;
+  background:none;border:0;padding:4px 6px;border-radius:5px;cursor:pointer;text-align:left;width:100%}
+.fbar:hover{background:#F1ECE0}
+.fbar.on{background:#EDE7D9;outline:1px solid var(--line)}
+.fbar-lab{font-size:13px;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fbar-track{height:18px;background:#EDEAE2;border-radius:4px;overflow:hidden}
+.fbar-fill{display:block;height:100%;border-radius:4px;min-width:2px;transition:width .25s}
+.bk-clim{background:var(--verde)} .bk-parc{background:var(--verde2)}
+.bk-pipeline{background:var(--amarelo)} .bk-iniciar{background:var(--cinza)}
+.fbar-num{font-family:'Spline Sans Mono',monospace;font-size:13px;font-weight:600;
+  color:var(--ink);text-align:right}
+@media(max-width:680px){
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .fbar{grid-template-columns:120px 1fr 40px;gap:8px}
+  .fbar-lab{font-size:12px}
+}
+
 /* ===== busca / lista de escolas ===== */
 .tablecard{margin-top:18px}
 .tabhead{display:flex;justify-content:space-between;align-items:center;
