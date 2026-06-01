@@ -57,6 +57,24 @@
       </div>
     </div>
 
+    <div class="card tablecard">
+      <div class="tabhead">
+        <h2>Buscar escola</h2>
+        <div class="count"><b id="lista-contagem">512</b> na lista</div>
+      </div>
+      <div class="search">
+        <input type="search" id="q" placeholder="Buscar por nome, SGE ou bairro…" autocomplete="off" />
+      </div>
+      <div class="scroll">
+        <table>
+          <thead>
+            <tr><th>Escola</th><th>SGE</th><th>Bairro</th><th>Status</th></tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
     <p class="nota-base" id="nota-base">
       <b>Posicionamento.</b> Cada escola é posicionada pela coordenada geocodificada do seu endereço
       (coluna <span class="mono">ENDEREÇO_GEOCODE</span>). Quando o geocode não encontra o ponto exato,

@@ -82,6 +82,34 @@ h1 .thin{font-weight:500;font-style:italic;color:var(--laranja)}
   border-radius:6px;padding:13px 16px;margin-top:18px;line-height:1.6}
 .nota-base b{color:var(--ink)}
 
+/* ===== busca / lista de escolas ===== */
+.tablecard{margin-top:18px}
+.tabhead{display:flex;justify-content:space-between;align-items:center;
+  padding:14px 16px 12px;flex-wrap:wrap;gap:10px}
+.tabhead h2{font-size:13px;font-family:'Spline Sans Mono',monospace;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink2)}
+.search{padding:0 16px 12px}
+.search input{width:100%;font-family:'Archivo';font-size:15px;border:1px solid var(--line);
+  background:#fff;color:var(--ink);padding:11px 14px;border-radius:6px}
+.search input:focus{outline:none;border-color:var(--laranja)}
+.scroll{max-height:440px;overflow-y:auto;border-top:1px solid var(--line)}
+.tablecard table{width:100%;border-collapse:collapse;font-size:13.5px}
+.tablecard thead th{position:sticky;top:0;background:var(--panel);text-align:left;
+  font-family:'Spline Sans Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--ink2);font-weight:500;padding:9px 16px;border-bottom:1px solid var(--line);z-index:1}
+.tablecard tbody td{padding:9px 16px;border-bottom:1px dotted var(--line);vertical-align:middle}
+.tablecard tbody tr{cursor:pointer}
+.tablecard tbody tr:hover{background:#F1ECE0}
+.tablecard td.nome{font-weight:600;max-width:300px}
+.tablecard td.sge,.tablecard td.bairro{font-family:'Spline Sans Mono',monospace;font-size:12px;color:var(--ink2)}
+.pill{font-family:'Spline Sans Mono',monospace;font-size:10px;padding:3px 8px;border-radius:20px;
+  display:inline-block;border:1px solid transparent;white-space:nowrap}
+.p-clim{background:#E4F1E5;color:#2C6B39;border-color:#BFE0C3}
+.p-parc{background:#EAF3EB;color:#3F7A4A;border-color:#CFE6D2}
+.p-pipe{background:#FBF0D9;color:#9A6B12;border-color:#F0DCAE}
+.p-init{background:#EDEAE2;color:#6B655A;border-color:#DDD7C9}
+.lista-vazia{padding:22px 16px;text-align:center;color:var(--ink2);font-size:13px}
+
 /* ===== drawer / ficha (Camada 2) ===== */
 .scrim{position:fixed;inset:0;background:rgba(20,18,15,.4);opacity:0;pointer-events:none;
   transition:.2s;z-index:1000}

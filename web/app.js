@@ -93,17 +93,23 @@ function preencheSelect(id, valores) {
     .forEach(v => { const o = document.createElement("option"); o.value = v; o.textContent = v; sel.appendChild(o); });
 }
 
-function aplicaFiltros() {
+// predicado compartilhado entre mapa e lista (so os filtros estruturais; a busca textual e so da lista)
+function passaFiltro(e) {
   const fd = document.getElementById("sel-distrito").value;
   const fb = document.getElementById("sel-bairro").value;
   const fs = document.getElementById("sel-status").value;
+  if (regionalAtiva !== "all" && String(e.regional) !== regionalAtiva) return false;
+  if (fd && String(e.distrito) !== fd) return false;
+  if (fb && e.bairro !== fb) return false;
+  if (fs && e.status !== fs) return false;
+  return true;
+}
+
+function aplicaFiltros() {
   layer.clearLayers();
   let n = 0;
   for (const e of TODAS) {
-    if (regionalAtiva !== "all" && String(e.regional) !== regionalAtiva) continue;
-    if (fd && String(e.distrito) !== fd) continue;
-    if (fb && e.bairro !== fb) continue;
-    if (fs && e.status !== fs) continue;
+    if (!passaFiltro(e)) continue;
     const m = L.circleMarker(e._latlng, {
       radius: 5, weight: 1.4, color: "rgba(0,0,0,.35)",
       fillColor: DOTCOL[bucket(e.status)], fillOpacity: .9
@@ -114,6 +120,50 @@ function aplicaFiltros() {
     n++;
   }
   document.getElementById("contagem").textContent = n;
+  renderLista();
+}
+
+// ---------- lista / busca ----------
+const PILL = { clim:"p-clim", parc:"p-parc", pipeline:"p-pipe", iniciar:"p-init" };
+
+const RE_DIACRITICOS = new RegExp("[\\u0300-\\u036f]", "g");
+function normaliza(s) {
+  return String(s == null ? "" : s).toLowerCase()
+    .normalize("NFD").replace(RE_DIACRITICOS, "");
+}
+
+function renderLista() {
+  const termo = normaliza(document.getElementById("q").value.trim());
+  // a lista considera todas as escolas (inclusive sem coordenada), respeitando os filtros estruturais
+  const base = ESCOLAS.filter(passaFiltro);
+  const filtradas = termo
+    ? base.filter(e =>
+        normaliza(e.nome).includes(termo) ||
+        normaliza(e.sge).includes(termo) ||
+        normaliza(e.bairro).includes(termo))
+    : base;
+  filtradas.sort((a, b) => normaliza(a.nome).localeCompare(normaliza(b.nome), "pt-BR"));
+
+  const tbody = document.getElementById("tbody");
+  document.getElementById("lista-contagem").textContent = filtradas.length;
+  if (!filtradas.length) {
+    tbody.innerHTML = `<tr><td colspan="4" class="lista-vazia">Nenhuma escola encontrada para esse filtro.</td></tr>`;
+    return;
+  }
+  const frag = document.createDocumentFragment();
+  for (const e of filtradas) {
+    const b = bucket(e.status);
+    const tr = document.createElement("tr");
+    tr.innerHTML =
+      `<td class="nome">${e.nome || "—"}</td>` +
+      `<td class="sge">${txt(e.sge)}</td>` +
+      `<td class="bairro">${txt(e.bairro)}</td>` +
+      `<td><span class="pill ${PILL[b]}">${e.status || "0. A INICIAR"}</span></td>`;
+    tr.addEventListener("click", () => abreFicha(e.sge));
+    frag.appendChild(tr);
+  }
+  tbody.innerHTML = "";
+  tbody.appendChild(frag);
 }
 
 // ---------- ficha (Camada 2) ----------
@@ -247,8 +297,10 @@ function init(){
     regionalAtiva = "all";
     document.querySelectorAll("#f-regional button").forEach((b,i) => b.classList.toggle("on", i===0));
     ["sel-distrito","sel-bairro","sel-status"].forEach(id => document.getElementById(id).value = "");
+    document.getElementById("q").value = "";
     aplicaFiltros();
   });
+  document.getElementById("q").addEventListener("input", renderLista);
   document.getElementById("dr-close").addEventListener("click", fechaFicha);
   document.getElementById("scrim").addEventListener("click", fechaFicha);
   document.addEventListener("keydown", e => { if (e.key === "Escape") fechaFicha(); });
