@@ -57,17 +57,29 @@
       </div>
     </div>
 
-    <p class="nota-base">
-      <b>Posicionamento.</b> A base não traz latitude/longitude nem endereço de rua, então cada escola
-      é posicionada no centroide do seu bairro (com leve dispersão quando há várias no mesmo bairro).
-      Próximo passo técnico do mapa: geocodificar endereços para posição exata.
+    <p class="nota-base" id="nota-base">
+      <b>Posicionamento.</b> Cada escola é posicionada pela coordenada geocodificada do seu endereço
+      (coluna <span class="mono">ENDEREÇO_GEOCODE</span>). Quando o geocode não encontra o ponto exato,
+      cai no centroide do bairro como aproximação.
     </p>
   </div>
+
+  <!-- Camada 2: ficha da escola -->
+  <div class="scrim" id="scrim"></div>
+  <aside class="drawer" id="drawer" aria-hidden="true">
+    <div class="dr-head">
+      <button class="close" id="dr-close" aria-label="Fechar">&times;</button>
+      <div class="sge" id="dr-sge"></div>
+      <h3 id="dr-nome"></h3>
+      <span class="st" id="dr-status"></span>
+    </div>
+    <div class="dr-body" id="dr-body"></div>
+  </aside>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
           integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   <script src="data/bairros.js"></script>
-  <script src="data/escolas.js"></script>
+  <script src="data/dados.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
