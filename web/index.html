@@ -65,7 +65,18 @@
         <div class="drill-botoes" id="drill-botoes"></div>
       </div>
 
-      <div id="map"></div>
+      <div class="mapwrap">
+        <!-- Painel de contexto da REGIAO (territorio atual). Diferente da ficha da ESCOLA
+             (drawer a direita). Recalcula conforme a navegacao (mesmo estado do mapa/lista/funil). -->
+        <aside class="ctxpanel" id="ctxpanel">
+          <div class="ctx-head">
+            <span class="ctx-eyebrow">Contexto do território</span>
+            <h3 id="ctx-nome">Fortaleza</h3>
+          </div>
+          <div class="ctx-body" id="ctx-body"></div>
+        </aside>
+        <div id="map"></div>
+      </div>
 
       <div class="legend">
         <span><i class="dot d-clim"></i>Climatizada</span>

@@ -57,7 +57,44 @@ h1 .thin{font-weight:500;font-style:italic;color:var(--laranja)}
    ja cobre essa funcao. Ficam no DOM e funcionando (o drill os usa como filtro). */
 .oculto{display:none}
 
-#map{height:560px;width:100%;background:#e8e4da}
+/* painel de contexto (esquerda) + mapa (resto da largura) */
+.mapwrap{display:flex;align-items:stretch}
+.ctxpanel{flex:0 0 290px;width:290px;background:var(--panel);
+  border-right:1px solid var(--line);padding:16px 16px 20px;overflow-y:auto;max-height:560px}
+.ctx-head{border-bottom:2px solid var(--ink);padding-bottom:9px;margin-bottom:15px}
+.ctx-eyebrow{display:block;font-family:'Spline Sans Mono',monospace;font-size:9.5px;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--ink2)}
+.ctx-head h3{font-family:'Fraunces',serif;font-weight:700;font-size:22px;line-height:1.04;
+  margin-top:3px;color:var(--ink)}
+.ctx-block{margin-bottom:22px}
+.ctx-block:last-child{margin-bottom:0}
+.ctx-tit{font-family:'Spline Sans Mono',monospace;font-size:10.5px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink2);margin-bottom:12px}
+.ctx-metric{margin-bottom:13px}
+.ctx-mrow{display:flex;align-items:baseline;gap:8px;margin-bottom:5px}
+.ctx-mlab{font-size:13px;font-weight:600;color:var(--ink)}
+.ctx-mval{font-family:'Fraunces',serif;font-weight:700;font-size:17px;color:var(--ink)}
+.ctx-mpct{margin-left:auto;font-family:'Spline Sans Mono',monospace;font-size:10.5px;color:var(--ink2)}
+.ctx-bar{height:8px;background:#EDEAE2;border-radius:5px;overflow:hidden}
+.ctx-bar span{display:block;height:100%;background:var(--azul);border-radius:5px}
+.ctx-donut-wrap{display:flex;align-items:center;gap:14px}
+.ctx-donut{width:104px;height:104px;flex:0 0 auto}
+.ctx-donut-num{font-family:'Fraunces',serif;font-weight:700;fill:var(--ink)}
+.ctx-donut-sub{font-family:'Spline Sans Mono',monospace;fill:var(--ink2);
+  letter-spacing:.06em;text-transform:uppercase}
+.ctx-leg{list-style:none;margin:0;padding:0;flex:1;display:flex;flex-direction:column;gap:8px}
+.ctx-leg li{display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--ink)}
+.ctx-leg i{width:11px;height:11px;border-radius:3px;flex:0 0 auto}
+.ctx-leg b{margin-left:auto;font-family:'Spline Sans Mono',monospace;font-size:12.5px}
+.ctx-leg .lp{font-family:'Spline Sans Mono',monospace;font-size:10.5px;color:var(--ink2);
+  min-width:42px;text-align:right}
+
+#map{height:560px;flex:1 1 auto;width:auto;background:#e8e4da}
+@media(max-width:760px){
+  .mapwrap{flex-direction:column}
+  .ctxpanel{flex:auto;width:auto;max-height:none;border-right:0;border-bottom:1px solid var(--line)}
+  #map{width:100%}
+}
 
 /* controle de camada (distritos) sobre o mapa */
 .map-toggle{background:var(--panel);border:1px solid var(--ink);border-radius:4px;
