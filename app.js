@@ -56,7 +56,9 @@ map.getPane("paneBairros").style.pointerEvents = "none";
 const distritosLayer = L.geoJSON(window.DISTRITOS || null, {
   pane: "paneDistritos",
   style: f => ({
-    color: f.properties.cor, weight: 1.5, opacity: .85,
+    // borda escura e marcada pra destacar o contorno sobre o fundo claro;
+    // preenchimento segue na cor do distrito, semitransparente
+    color: "#2A2A2A", weight: 2.7, opacity: .9,
     fillColor: f.properties.cor, fillOpacity: .18
   })
 });
