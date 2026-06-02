@@ -791,9 +791,10 @@ function init(){
   document.addEventListener("keydown", e => { if (e.key === "Escape") fechaFicha(); });
 
   const nota = document.getElementById("sem-coord");
-  nota.textContent = ` · ${nGeo} com ponto exato` +
-    (nCentroide ? `, ${nCentroide} por centroide de bairro` : "") +
-    (SEM_COORD.length ? `, ${SEM_COORD.length} sem posição` : "");
+  const avisos = [];
+  if (nCentroide) avisos.push(`${nCentroide} por centroide de bairro`);
+  if (SEM_COORD.length) avisos.push(`${SEM_COORD.length} sem posição`);
+  nota.textContent = avisos.length ? ` · ${avisos.join(", ")}` : "";
   aplicaFiltros();
 }
 
