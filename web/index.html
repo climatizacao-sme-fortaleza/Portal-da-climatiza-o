@@ -30,12 +30,15 @@
       </div>
 
       <div class="filtros">
-        <div class="chiprow" id="f-regional"></div>
-        <div class="selgroup">
+        <!-- Controles antigos duplicados pela faixa de navegacao: escondidos da tela
+             (display:none), mas MANTIDOS no DOM porque o drill os usa por baixo como filtro
+             (regionalAtiva/chips, sel-distrito, sel-bairro). Nao remover. -->
+        <div class="chiprow oculto" id="f-regional"></div>
+        <div class="selgroup oculto">
           <label for="sel-distrito">Distrito</label>
           <select id="sel-distrito"><option value="">Todos</option></select>
         </div>
-        <div class="selgroup">
+        <div class="selgroup oculto">
           <label for="sel-bairro">Bairro</label>
           <select id="sel-bairro"><option value="">Todos</option></select>
         </div>

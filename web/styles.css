@@ -53,6 +53,10 @@ h1 .thin{font-weight:500;font-style:italic;color:var(--laranja)}
   background:#fff;color:var(--ink2);padding:6px 10px;border-radius:4px;cursor:pointer;align-self:flex-end}
 .btn-limpar:hover{background:#F1ECE0}
 
+/* controles antigos (Distrito, Bairro, chips R1-R12) escondidos: a faixa de navegacao
+   ja cobre essa funcao. Ficam no DOM e funcionando (o drill os usa como filtro). */
+.oculto{display:none}
+
 #map{height:560px;width:100%;background:#e8e4da}
 
 /* controle de camada (distritos) sobre o mapa */
