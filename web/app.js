@@ -60,7 +60,7 @@ const regionaisLayer = L.geoJSON(window.REGIONAIS || null, {
   pane: "paneRegionais",
   style: f => ({
     color: f.properties.cor, weight: 1.2, opacity: .85,
-    fillColor: f.properties.cor, fillOpacity: .18
+    fillColor: f.properties.cor, fillOpacity: .40
   })
 });
 
