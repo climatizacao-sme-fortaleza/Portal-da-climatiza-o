@@ -80,6 +80,14 @@ h1 .thin{font-weight:500;font-style:italic;color:var(--laranja)}
 .drill-trilha .crumb.link{color:var(--azul);cursor:pointer;text-decoration:underline}
 .drill-trilha .crumb.link:hover{color:var(--laranja)}
 .drill-trilha .sep{color:var(--ink2)}
+/* botoes de selecao (distritos/regionais/bairros) abaixo do seletor */
+.drill-botoes{display:flex;flex-wrap:wrap;gap:4px;margin-top:7px;padding-top:7px;
+  border-top:1px dotted var(--line);max-width:236px;max-height:150px;overflow-y:auto}
+.drill-botoes:empty{display:none}
+.db{font-family:'Spline Sans Mono',monospace;font-size:10.5px;border:1px solid var(--line);
+  background:#fff;color:var(--ink2);padding:3px 7px;border-radius:3px;cursor:pointer;white-space:nowrap}
+.db:hover{background:#F1ECE0}
+.db.on{background:var(--ink);color:#fff;border-color:var(--ink)}
 /* distritos/regionais/bairros clicaveis: cursor de mao sobre as areas */
 .leaflet-paneDistritos-pane,
 .leaflet-paneRegionais-pane,
