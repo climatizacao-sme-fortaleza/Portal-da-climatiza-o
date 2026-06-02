@@ -533,6 +533,87 @@ function aplicaFiltros() {
   document.getElementById("contagem").textContent = n;
   renderLista();
   renderPanorama();
+  renderPainelContexto();
+}
+
+// ---------- painel de contexto do territorio (esquerda do mapa) ----------
+// Recalcula a partir do recorte geografico atual do drill (passaFiltroGeo, sem o filtro de
+// status) — o mesmo recorte que move mapa/lista/funil. NAO se mistura com a ficha da ESCOLA.
+const PARQUE_ESCOLAS = 512;
+const PARQUE_SALAS = 5518;
+
+function territorioAtual() {
+  if (drillBairro != null)   return nomeBairro(drillBairro);
+  if (drillRegional != null) return nomeRegional(drillRegional);
+  if (drillDistrito != null) return nomeDistrito(drillDistrito);
+  return "Fortaleza";
+}
+function pctNum(n, total) { return total ? Math.min(100, (n / total) * 100) : 0; }
+function fmtPct(n, total) { return total ? (Math.round((n / total) * 1000) / 10).toLocaleString("pt-BR") : "0"; }
+
+function renderPainelContexto() {
+  const body = document.getElementById("ctx-body");
+  if (!body) return;
+  const base = ESCOLAS.filter(passaFiltroGeo);
+  let nSalas = 0, nClim = 0, nParc = 0, nInic = 0;
+  for (const e of base) {
+    nSalas += Number(e.salas) || 0;
+    const s = (e.status || "").trim();
+    if (s === "9. CLIMATIZADA") nClim++;
+    else if (s === "10. CLIMATIZADA PARCIAL") nParc++;
+    else nInic++;           // a iniciar = tudo que nao for 9 nem 10
+  }
+  const nEsc = base.length;
+  document.getElementById("ctx-nome").textContent = territorioAtual();
+
+  // bloco TAMANHO: escolas e salas, cada um com % do parque + barra
+  const barra = (lab, val, pct) =>
+    `<div class="ctx-metric">
+       <div class="ctx-mrow"><span class="ctx-mlab">${lab}</span>` +
+       `<span class="ctx-mval">${val.toLocaleString("pt-BR")}</span>` +
+       `<span class="ctx-mpct">${fmtPct(val, lab === "Escolas" ? PARQUE_ESCOLAS : PARQUE_SALAS)}% do parque</span></div>` +
+       `<div class="ctx-bar"><span style="width:${pct.toFixed(1)}%"></span></div>
+     </div>`;
+  const tamanho =
+    `<section class="ctx-block">
+       <div class="ctx-tit">Tamanho</div>
+       ${barra("Escolas", nEsc, pctNum(nEsc, PARQUE_ESCOLAS))}
+       ${barra("Salas", nSalas, pctNum(nSalas, PARQUE_SALAS))}
+     </section>`;
+
+  // bloco AVANCO: rosca de 3 status + legenda
+  const segs = [
+    { lab: "Climatizada", v: nClim, cor: DOTCOL.clim },
+    { lab: "Parcial",     v: nParc, cor: DOTCOL.parc },
+    { lab: "A iniciar",   v: nInic, cor: DOTCOL.iniciar }
+  ];
+  const R = 40, W = 15, C = 2 * Math.PI * R;
+  let acc = 0;
+  const arcos = segs.map(s => {
+    if (!s.v || !nEsc) return "";
+    const f = s.v / nEsc;
+    const rot = acc * 360 - 90; acc += f;
+    return `<circle cx="50" cy="50" r="${R}" fill="none" stroke="${s.cor}" stroke-width="${W}" ` +
+           `stroke-dasharray="${(f * C).toFixed(2)} ${C.toFixed(2)}" transform="rotate(${rot.toFixed(2)} 50 50)"/>`;
+  }).join("");
+  const centro = nEsc ? `${fmtPct(nClim, nEsc)}%` : "—";
+  const donut =
+    `<svg class="ctx-donut" viewBox="0 0 100 100" role="img" aria-label="Avanço da climatização">
+       <circle cx="50" cy="50" r="${R}" fill="none" stroke="#EDEAE2" stroke-width="${W}"/>
+       ${arcos}
+       <text x="50" y="49" text-anchor="middle" class="ctx-donut-num" font-size="15">${centro}</text>
+       <text x="50" y="62" text-anchor="middle" class="ctx-donut-sub" font-size="6">climatizadas</text>
+     </svg>`;
+  const legenda = segs.map(s =>
+    `<li><i style="background:${s.cor}"></i>${s.lab}<b>${s.v}</b>` +
+    `<span class="lp">${fmtPct(s.v, nEsc)}%</span></li>`).join("");
+  const avanco =
+    `<section class="ctx-block">
+       <div class="ctx-tit">Avanço</div>
+       <div class="ctx-donut-wrap">${donut}<ul class="ctx-leg">${legenda}</ul></div>
+     </section>`;
+
+  body.innerHTML = tamanho + avanco;
 }
 
 // ---------- panorama / funil (Camada 3) ----------
@@ -796,6 +877,9 @@ function init(){
   if (SEM_COORD.length) avisos.push(`${SEM_COORD.length} sem posição`);
   nota.textContent = avisos.length ? ` · ${avisos.join(", ")}` : "";
   aplicaFiltros();
+  // o mapa agora divide a largura com o painel de contexto (flex): recalcula o tamanho
+  setTimeout(() => map.invalidateSize(), 0);
+  window.addEventListener("resize", () => map.invalidateSize());
 }
 
 init();
