@@ -106,6 +106,7 @@ let drillModo = "distritos";   // por enquanto so o modo Distritos esta implemen
 let drillDistrito = null;      // null = nivel 0 (Fortaleza); num = distrito focado
 let drillRegional = null;      // null = nivel 1; num = regional focada (nivel 2)
 let drillBairro = null;        // null = nivel 2; norm(key) = bairro focado (nivel 3)
+let rotulos = [];              // tooltips permanentes com o nome do territorio (distrito/regional/bairro)
 const VIEW0 = { center: [-3.768, -38.545], zoom: 11.4 };
 const FIT_PAD = [40, 40];   // folga (px) na borda do fitBounds pra o contorno do territorio nao ser cortado
 
@@ -315,6 +316,35 @@ function renderTrilha() {
   const cf = document.getElementById("crumb-forta"); if (cf) cf.onclick = voltaNivel0;
   const cd = document.getElementById("crumb-dist");  if (cd) cd.onclick = voltaNivelDistrito;
   const cr = document.getElementById("crumb-reg");   if (cr) cr.onclick = voltaNivelRegional;
+  renderRotulos();   // os rotulos acompanham o nivel atual do drill
+}
+
+// ---------- rotulos dos territorios (nomes sobre as areas) ----------
+function limpaRotulos() {
+  for (const t of rotulos) map.removeLayer(t);
+  rotulos = [];
+}
+function addRotulo(center, texto) {
+  const t = L.tooltip({ permanent: true, direction: "center", className: "rotulo-territorio",
+                        interactive: false, opacity: 1 })
+    .setLatLng(center).setContent(String(texto));
+  t.addTo(map);
+  rotulos.push(t);
+}
+// rotulos por nivel: 0 -> distritos; 1 -> as 2 regionais; 2 -> a regional focada; 3 -> o bairro focado
+function renderRotulos() {
+  limpaRotulos();
+  if (drillBairro != null) {
+    const s = bairrosSubs[drillBairro];
+    if (s) addRotulo(s.getBounds().getCenter(), s.feature.properties.nome);
+  } else if (drillRegional != null) {
+    const s = regionaisSubs[String(drillRegional)];
+    if (s) addRotulo(s.getBounds().getCenter(), s.feature.properties.nome);
+  } else if (drillDistrito != null) {
+    regionaisLayer.eachLayer(l => addRotulo(l.getBounds().getCenter(), l.feature.properties.nome));
+  } else {
+    distritosLayer.eachLayer(l => addRotulo(l.getBounds().getCenter(), l.feature.properties.nome));
+  }
 }
 
 function montaDrill() {
