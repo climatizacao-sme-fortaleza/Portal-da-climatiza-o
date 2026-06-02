@@ -50,8 +50,8 @@ map.createPane("paneRegionais");
 map.getPane("paneRegionais").style.zIndex = 351;           // acima do frame do distrito (350), abaixo dos pontos (400)
 map.getPane("paneRegionais").style.pointerEvents = "auto"; // regionais clicaveis no nivel 1 do drill
 map.createPane("paneBairros");
-map.getPane("paneBairros").style.zIndex = 350;
-map.getPane("paneBairros").style.pointerEvents = "none";
+map.getPane("paneBairros").style.zIndex = 352;           // acima das regionais (351), abaixo dos pontos (400)
+map.getPane("paneBairros").style.pointerEvents = "auto"; // bairros clicaveis no nivel 2 do drill
 
 const distritosLayer = L.geoJSON(window.DISTRITOS || null, {
   pane: "paneDistritos",
@@ -82,7 +82,11 @@ const bairrosLayer = L.geoJSON(window.BAIRROS_AREAS || null, {
   style: f => ({
     color: f.properties.cor, weight: .8, opacity: .85,
     fillColor: f.properties.cor, fillOpacity: .40
-  })
+  }),
+  onEachFeature: (f, l) => {
+    // clicar num bairro => drill nivel 3. entraBairro e hoisted.
+    l.on("click", () => entraBairro(f.properties.key));
+  }
 });
 
 // ---------- navegacao por niveis (drill-down) ----------
@@ -92,9 +96,16 @@ distritosLayer.eachLayer(l => { distritoSubs[String(l.feature.properties.num)] =
 const regionaisSubs = {};
 regionaisLayer.eachLayer(l => { regionaisSubs[String(l.feature.properties.num)] = l; });
 
+// bairros indexados por KEY normalizada (o 'key' do geojson vem sem acento;
+// ESCOLAS.bairro mantem acento, entao o join e por forma normalizada).
+// Populados em montaDrill() porque dependem de normaliza() (que so existe apos o TDZ).
+let bairrosSubs = {};          // norm(key) -> sublayer
+const BAIRRO_REAL = {};        // norm(bairro) -> texto real do campo BAIRRO (com acento), pro filtro
+
 let drillModo = "distritos";   // por enquanto so o modo Distritos esta implementado
 let drillDistrito = null;      // null = nivel 0 (Fortaleza); num = distrito focado
 let drillRegional = null;      // null = nivel 1; num = regional focada (nivel 2)
+let drillBairro = null;        // null = nivel 2; norm(key) = bairro focado (nivel 3)
 const VIEW0 = { center: [-3.768, -38.545], zoom: 11.4 };
 
 // mostra so o distrito focado: removemos as outras sublayers do grupo
@@ -121,6 +132,28 @@ function setRegionaisDoDistrito(distNum, focoRegional) {
   }
 }
 
+// conjunto de bairros (forma normalizada) que tem escola numa regional.
+// usa o join autoritativo key<->BAIRRO via as proprias escolas (o campo 'regional'
+// do bairros.geojson nao cobre as 12 regionais, entao derivamos das escolas).
+function bairrosDaRegional(regionalNum) {
+  const set = new Set();
+  for (const e of ESCOLAS)
+    if (String(e.regional) === String(regionalNum)) set.add(normaliza(e.bairro));
+  return set;
+}
+
+// mostra os bairros de uma regional; se focoNormKey setado, so esse.
+// regionalNum null => remove todos (niveis 0 e 1).
+function setBairrosDaRegional(regionalNum, focoNormKey) {
+  const permitidos = (regionalNum == null) ? new Set() : bairrosDaRegional(regionalNum);
+  for (const [nk, l] of Object.entries(bairrosSubs)) {
+    const querMostrar = permitidos.has(nk) && (focoNormKey == null || nk === focoNormKey);
+    const esta = bairrosLayer.hasLayer(l);
+    if (querMostrar && !esta) bairrosLayer.addLayer(l);
+    else if (!querMostrar && esta) bairrosLayer.removeLayer(l);
+  }
+}
+
 function nomeDistrito(num) {
   const s = distritoSubs[String(num)];
   return s ? s.feature.properties.nome : ("Distrito " + num);
@@ -128,6 +161,10 @@ function nomeDistrito(num) {
 function nomeRegional(num) {
   const s = regionaisSubs[String(num)];
   return s ? s.feature.properties.nome : ("SER " + num);
+}
+function nomeBairro(nk) {
+  const s = bairrosSubs[nk];
+  return s ? s.feature.properties.nome : (BAIRRO_REAL[nk] || nk);
 }
 
 // mantem os chips de regional (filtro existente) em sincronia com o drill
@@ -142,13 +179,16 @@ function entraDistrito(num) {
   if (drillDistrito !== null && String(drillDistrito) === String(num) && drillRegional == null) return;
   drillDistrito = num;
   drillRegional = null;
+  drillBairro = null;
   focaDistritoNoMapa(num);
   setRegionaisDoDistrito(num, null);      // revela as 2 regionais do distrito (clicaveis)
+  setBairrosDaRegional(null);             // sem bairros no nivel 1
   const sub = distritoSubs[String(num)];
   if (sub) map.fitBounds(sub.getBounds(), { padding: [24, 24] });
   // reusa o filtro existente: sel-distrito alimenta passaFiltroGeo (mapa+lista+funil).
   // ESCOLAS.distrito usa o numeral romano (I..VI), que e a propriedade 'romano' do poligono.
   document.getElementById("sel-distrito").value = sub ? sub.feature.properties.romano : "";
+  document.getElementById("sel-bairro").value = "";
   regionalAtiva = "all";
   setChipRegional("all");
   aplicaFiltros();
@@ -169,11 +209,41 @@ function entraRegional(num) {
     document.getElementById("sel-distrito").value = dsub ? dsub.feature.properties.romano : "";
   }
   drillRegional = num;
+  drillBairro = null;
   setRegionaisDoDistrito(distPai, num);   // mostra so a regional escolhida
+  setBairrosDaRegional(num, null);        // revela os bairros da regional (clicaveis)
   map.fitBounds(sub.getBounds(), { padding: [24, 24] });
   // reusa o filtro de regional existente (regionalAtiva alimenta passaFiltroGeo)
   regionalAtiva = String(num);
   setChipRegional(String(num));
+  document.getElementById("sel-bairro").value = "";
+  aplicaFiltros();
+  renderTrilha();
+}
+
+// ---- nivel 3: um bairro (mostra so ele, filtra as escolas do bairro) ----
+function entraBairro(rawKey) {
+  const nk = normaliza(rawKey);
+  if (drillBairro !== null && drillBairro === nk) return; // ja focado
+  const sub = bairrosSubs[nk];
+  if (!sub) return;
+  drillBairro = nk;
+  setBairrosDaRegional(drillRegional, nk);   // mostra so o bairro escolhido
+  map.fitBounds(sub.getBounds(), { padding: [24, 24] });
+  // reusa o filtro de bairro existente: sel-bairro guarda o texto real (com acento) do campo BAIRRO
+  document.getElementById("sel-bairro").value = BAIRRO_REAL[nk] || "";
+  aplicaFiltros();
+  renderTrilha();
+}
+
+// volta do nivel 3 pro nivel 2 (regional)
+function voltaNivelRegional() {
+  if (drillRegional == null) return;
+  drillBairro = null;
+  setBairrosDaRegional(drillRegional, null);   // mostra os bairros da regional de novo
+  document.getElementById("sel-bairro").value = "";
+  const rsub = regionaisSubs[String(drillRegional)];
+  if (rsub) map.fitBounds(rsub.getBounds(), { padding: [24, 24] });
   aplicaFiltros();
   renderTrilha();
 }
@@ -182,9 +252,12 @@ function entraRegional(num) {
 function voltaNivelDistrito() {
   if (drillDistrito == null) return;
   drillRegional = null;
+  drillBairro = null;
   setRegionaisDoDistrito(drillDistrito, null);   // mostra as 2 regionais de novo
+  setBairrosDaRegional(null);                    // some com os bairros
   regionalAtiva = "all";
   setChipRegional("all");
+  document.getElementById("sel-bairro").value = "";
   const dsub = distritoSubs[String(drillDistrito)];
   if (dsub) map.fitBounds(dsub.getBounds(), { padding: [24, 24] });
   aplicaFiltros();
@@ -195,10 +268,13 @@ function voltaNivelDistrito() {
 function voltaNivel0() {
   drillDistrito = null;
   drillRegional = null;
+  drillBairro = null;
   focaDistritoNoMapa(null);              // mostra os 6 distritos de novo
   setRegionaisDoDistrito(null);          // some com as regionais
+  setBairrosDaRegional(null);            // some com os bairros
   map.setView(VIEW0.center, VIEW0.zoom);
   document.getElementById("sel-distrito").value = "";  // todas as 512 escolas
+  document.getElementById("sel-bairro").value = "";
   regionalAtiva = "all";
   setChipRegional("all");
   aplicaFiltros();
@@ -208,23 +284,27 @@ function voltaNivel0() {
 function renderTrilha() {
   const tr = document.getElementById("drill-trilha");
   if (!tr) return;
+  const L = `<a class="crumb link" id="crumb-forta">Fortaleza</a>`;
+  const sep = `<span class="sep">›</span>`;
   let html;
   if (drillDistrito == null) {
     html = `<span class="crumb atual">Fortaleza</span>`;
   } else if (drillRegional == null) {
-    html = `<a class="crumb link" id="crumb-forta">Fortaleza</a>` +
-           `<span class="sep">›</span>` +
-           `<span class="crumb atual">${nomeDistrito(drillDistrito)}</span>`;
-  } else {
-    html = `<a class="crumb link" id="crumb-forta">Fortaleza</a>` +
-           `<span class="sep">›</span>` +
-           `<a class="crumb link" id="crumb-dist">${nomeDistrito(drillDistrito)}</a>` +
-           `<span class="sep">›</span>` +
+    html = L + sep + `<span class="crumb atual">${nomeDistrito(drillDistrito)}</span>`;
+  } else if (drillBairro == null) {
+    html = L + sep +
+           `<a class="crumb link" id="crumb-dist">${nomeDistrito(drillDistrito)}</a>` + sep +
            `<span class="crumb atual">${nomeRegional(drillRegional)}</span>`;
+  } else {
+    html = L + sep +
+           `<a class="crumb link" id="crumb-dist">${nomeDistrito(drillDistrito)}</a>` + sep +
+           `<a class="crumb link" id="crumb-reg">${nomeRegional(drillRegional)}</a>` + sep +
+           `<span class="crumb atual">${nomeBairro(drillBairro)}</span>`;
   }
   tr.innerHTML = html;
   const cf = document.getElementById("crumb-forta"); if (cf) cf.onclick = voltaNivel0;
   const cd = document.getElementById("crumb-dist");  if (cd) cd.onclick = voltaNivelDistrito;
+  const cr = document.getElementById("crumb-reg");   if (cr) cr.onclick = voltaNivelRegional;
 }
 
 function montaDrill() {
@@ -241,10 +321,17 @@ function montaDrill() {
     L.DomEvent.disableClickPropagation(div);
     return div;
   };
+  // indexa bairros por key normalizada e monta o mapa norm(bairro)->texto real (com acento).
+  // feito aqui (e nao no topo) porque depende de normaliza(), que usa um const em TDZ.
+  bairrosLayer.eachLayer(l => { bairrosSubs[normaliza(l.feature.properties.key)] = l; });
+  ESCOLAS.forEach(e => { if (e.bairro != null) BAIRRO_REAL[normaliza(e.bairro)] = e.bairro; });
+
   ctrl.addTo(map);
   distritosLayer.addTo(map);     // nivel 0: os 6 distritos visiveis
   setRegionaisDoDistrito(null);  // garante nenhuma regional no nivel 0
   regionaisLayer.addTo(map);     // grupo no mapa, mas vazio ate drillar num distrito
+  setBairrosDaRegional(null);    // garante nenhum bairro no nivel 0
+  bairrosLayer.addTo(map);       // grupo no mapa, mas vazio ate drillar numa regional
   renderTrilha();
 }
 
@@ -580,8 +667,10 @@ function init(){
     // volta o drill ao nivel 0 (mapa cheio com os 6 distritos) sem aplicar filtros 2x
     drillDistrito = null;
     drillRegional = null;
+    drillBairro = null;
     focaDistritoNoMapa(null);
     setRegionaisDoDistrito(null);
+    setBairrosDaRegional(null);
     map.setView(VIEW0.center, VIEW0.zoom);
     renderTrilha();
     aplicaFiltros();
