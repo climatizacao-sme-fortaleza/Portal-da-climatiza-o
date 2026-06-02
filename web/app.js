@@ -40,11 +40,15 @@ L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
 }).addTo(map);
 const layer = L.layerGroup().addTo(map);
 
-// ---------- camada de distritos (areas) ----------
-// pane proprio, abaixo dos pontos e sem capturar cliques (pra nao bloquear as escolas)
+// ---------- camadas de areas (distritos / regionais) ----------
+// panes proprios, abaixo dos pontos e sem capturar cliques (pra nao bloquear as escolas)
 map.createPane("paneDistritos");
 map.getPane("paneDistritos").style.zIndex = 350;          // overlayPane (pontos) = 400
 map.getPane("paneDistritos").style.pointerEvents = "none";
+map.createPane("paneRegionais");
+map.getPane("paneRegionais").style.zIndex = 350;
+map.getPane("paneRegionais").style.pointerEvents = "none";
+
 const distritosLayer = L.geoJSON(window.DISTRITOS || null, {
   pane: "paneDistritos",
   style: f => ({
@@ -52,20 +56,33 @@ const distritosLayer = L.geoJSON(window.DISTRITOS || null, {
     fillColor: f.properties.cor, fillOpacity: .18
   })
 });
+const regionaisLayer = L.geoJSON(window.REGIONAIS || null, {
+  pane: "paneRegionais",
+  style: f => ({
+    color: f.properties.cor, weight: 1.2, opacity: .85,
+    fillColor: f.properties.cor, fillOpacity: .18
+  })
+});
 
-function montaControleDistritos() {
+function montaControleAreas() {
   const ctrl = L.control({ position: "topright" });
   ctrl.onAdd = function () {
     const div = L.DomUtil.create("div", "map-toggle");
-    div.innerHTML = `<label><input type="checkbox" id="tg-distritos" checked> Distritos</label>`;
+    div.innerHTML =
+      `<label><input type="checkbox" id="tg-distritos" checked> Distritos</label>` +
+      `<label><input type="checkbox" id="tg-regionais"> Regionais</label>`;
     L.DomEvent.disableClickPropagation(div);
     return div;
   };
   ctrl.addTo(map);
-  distritosLayer.addTo(map); // visivel por padrao
-  const cb = document.getElementById("tg-distritos");
-  cb.addEventListener("change", () => {
-    if (cb.checked) distritosLayer.addTo(map); else map.removeLayer(distritosLayer);
+  distritosLayer.addTo(map); // distritos visivel por padrao; regionais comeca desligada
+  const cbD = document.getElementById("tg-distritos");
+  cbD.addEventListener("change", () => {
+    if (cbD.checked) distritosLayer.addTo(map); else map.removeLayer(distritosLayer);
+  });
+  const cbR = document.getElementById("tg-regionais");
+  cbR.addEventListener("change", () => {
+    if (cbR.checked) regionaisLayer.addTo(map); else map.removeLayer(regionaisLayer);
   });
 }
 
@@ -385,7 +402,7 @@ function fechaFicha(){
 // ---------- init ----------
 function init(){
   preparaCoordenadas(ESCOLAS);
-  montaControleDistritos();
+  montaControleAreas();
   montaChipsRegional(ESCOLAS);
   preencheSelect("sel-distrito", new Set(ESCOLAS.map(e => e.distrito)));
   preencheSelect("sel-bairro", new Set(ESCOLAS.map(e => e.bairro)));
