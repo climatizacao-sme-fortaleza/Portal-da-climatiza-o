@@ -60,7 +60,7 @@ h1 .thin{font-weight:500;font-style:italic;color:var(--laranja)}
 /* painel de contexto (esquerda) + mapa (resto da largura) */
 .mapwrap{display:flex;align-items:stretch}
 .ctxpanel{flex:0 0 290px;width:290px;background:var(--panel);
-  border-right:1px solid var(--line);padding:16px 16px 20px;overflow-y:auto;max-height:560px}
+  border-right:1px solid var(--line);padding:16px;overflow:hidden}
 .ctx-head{border-bottom:2px solid var(--ink);padding-bottom:9px;margin-bottom:15px}
 .ctx-eyebrow{display:block;font-family:'Spline Sans Mono',monospace;font-size:9.5px;
   letter-spacing:.12em;text-transform:uppercase;color:var(--ink2)}
@@ -89,6 +89,23 @@ h1 .thin{font-weight:500;font-style:italic;color:var(--laranja)}
 .ctx-equidade.eq-baixo .eq-idx{color:var(--vermelho)}
 .ctx-equidade.eq-alto{border-color:var(--azul);background:#EAF2F7}
 .ctx-equidade.eq-alto .eq-idx{color:var(--azul)}
+
+/* faixa de cartoes do territorio (largura total, abaixo do mapa) */
+.cardstrip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;
+  padding:14px 16px 16px;border-top:1px solid var(--line)}
+.metricard{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--azul);
+  border-radius:6px;padding:13px 15px}
+.metricard:nth-child(1){border-left-color:var(--verde)}
+.metricard:nth-child(2){border-left-color:var(--azul)}
+.metricard:nth-child(3){border-left-color:var(--ink2)}
+.metricard:nth-child(4){border-left-color:var(--vermelho)}
+.metricard .mc-lab{font-family:'Spline Sans Mono',monospace;font-size:9.5px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--ink2)}
+.metricard .mc-num{font-family:'Fraunces',serif;font-weight:700;font-size:25px;line-height:1.05;
+  color:var(--ink);margin-top:5px}
+.metricard .mc-sub{font-size:11.5px;color:var(--ink2);margin-top:5px;line-height:1.35}
+@media(max-width:960px){.cardstrip{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.cardstrip{grid-template-columns:1fr}}
 .ctx-donut-wrap{display:flex;align-items:center;gap:14px}
 .ctx-donut{width:104px;height:104px;flex:0 0 auto}
 .ctx-donut-num{font-family:'Fraunces',serif;font-weight:700;fill:var(--ink)}
