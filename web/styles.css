@@ -77,6 +77,18 @@ h1 .thin{font-weight:500;font-style:italic;color:var(--laranja)}
 .ctx-mpct{margin-left:auto;font-family:'Spline Sans Mono',monospace;font-size:10.5px;color:var(--ink2)}
 .ctx-bar{height:8px;background:#EDEAE2;border-radius:5px;overflow:hidden}
 .ctx-bar span{display:block;height:100%;background:var(--azul);border-radius:5px}
+.ctx-bar.verde span{background:var(--verde)}
+/* indice de equidade (verba% / escolas%) */
+.ctx-equidade{display:flex;align-items:center;gap:12px;margin-top:13px;padding:11px 12px;
+  border:1px solid var(--line);border-radius:6px;background:#fff}
+.ctx-equidade .eq-idx{font-family:'Fraunces',serif;font-weight:700;font-size:26px;line-height:1;color:var(--ink)}
+.ctx-equidade .eq-lab{font-family:'Spline Sans Mono',monospace;font-size:9.5px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--ink2)}
+.ctx-equidade .eq-frase{font-size:12px;color:var(--ink);margin-top:3px}
+.ctx-equidade.eq-baixo{border-color:var(--vermelho);background:#FBEEEB}
+.ctx-equidade.eq-baixo .eq-idx{color:var(--vermelho)}
+.ctx-equidade.eq-alto{border-color:var(--azul);background:#EAF2F7}
+.ctx-equidade.eq-alto .eq-idx{color:var(--azul)}
 .ctx-donut-wrap{display:flex;align-items:center;gap:14px}
 .ctx-donut{width:104px;height:104px;flex:0 0 auto}
 .ctx-donut-num{font-family:'Fraunces',serif;font-weight:700;fill:var(--ink)}

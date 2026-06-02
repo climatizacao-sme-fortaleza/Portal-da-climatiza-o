@@ -541,6 +541,12 @@ function aplicaFiltros() {
 // status) — o mesmo recorte que move mapa/lista/funil. NAO se mistura com a ficha da ESCOLA.
 const PARQUE_ESCOLAS = 512;
 const PARQUE_SALAS = 5518;
+// verba total do parque = soma de VALOR TOTAL GASTO (EXECUCAO) de todas as escolas
+const PARQUE_VERBA = (() => {
+  let t = 0;
+  for (const k in EXECUCAO) for (const x of EXECUCAO[k]) if (typeof x.totalGasto === "number") t += x.totalGasto;
+  return t;
+})();
 
 function territorioAtual() {
   if (drillBairro != null)   return nomeBairro(drillBairro);
@@ -555,13 +561,18 @@ function renderPainelContexto() {
   const body = document.getElementById("ctx-body");
   if (!body) return;
   const base = ESCOLAS.filter(passaFiltroGeo);
-  let nSalas = 0, nClim = 0, nParc = 0, nInic = 0;
+  let nSalas = 0, nClim = 0, nParc = 0, nInic = 0, nMaq = 0, invest = 0;
   for (const e of base) {
     nSalas += Number(e.salas) || 0;
     const s = (e.status || "").trim();
     if (s === "9. CLIMATIZADA") nClim++;
     else if (s === "10. CLIMATIZADA PARCIAL") nParc++;
     else nInic++;           // a iniciar = tudo que nao for 9 nem 10
+    const arr = EXECUCAO[e.sge];
+    if (arr) for (const x of arr) {
+      if (typeof x.totalMaq === "number") nMaq += x.totalMaq;       // TOTAL MAQUINAS
+      if (typeof x.totalGasto === "number") invest += x.totalGasto; // VALOR TOTAL GASTO
+    }
   }
   const nEsc = base.length;
   document.getElementById("ctx-nome").textContent = territorioAtual();
@@ -613,7 +624,49 @@ function renderPainelContexto() {
        <div class="ctx-donut-wrap">${donut}<ul class="ctx-leg">${legenda}</ul></div>
      </section>`;
 
-  body.innerHTML = tamanho + avanco;
+  // bloco SALAS CLIMATIZADAS: maquinas instaladas sobre o total de salas do territorio
+  const salasClim =
+    `<section class="ctx-block">
+       <div class="ctx-tit">Salas climatizadas (máquinas instaladas)</div>
+       <div class="ctx-metric">
+         <div class="ctx-mrow"><span class="ctx-mval">${nMaq.toLocaleString("pt-BR")} de ${nSalas.toLocaleString("pt-BR")} salas</span>` +
+         `<span class="ctx-mpct">${fmtPct(nMaq, nSalas)}%</span></div>
+         <div class="ctx-bar verde"><span style="width:${pctNum(nMaq, nSalas).toFixed(1)}%"></span></div>
+       </div>
+     </section>`;
+
+  // bloco INVESTIMENTO E EQUIDADE: verba do territorio + indice de equidade (verba% / escolas%)
+  const ehFortaleza = (drillDistrito == null && drillRegional == null && drillBairro == null);
+  const invMetric =
+    `<div class="ctx-metric">
+       <div class="ctx-mrow"><span class="ctx-mlab">Investido</span>` +
+       `<span class="ctx-mval">${moeda(invest)}</span>` +
+       `<span class="ctx-mpct">${fmtPct(invest, PARQUE_VERBA)}% da verba</span></div>
+       <div class="ctx-bar"><span style="width:${pctNum(invest, PARQUE_VERBA).toFixed(1)}%"></span></div>
+     </div>`;
+  let equidade = "";
+  if (!ehFortaleza && nEsc > 0) {
+    const fracVerba = PARQUE_VERBA ? invest / PARQUE_VERBA : 0;
+    const fracEsc = nEsc / PARQUE_ESCOLAS;
+    const idx = fracEsc ? fracVerba / fracEsc : 0;
+    const cls = idx < 0.85 ? "eq-baixo" : (idx > 1.15 ? "eq-alto" : "eq-neutro");
+    const idxStr = idx.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    equidade =
+      `<div class="ctx-equidade ${cls}">
+         <div class="eq-idx">${idxStr}</div>
+         <div class="eq-info">
+           <div class="eq-lab">Índice de equidade</div>
+           <div class="eq-frase">${fmtPct(nEsc, PARQUE_ESCOLAS)}% do parque, ${fmtPct(invest, PARQUE_VERBA)}% da verba</div>
+         </div>
+       </div>`;
+  }
+  const investimento =
+    `<section class="ctx-block">
+       <div class="ctx-tit">Investimento${ehFortaleza ? "" : " e equidade"}</div>
+       ${invMetric}${equidade}
+     </section>`;
+
+  body.innerHTML = tamanho + avanco + salasClim + investimento;
 }
 
 // ---------- panorama / funil (Camada 3) ----------
