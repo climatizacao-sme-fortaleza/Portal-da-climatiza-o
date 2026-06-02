@@ -45,7 +45,7 @@ const layer = L.layerGroup().addTo(map);
 // panes proprios, abaixo dos pontos e sem capturar cliques (pra nao bloquear as escolas)
 map.createPane("paneDistritos");
 map.getPane("paneDistritos").style.zIndex = 350;          // overlayPane (pontos) = 400
-map.getPane("paneDistritos").style.pointerEvents = "none";
+map.getPane("paneDistritos").style.pointerEvents = "auto"; // distritos clicaveis (drill); pontos ficam acima, no pane 400
 map.createPane("paneRegionais");
 map.getPane("paneRegionais").style.zIndex = 350;
 map.getPane("paneRegionais").style.pointerEvents = "none";
@@ -60,7 +60,11 @@ const distritosLayer = L.geoJSON(window.DISTRITOS || null, {
     // preenchimento segue na cor do distrito, semitransparente
     color: "#2A2A2A", weight: 2.7, opacity: .9,
     fillColor: f.properties.cor, fillOpacity: .18
-  })
+  }),
+  onEachFeature: (f, l) => {
+    // clicar num distrito => drill (zoom + foca + filtra). entraDistrito e hoisted.
+    l.on("click", () => entraDistrito(f.properties.num));
+  }
 });
 const regionaisLayer = L.geoJSON(window.REGIONAIS || null, {
   pane: "paneRegionais",
@@ -77,31 +81,85 @@ const bairrosLayer = L.geoJSON(window.BAIRROS_AREAS || null, {
   })
 });
 
-function montaControleAreas() {
-  const ctrl = L.control({ position: "topright" });
+// ---------- navegacao por niveis (drill-down) ----------
+// indexa as sublayers de distrito por numero, pra focar/ocultar individualmente
+const distritoSubs = {};
+distritosLayer.eachLayer(l => { distritoSubs[String(l.feature.properties.num)] = l; });
+
+let drillModo = "distritos";   // por enquanto so o modo Distritos esta implementado
+let drillDistrito = null;      // null = nivel 0 (Fortaleza); num = nivel 1 (um distrito)
+const VIEW0 = { center: [-3.768, -38.545], zoom: 11.4 };
+
+// no nivel 1 mostramos so o distrito focado: removemos as outras sublayers do grupo
+// (remover, e nao so esconder, garante que elas nao capturem cliques)
+function focaDistritoNoMapa(num) {
+  for (const [k, l] of Object.entries(distritoSubs)) {
+    const querMostrar = (num == null) || (k === String(num));
+    const estaNoMapa = distritosLayer.hasLayer(l);
+    if (querMostrar && !estaNoMapa) distritosLayer.addLayer(l);
+    else if (!querMostrar && estaNoMapa) distritosLayer.removeLayer(l);
+  }
+}
+
+function nomeDistrito(num) {
+  const s = distritoSubs[String(num)];
+  return s ? s.feature.properties.nome : ("Distrito " + num);
+}
+
+function entraDistrito(num) {
+  if (drillDistrito !== null && String(drillDistrito) === String(num)) return; // ja focado
+  drillDistrito = num;
+  focaDistritoNoMapa(num);
+  const sub = distritoSubs[String(num)];
+  if (sub) map.fitBounds(sub.getBounds(), { padding: [24, 24] });
+  // reusa o filtro existente: o select de distrito alimenta passaFiltroGeo (mapa+lista+funil).
+  // ESCOLAS.distrito usa o numeral romano (I..VI), que e a propriedade 'romano' do poligono.
+  const romano = sub ? sub.feature.properties.romano : "";
+  document.getElementById("sel-distrito").value = romano;
+  aplicaFiltros();
+  renderTrilha();
+}
+
+function voltaNivel0() {
+  drillDistrito = null;
+  focaDistritoNoMapa(null);              // mostra os 6 distritos de novo
+  map.setView(VIEW0.center, VIEW0.zoom);
+  document.getElementById("sel-distrito").value = "";  // todas as 512 escolas
+  aplicaFiltros();
+  renderTrilha();
+}
+
+function renderTrilha() {
+  const tr = document.getElementById("drill-trilha");
+  if (!tr) return;
+  if (drillDistrito == null) {
+    tr.innerHTML = `<span class="crumb atual">Fortaleza</span>`;
+  } else {
+    tr.innerHTML =
+      `<a class="crumb link" id="crumb-forta">Fortaleza</a>` +
+      `<span class="sep">›</span>` +
+      `<span class="crumb atual">${nomeDistrito(drillDistrito)}</span>`;
+    document.getElementById("crumb-forta").onclick = voltaNivel0;
+  }
+}
+
+function montaDrill() {
+  const ctrl = L.control({ position: "topleft" });
   ctrl.onAdd = function () {
-    const div = L.DomUtil.create("div", "map-toggle");
+    const div = L.DomUtil.create("div", "map-drill");
     div.innerHTML =
-      `<label><input type="checkbox" id="tg-distritos" checked> Distritos</label>` +
-      `<label><input type="checkbox" id="tg-regionais"> Regionais</label>` +
-      `<label><input type="checkbox" id="tg-bairros"> Bairros</label>`;
+      `<div class="drill-modo">` +
+        `<span class="drill-lab">Ver por:</span>` +
+        `<button class="dm on" data-modo="distritos">Distritos</button>` +
+        `<button class="dm" data-modo="regionais" disabled title="em breve">Regionais</button>` +
+      `</div>` +
+      `<div class="drill-trilha" id="drill-trilha"></div>`;
     L.DomEvent.disableClickPropagation(div);
     return div;
   };
   ctrl.addTo(map);
-  distritosLayer.addTo(map); // distritos visivel por padrao; regionais e bairros comecam desligadas
-  const cbD = document.getElementById("tg-distritos");
-  cbD.addEventListener("change", () => {
-    if (cbD.checked) distritosLayer.addTo(map); else map.removeLayer(distritosLayer);
-  });
-  const cbR = document.getElementById("tg-regionais");
-  cbR.addEventListener("change", () => {
-    if (cbR.checked) regionaisLayer.addTo(map); else map.removeLayer(regionaisLayer);
-  });
-  const cbB = document.getElementById("tg-bairros");
-  cbB.addEventListener("change", () => {
-    if (cbB.checked) bairrosLayer.addTo(map); else map.removeLayer(bairrosLayer);
-  });
+  distritosLayer.addTo(map);   // nivel 0: os 6 distritos visiveis
+  renderTrilha();
 }
 
 let TODAS = [], SEM_COORD = [];
@@ -420,7 +478,7 @@ function fechaFicha(){
 // ---------- init ----------
 function init(){
   preparaCoordenadas(ESCOLAS);
-  montaControleAreas();
+  montaDrill();
   montaChipsRegional(ESCOLAS);
   preencheSelect("sel-distrito", new Set(ESCOLAS.map(e => e.distrito)));
   preencheSelect("sel-bairro", new Set(ESCOLAS.map(e => e.bairro)));
@@ -433,6 +491,11 @@ function init(){
     document.querySelectorAll("#f-regional button").forEach((b,i) => b.classList.toggle("on", i===0));
     ["sel-distrito","sel-bairro","sel-status"].forEach(id => document.getElementById(id).value = "");
     document.getElementById("q").value = "";
+    // volta o drill ao nivel 0 (mapa cheio com os 6 distritos) sem aplicar filtros 2x
+    drillDistrito = null;
+    focaDistritoNoMapa(null);
+    map.setView(VIEW0.center, VIEW0.zoom);
+    renderTrilha();
     aplicaFiltros();
   });
   document.getElementById("q").addEventListener("input", renderLista);
