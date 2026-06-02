@@ -35,8 +35,9 @@ function txt(v){ return (v===null||v===undefined||v==="") ? "—" : v; }
 
 // ---------- mapa ----------
 const map = L.map("map", { scrollWheelZoom: false }).setView([-3.768, -38.545], 11.4);
-L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-  maxZoom: 18, attribution: "&copy; OpenStreetMap"
+L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+  maxZoom: 19, subdomains: "abcd",
+  attribution: "&copy; OpenStreetMap &copy; CARTO"
 }).addTo(map);
 const layer = L.layerGroup().addTo(map);
 
