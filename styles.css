@@ -63,9 +63,12 @@ h1 .thin{font-weight:500;font-style:italic;color:var(--laranja)}
   text-transform:uppercase;color:var(--ink)}
 .map-toggle input{cursor:pointer;accent-color:var(--azul)}
 
-/* navegacao por niveis (drill-down) sobre o mapa */
-.map-drill{background:var(--panel);border:1px solid var(--ink);border-radius:4px;
-  padding:7px 10px;box-shadow:0 1px 4px rgba(0,0,0,.15);min-width:180px}
+/* navegacao por niveis (drill-down): faixa fixa acima do mapa, largura toda.
+   Cresce pra baixo (empurra o mapa) quando ha muitos botoes; nada flutua sobre o mapa. */
+.mapnav{background:var(--panel);border:1px solid var(--line);border-bottom:0;
+  padding:10px 16px}
+.mapnav-top{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.mapnav-trilha{display:flex;align-items:center;gap:8px;flex:1;min-width:200px}
 .drill-modo{display:flex;align-items:center;gap:6px}
 .drill-lab{font-family:'Spline Sans Mono',monospace;font-size:10px;letter-spacing:.07em;
   text-transform:uppercase;color:var(--ink2)}
@@ -73,19 +76,24 @@ h1 .thin{font-weight:500;font-style:italic;color:var(--laranja)}
   background:#fff;color:var(--ink2);padding:4px 9px;border-radius:3px;cursor:pointer}
 .dm.on{background:var(--ink);color:#fff;border-color:var(--ink)}
 .dm:disabled{opacity:.45;cursor:not-allowed}
-.drill-trilha{margin-top:7px;padding-top:7px;border-top:1px dotted var(--line);
-  font-family:'Spline Sans Mono',monospace;font-size:12px;color:var(--ink);
+/* seta de voltar um nivel, a esquerda da trilha */
+.drill-voltar{font-family:'Spline Sans Mono',monospace;font-size:14px;line-height:1;
+  border:1px solid var(--line);background:#fff;color:var(--ink);width:26px;height:24px;
+  border-radius:3px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.drill-voltar:hover:not(:disabled){background:#F1ECE0}
+.drill-voltar:disabled{opacity:.4;cursor:not-allowed}
+.drill-trilha{font-family:'Spline Sans Mono',monospace;font-size:12px;color:var(--ink);
   display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 .drill-trilha .crumb.atual{font-weight:600}
 .drill-trilha .crumb.link{color:var(--azul);cursor:pointer;text-decoration:underline}
 .drill-trilha .crumb.link:hover{color:var(--laranja)}
 .drill-trilha .sep{color:var(--ink2)}
-/* botoes de selecao (distritos/regionais/bairros) abaixo do seletor */
-.drill-botoes{display:flex;flex-wrap:wrap;gap:4px;margin-top:7px;padding-top:7px;
-  border-top:1px dotted var(--line);max-width:236px;max-height:150px;overflow-y:auto}
+/* botoes do nivel atual, abaixo; quebram em varias linhas e empurram o mapa */
+.drill-botoes{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px;padding-top:10px;
+  border-top:1px dotted var(--line)}
 .drill-botoes:empty{display:none}
-.db{font-family:'Spline Sans Mono',monospace;font-size:10.5px;border:1px solid var(--line);
-  background:#fff;color:var(--ink2);padding:3px 7px;border-radius:3px;cursor:pointer;white-space:nowrap}
+.db{font-family:'Spline Sans Mono',monospace;font-size:11px;border:1px solid var(--line);
+  background:#fff;color:var(--ink2);padding:4px 9px;border-radius:3px;cursor:pointer;white-space:nowrap}
 .db:hover{background:#F1ECE0}
 .db.on{background:var(--ink);color:#fff;border-color:var(--ink)}
 /* distritos/regionais/bairros clicaveis: cursor de mao sobre as areas */
