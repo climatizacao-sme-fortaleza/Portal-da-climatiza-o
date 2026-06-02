@@ -107,6 +107,7 @@ let drillDistrito = null;      // null = nivel 0 (Fortaleza); num = distrito foc
 let drillRegional = null;      // null = nivel 1; num = regional focada (nivel 2)
 let drillBairro = null;        // null = nivel 2; norm(key) = bairro focado (nivel 3)
 const VIEW0 = { center: [-3.768, -38.545], zoom: 11.4 };
+const FIT_PAD = [40, 40];   // folga (px) na borda do fitBounds pra o contorno do territorio nao ser cortado
 
 // mostra so o distrito focado: removemos as outras sublayers do grupo
 // (remover, e nao so esconder, garante que elas nao capturem cliques)
@@ -117,6 +118,13 @@ function focaDistritoNoMapa(num) {
     if (querMostrar && !estaNoMapa) distritosLayer.addLayer(l);
     else if (!querMostrar && estaNoMapa) distritosLayer.removeLayer(l);
   }
+}
+
+// esconde todos os distritos (usado no nivel 2: ao focar uma regional, some o frame do distrito
+// pra ficar visivel so a regional, e nao a area do distrito inteiro/da regional irma)
+function escondeTodosDistritos() {
+  for (const l of Object.values(distritoSubs))
+    if (distritosLayer.hasLayer(l)) distritosLayer.removeLayer(l);
 }
 
 // mostra as regionais de um distrito; se focoRegional setado, so essa.
@@ -184,7 +192,7 @@ function entraDistrito(num) {
   setRegionaisDoDistrito(num, null);      // revela as 2 regionais do distrito (clicaveis)
   setBairrosDaRegional(null);             // sem bairros no nivel 1
   const sub = distritoSubs[String(num)];
-  if (sub) map.fitBounds(sub.getBounds(), { padding: [24, 24] });
+  if (sub) map.fitBounds(sub.getBounds(), { padding: FIT_PAD });
   // reusa o filtro existente: sel-distrito alimenta passaFiltroGeo (mapa+lista+funil).
   // ESCOLAS.distrito usa o numeral romano (I..VI), que e a propriedade 'romano' do poligono.
   document.getElementById("sel-distrito").value = sub ? sub.feature.properties.romano : "";
@@ -210,9 +218,10 @@ function entraRegional(num) {
   }
   drillRegional = num;
   drillBairro = null;
-  setRegionaisDoDistrito(distPai, num);   // mostra so a regional escolhida
+  escondeTodosDistritos();                // some o frame do distrito: fica visivel so a regional
+  setRegionaisDoDistrito(distPai, num);   // mostra so a regional escolhida (a irma some)
   setBairrosDaRegional(num, null);        // revela os bairros da regional (clicaveis)
-  map.fitBounds(sub.getBounds(), { padding: [24, 24] });
+  map.fitBounds(sub.getBounds(), { padding: FIT_PAD });
   // reusa o filtro de regional existente (regionalAtiva alimenta passaFiltroGeo)
   regionalAtiva = String(num);
   setChipRegional(String(num));
@@ -229,7 +238,7 @@ function entraBairro(rawKey) {
   if (!sub) return;
   drillBairro = nk;
   setBairrosDaRegional(drillRegional, nk);   // mostra so o bairro escolhido
-  map.fitBounds(sub.getBounds(), { padding: [24, 24] });
+  map.fitBounds(sub.getBounds(), { padding: FIT_PAD });
   // reusa o filtro de bairro existente: sel-bairro guarda o texto real (com acento) do campo BAIRRO
   document.getElementById("sel-bairro").value = BAIRRO_REAL[nk] || "";
   aplicaFiltros();
@@ -243,7 +252,7 @@ function voltaNivelRegional() {
   setBairrosDaRegional(drillRegional, null);   // mostra os bairros da regional de novo
   document.getElementById("sel-bairro").value = "";
   const rsub = regionaisSubs[String(drillRegional)];
-  if (rsub) map.fitBounds(rsub.getBounds(), { padding: [24, 24] });
+  if (rsub) map.fitBounds(rsub.getBounds(), { padding: FIT_PAD });
   aplicaFiltros();
   renderTrilha();
 }
@@ -253,13 +262,14 @@ function voltaNivelDistrito() {
   if (drillDistrito == null) return;
   drillRegional = null;
   drillBairro = null;
+  focaDistritoNoMapa(drillDistrito);             // restaura o frame do distrito (escondido no nivel 2)
   setRegionaisDoDistrito(drillDistrito, null);   // mostra as 2 regionais de novo
   setBairrosDaRegional(null);                    // some com os bairros
   regionalAtiva = "all";
   setChipRegional("all");
   document.getElementById("sel-bairro").value = "";
   const dsub = distritoSubs[String(drillDistrito)];
-  if (dsub) map.fitBounds(dsub.getBounds(), { padding: [24, 24] });
+  if (dsub) map.fitBounds(dsub.getBounds(), { padding: FIT_PAD });
   aplicaFiltros();
   renderTrilha();
 }
