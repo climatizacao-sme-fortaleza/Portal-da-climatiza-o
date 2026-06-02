@@ -53,7 +53,7 @@
         <span><i class="dot d-parc"></i>Parcial</span>
         <span><i class="dot d-pipe"></i>Em andamento</span>
         <span><i class="dot d-init"></i>A iniciar</span>
-        <span class="nota">posições por centroide de bairro · geocodificação pendente</span>
+        <span class="nota">coordenadas exatas da base oficial da Prefeitura</span>
       </div>
     </div>
 
@@ -88,9 +88,10 @@
     </div>
 
     <p class="nota-base" id="nota-base">
-      <b>Posicionamento.</b> Cada escola é posicionada pela coordenada geocodificada do seu endereço
-      (coluna <span class="mono">ENDEREÇO_GEOCODE</span>). Quando o geocode não encontra o ponto exato,
-      cai no centroide do bairro como aproximação.
+      <b>Posicionamento.</b> As 512 escolas estão posicionadas pelas coordenadas exatas
+      (colunas <span class="mono">LAT</span>/<span class="mono">LNG</span>) vindas da base oficial
+      da Prefeitura. Se em alguma carga futura faltar coordenada, a escola cai no centroide do
+      bairro como aproximação.
     </p>
   </div>
 
