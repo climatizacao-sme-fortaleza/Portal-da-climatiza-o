@@ -80,8 +80,9 @@ h1 .thin{font-weight:500;font-style:italic;color:var(--laranja)}
 .drill-trilha .crumb.link{color:var(--azul);cursor:pointer;text-decoration:underline}
 .drill-trilha .crumb.link:hover{color:var(--laranja)}
 .drill-trilha .sep{color:var(--ink2)}
-/* distritos clicaveis: cursor de mao sobre as areas */
-.leaflet-paneDistritos-pane{cursor:pointer}
+/* distritos/regionais clicaveis: cursor de mao sobre as areas */
+.leaflet-paneDistritos-pane,
+.leaflet-paneRegionais-pane{cursor:pointer}
 
 .legend{display:flex;gap:16px;padding:11px 16px;font-size:12px;color:var(--ink2);
   flex-wrap:wrap;border-top:1px solid var(--line)}
