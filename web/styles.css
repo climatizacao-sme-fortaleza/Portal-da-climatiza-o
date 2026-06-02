@@ -110,8 +110,8 @@ h1 .thin{font-weight:500;font-style:italic;color:var(--laranja)}
 .metricard .mc-num{font-family:'Fraunces',serif;font-weight:700;font-size:27px;line-height:1.03;
   color:var(--ink);margin-top:4px}
 .metricard .mc-sub{font-size:11px;color:var(--ink2);margin-top:4px;line-height:1.3}
-@media(max-width:960px){.cardstrip{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:560px){.cardstrip{grid-template-columns:1fr}}
+@media(max-width:900px){.cardstrip{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.cardstrip{grid-template-columns:1fr}}
 .ctx-donut-wrap{display:flex;align-items:center;gap:14px}
 .ctx-donut{width:70px;height:70px;flex:0 0 auto}
 .ctx-donut-num{font-family:'Fraunces',serif;font-weight:700;fill:var(--ink)}
@@ -126,7 +126,9 @@ h1 .thin{font-weight:500;font-style:italic;color:var(--laranja)}
 
 /* o mapa preenche a altura disponivel do mapwrap (flexivel); min-height 0 deixa encolher */
 #map{height:100%;min-height:0;flex:1 1 auto;width:auto;background:#e8e4da}
-@media(max-width:760px){
+/* empilha SO em telas realmente estreitas de celular (≈600px). Desktops normais — inclusive
+   com zoom de exibicao do Windows, que reduz a largura CSS — ficam no lado a lado. */
+@media(max-width:600px){
   /* no celular nada fica travado em 1 tela: painel em cima, mapa embaixo, pagina rola normal */
   .tela{height:auto;display:block;overflow:visible}
   .mapwrap{flex-direction:column}
