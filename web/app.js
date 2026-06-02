@@ -40,6 +40,35 @@ L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
 }).addTo(map);
 const layer = L.layerGroup().addTo(map);
 
+// ---------- camada de distritos (areas) ----------
+// pane proprio, abaixo dos pontos e sem capturar cliques (pra nao bloquear as escolas)
+map.createPane("paneDistritos");
+map.getPane("paneDistritos").style.zIndex = 350;          // overlayPane (pontos) = 400
+map.getPane("paneDistritos").style.pointerEvents = "none";
+const distritosLayer = L.geoJSON(window.DISTRITOS || null, {
+  pane: "paneDistritos",
+  style: f => ({
+    color: f.properties.cor, weight: 1.5, opacity: .85,
+    fillColor: f.properties.cor, fillOpacity: .18
+  })
+});
+
+function montaControleDistritos() {
+  const ctrl = L.control({ position: "topright" });
+  ctrl.onAdd = function () {
+    const div = L.DomUtil.create("div", "map-toggle");
+    div.innerHTML = `<label><input type="checkbox" id="tg-distritos" checked> Distritos</label>`;
+    L.DomEvent.disableClickPropagation(div);
+    return div;
+  };
+  ctrl.addTo(map);
+  distritosLayer.addTo(map); // visivel por padrao
+  const cb = document.getElementById("tg-distritos");
+  cb.addEventListener("change", () => {
+    if (cb.checked) distritosLayer.addTo(map); else map.removeLayer(distritosLayer);
+  });
+}
+
 let TODAS = [], SEM_COORD = [];
 let nGeo = 0, nCentroide = 0;
 
@@ -356,6 +385,7 @@ function fechaFicha(){
 // ---------- init ----------
 function init(){
   preparaCoordenadas(ESCOLAS);
+  montaControleDistritos();
   montaChipsRegional(ESCOLAS);
   preencheSelect("sel-distrito", new Set(ESCOLAS.map(e => e.distrito)));
   preencheSelect("sel-bairro", new Set(ESCOLAS.map(e => e.bairro)));
