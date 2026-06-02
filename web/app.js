@@ -556,18 +556,27 @@ function territorioAtual() {
 }
 function pctNum(n, total) { return total ? Math.min(100, (n / total) * 100) : 0; }
 function fmtPct(n, total) { return total ? (Math.round((n / total) * 1000) / 10).toLocaleString("pt-BR") : "0"; }
+// valor monetario compacto para o numero grande dos cartoes (R$ 1,7 mi / R$ 320 mil)
+function moedaCompacta(v) {
+  if (v == null || isNaN(v) || !isFinite(v)) return "—";
+  const n = Number(v);
+  if (n >= 1e6) return "R$ " + (n / 1e6).toLocaleString("pt-BR", { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + " mi";
+  if (n >= 1e3) return "R$ " + Math.round(n / 1e3).toLocaleString("pt-BR") + " mil";
+  return moeda(n);
+}
 
 function renderPainelContexto() {
   const body = document.getElementById("ctx-body");
   if (!body) return;
   const base = ESCOLAS.filter(passaFiltroGeo);
-  let nSalas = 0, nClim = 0, nParc = 0, nInic = 0, nMaq = 0, invest = 0;
+  let nSalas = 0, nClim = 0, nParc = 0, nInic = 0, nMaq = 0, invest = 0, nSemSub = 0;
   for (const e of base) {
     nSalas += Number(e.salas) || 0;
     const s = (e.status || "").trim();
     if (s === "9. CLIMATIZADA") nClim++;
     else if (s === "10. CLIMATIZADA PARCIAL") nParc++;
     else nInic++;           // a iniciar = tudo que nao for 9 nem 10
+    if (String(e.subestacao).trim().toUpperCase() === "NÃO") nSemSub++;
     const arr = EXECUCAO[e.sge];
     if (arr) for (const x of arr) {
       if (typeof x.totalMaq === "number") nMaq += x.totalMaq;       // TOTAL MAQUINAS
@@ -592,7 +601,7 @@ function renderPainelContexto() {
        ${barra("Salas", nSalas, pctNum(nSalas, PARQUE_SALAS))}
      </section>`;
 
-  // bloco AVANCO: rosca de 3 status + legenda
+  // bloco AVANCO: rosca de 3 status + legenda; e a EQUIDADE logo abaixo da rosca
   const segs = [
     { lab: "Climatizada", v: nClim, cor: DOTCOL.clim },
     { lab: "Parcial",     v: nParc, cor: DOTCOL.parc },
@@ -618,32 +627,9 @@ function renderPainelContexto() {
   const legenda = segs.map(s =>
     `<li><i style="background:${s.cor}"></i>${s.lab}<b>${s.v}</b>` +
     `<span class="lp">${fmtPct(s.v, nEsc)}%</span></li>`).join("");
-  const avanco =
-    `<section class="ctx-block">
-       <div class="ctx-tit">Avanço</div>
-       <div class="ctx-donut-wrap">${donut}<ul class="ctx-leg">${legenda}</ul></div>
-     </section>`;
 
-  // bloco SALAS CLIMATIZADAS: maquinas instaladas sobre o total de salas do territorio
-  const salasClim =
-    `<section class="ctx-block">
-       <div class="ctx-tit">Salas climatizadas (máquinas instaladas)</div>
-       <div class="ctx-metric">
-         <div class="ctx-mrow"><span class="ctx-mval">${nMaq.toLocaleString("pt-BR")} de ${nSalas.toLocaleString("pt-BR")} salas</span>` +
-         `<span class="ctx-mpct">${fmtPct(nMaq, nSalas)}%</span></div>
-         <div class="ctx-bar verde"><span style="width:${pctNum(nMaq, nSalas).toFixed(1)}%"></span></div>
-       </div>
-     </section>`;
-
-  // bloco INVESTIMENTO E EQUIDADE: verba do territorio + indice de equidade (verba% / escolas%)
+  // EQUIDADE: indice (verba% / escolas%). Em Fortaleza nao faz sentido (100%/100%) => oculto.
   const ehFortaleza = (drillDistrito == null && drillRegional == null && drillBairro == null);
-  const invMetric =
-    `<div class="ctx-metric">
-       <div class="ctx-mrow"><span class="ctx-mlab">Investido</span>` +
-       `<span class="ctx-mval">${moeda(invest)}</span>` +
-       `<span class="ctx-mpct">${fmtPct(invest, PARQUE_VERBA)}% da verba</span></div>
-       <div class="ctx-bar"><span style="width:${pctNum(invest, PARQUE_VERBA).toFixed(1)}%"></span></div>
-     </div>`;
   let equidade = "";
   if (!ehFortaleza && nEsc > 0) {
     const fracVerba = PARQUE_VERBA ? invest / PARQUE_VERBA : 0;
@@ -660,13 +646,34 @@ function renderPainelContexto() {
          </div>
        </div>`;
   }
-  const investimento =
+  const avanco =
     `<section class="ctx-block">
-       <div class="ctx-tit">Investimento${ehFortaleza ? "" : " e equidade"}</div>
-       ${invMetric}${equidade}
+       <div class="ctx-tit">Avanço</div>
+       <div class="ctx-donut-wrap">${donut}<ul class="ctx-leg">${legenda}</ul></div>
+       ${equidade}
      </section>`;
 
-  body.innerHTML = tamanho + avanco + salasClim + investimento;
+  // painel da ESQUERDA: enxuto, sem rolagem (Tamanho + Avanço + Equidade)
+  body.innerHTML = tamanho + avanco;
+
+  // ---- FAIXA DE CARTOES embaixo do mapa (4 cartoes, recalculam por territorio) ----
+  const strip = document.getElementById("cardstrip");
+  if (strip) {
+    const custoEscola = nEsc ? invest / nEsc : 0;
+    const custoSala = nMaq ? invest / nMaq : null;
+    const cartao = (lab, num, sub) =>
+      `<div class="metricard"><div class="mc-lab">${lab}</div>` +
+      `<div class="mc-num">${num}</div><div class="mc-sub">${sub}</div></div>`;
+    strip.innerHTML =
+      cartao("Salas climatizadas", `${fmtPct(nMaq, nSalas)}%`,
+             `${nMaq.toLocaleString("pt-BR")} de ${nSalas.toLocaleString("pt-BR")} salas · máquinas instaladas`) +
+      cartao("Investimento", moedaCompacta(invest),
+             `${fmtPct(invest, PARQUE_VERBA)}% da verba do parque`) +
+      cartao("Custo médio / escola", moedaCompacta(custoEscola),
+             `${moedaCompacta(custoSala)} por sala climatizada`) +
+      cartao("Sem subestação", nSemSub.toLocaleString("pt-BR"),
+             `${fmtPct(nSemSub, nEsc)}% das escolas do território`);
+  }
 }
 
 // ---------- panorama / funil (Camada 3) ----------
