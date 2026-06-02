@@ -48,6 +48,9 @@ map.getPane("paneDistritos").style.pointerEvents = "none";
 map.createPane("paneRegionais");
 map.getPane("paneRegionais").style.zIndex = 350;
 map.getPane("paneRegionais").style.pointerEvents = "none";
+map.createPane("paneBairros");
+map.getPane("paneBairros").style.zIndex = 350;
+map.getPane("paneBairros").style.pointerEvents = "none";
 
 const distritosLayer = L.geoJSON(window.DISTRITOS || null, {
   pane: "paneDistritos",
@@ -63,6 +66,13 @@ const regionaisLayer = L.geoJSON(window.REGIONAIS || null, {
     fillColor: f.properties.cor, fillOpacity: .40
   })
 });
+const bairrosLayer = L.geoJSON(window.BAIRROS_AREAS || null, {
+  pane: "paneBairros",
+  style: f => ({
+    color: f.properties.cor, weight: .8, opacity: .85,
+    fillColor: f.properties.cor, fillOpacity: .40
+  })
+});
 
 function montaControleAreas() {
   const ctrl = L.control({ position: "topright" });
@@ -70,12 +80,13 @@ function montaControleAreas() {
     const div = L.DomUtil.create("div", "map-toggle");
     div.innerHTML =
       `<label><input type="checkbox" id="tg-distritos" checked> Distritos</label>` +
-      `<label><input type="checkbox" id="tg-regionais"> Regionais</label>`;
+      `<label><input type="checkbox" id="tg-regionais"> Regionais</label>` +
+      `<label><input type="checkbox" id="tg-bairros"> Bairros</label>`;
     L.DomEvent.disableClickPropagation(div);
     return div;
   };
   ctrl.addTo(map);
-  distritosLayer.addTo(map); // distritos visivel por padrao; regionais comeca desligada
+  distritosLayer.addTo(map); // distritos visivel por padrao; regionais e bairros comecam desligadas
   const cbD = document.getElementById("tg-distritos");
   cbD.addEventListener("change", () => {
     if (cbD.checked) distritosLayer.addTo(map); else map.removeLayer(distritosLayer);
@@ -83,6 +94,10 @@ function montaControleAreas() {
   const cbR = document.getElementById("tg-regionais");
   cbR.addEventListener("change", () => {
     if (cbR.checked) regionaisLayer.addTo(map); else map.removeLayer(regionaisLayer);
+  });
+  const cbB = document.getElementById("tg-bairros");
+  cbB.addEventListener("change", () => {
+    if (cbB.checked) bairrosLayer.addTo(map); else map.removeLayer(bairrosLayer);
   });
 }
 
