@@ -333,6 +333,9 @@ function renderTrilha() {
   const cf = document.getElementById("crumb-forta"); if (cf) cf.onclick = voltaNivel0;
   const cd = document.getElementById("crumb-dist");  if (cd) cd.onclick = voltaNivelDistrito;
   const cr = document.getElementById("crumb-reg");   if (cr) cr.onclick = voltaNivelRegional;
+  // seta de voltar: desabilitada no nivel 0 (Fortaleza)
+  const voltar = document.getElementById("drill-voltar");
+  if (voltar) voltar.disabled = (drillDistrito == null && drillRegional == null && drillBairro == null);
   renderRotulos();   // os rotulos acompanham o nivel atual do drill
   renderBotoes();    // os botoes de selecao acompanham o nivel atual do drill
 }
@@ -407,36 +410,33 @@ function renderBotoes() {
 function trocaModo(modo) {
   if (drillModo === modo) return;
   drillModo = modo;
-  document.querySelectorAll(".map-drill .dm").forEach(b =>
+  document.querySelectorAll(".mapnav .dm").forEach(b =>
     b.classList.toggle("on", b.dataset.modo === modo));
   voltaNivel0();   // reseta pro nivel 0, que ja e ciente do modo
 }
 
+// sobe um nivel (mesmo efeito de clicar no degrau anterior da trilha)
+function voltaUmNivel() {
+  if (drillBairro != null) voltaNivelRegional();
+  else if (drillRegional != null) (drillModo === "distritos") ? voltaNivelDistrito() : voltaNivel0();
+  else if (drillDistrito != null) voltaNivel0();
+  // nivel 0: nada (a seta fica desabilitada)
+}
+
 function montaDrill() {
-  const ctrl = L.control({ position: "topleft" });
-  ctrl.onAdd = function () {
-    const div = L.DomUtil.create("div", "map-drill");
-    div.innerHTML =
-      `<div class="drill-modo">` +
-        `<span class="drill-lab">Ver por:</span>` +
-        `<button class="dm on" data-modo="distritos">Distritos</button>` +
-        `<button class="dm" data-modo="regionais">Regionais</button>` +
-      `</div>` +
-      `<div class="drill-trilha" id="drill-trilha"></div>` +
-      `<div class="drill-botoes" id="drill-botoes"></div>`;
-    L.DomEvent.disableClickPropagation(div);
-    L.DomEvent.disableScrollPropagation(div);
-    return div;
-  };
+  // A faixa de navegacao agora vive no DOM da pagina (acima do mapa), nao mais como
+  // controle flutuante do Leaflet. Aqui so indexamos os bairros e ligamos os eventos.
   // indexa bairros por key normalizada e monta o mapa norm(bairro)->texto real (com acento).
   // feito aqui (e nao no topo) porque depende de normaliza(), que usa um const em TDZ.
   bairrosLayer.eachLayer(l => { bairrosSubs[normaliza(l.feature.properties.key)] = l; });
   ESCOLAS.forEach(e => { if (e.bairro != null) BAIRRO_REAL[normaliza(e.bairro)] = e.bairro; });
 
-  ctrl.addTo(map);
   // os dois caminhos de "Ver por" (Distritos | Regionais) trocam o modo de entrada
-  document.querySelectorAll(".map-drill .dm").forEach(b =>
+  document.querySelectorAll(".mapnav .dm").forEach(b =>
     b.addEventListener("click", () => trocaModo(b.dataset.modo)));
+  // seta de voltar um nivel
+  document.getElementById("drill-voltar").addEventListener("click", voltaUmNivel);
+
   distritosLayer.addTo(map);     // nivel 0 (modo distritos): os 6 distritos visiveis
   setRegionaisDoDistrito(null);  // garante nenhuma regional no nivel 0
   regionaisLayer.addTo(map);     // grupo no mapa, mas vazio ate drillar
