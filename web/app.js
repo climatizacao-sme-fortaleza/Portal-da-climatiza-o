@@ -376,7 +376,8 @@ function init(){
   document.addEventListener("keydown", e => { if (e.key === "Escape") fechaFicha(); });
 
   const nota = document.getElementById("sem-coord");
-  nota.textContent = ` · ${nGeo} geocodificadas, ${nCentroide} por bairro` +
+  nota.textContent = ` · ${nGeo} com ponto exato` +
+    (nCentroide ? `, ${nCentroide} por centroide de bairro` : "") +
     (SEM_COORD.length ? `, ${SEM_COORD.length} sem posição` : "");
   aplicaFiltros();
 }
