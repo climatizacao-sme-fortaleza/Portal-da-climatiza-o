@@ -118,7 +118,13 @@ h1 .thin{font-weight:500;font-style:italic;color:var(--laranja)}
 .ctx-leg .lp{font-family:'Spline Sans Mono',monospace;font-size:10.5px;color:var(--ink2);
   min-width:42px;text-align:right}
 
-#map{height:560px;flex:1 1 auto;width:auto;background:#e8e4da}
+/* altura do mapa responsiva: encolhe pra que o bloco do mapa (cabecalho do mapa ->
+   painel/mapa -> faixa de indicadores) caiba junto na 1a tela, sem rolar, num desktop
+   comum. O painel da esquerda NAO e tocado; o espaco vem so daqui.
+   clamp(min, ideal, max): a ~768 de altura o ideal da ~405 (bloco ~765px, cabe em 768);
+   a ~1080 trava no max 470 (titulo + bloco ~1077px cabem). 363 = cromo do card acima/abaixo
+   do mapa (cabecalho 46 + filtros 60 + navegacao 90 + legenda 41 + indicadores 125 + bordas). */
+#map{height:clamp(320px,calc(100vh - 363px),470px);flex:1 1 auto;width:auto;background:#e8e4da}
 @media(max-width:760px){
   .mapwrap{flex-direction:column}
   .ctxpanel{flex:auto;width:auto;max-height:none;border-right:0;border-bottom:1px solid var(--line)}
