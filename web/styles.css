@@ -131,6 +131,9 @@ h1 .thin{font-weight:500;font-style:italic;color:var(--laranja)}
   .mapwrap{flex-direction:column}
   .ctxpanel{flex:auto;width:auto;max-height:none;border-right:0;border-bottom:1px solid var(--line)}
   #map{width:100%}
+  /* empilhado: painel em cima, mapa ocupa a largura toda e encosta no rodape do mapwrap,
+     entao o bottom simples volta a valer (e a tarja vai pro canto esquerdo). */
+  .legend{left:10px;top:auto;transform:none;bottom:10px}
 }
 
 /* controle de camada (distritos) sobre o mapa */
@@ -191,19 +194,24 @@ h1 .thin{font-weight:500;font-style:italic;color:var(--laranja)}
   padding:2px 7px;border-radius:11px;pointer-events:none}
 .leaflet-tooltip.rotulo-territorio::before{display:none}  /* sem setinha */
 
-/* legenda como overlay discreto no canto superior-direito do mapa (fora do fluxo:
-   nao ocupa altura, ajuda o bloco a caber na 1a tela a 100%). Caixinha translucida. */
-.legend{position:absolute;top:8px;right:8px;z-index:1000;
-  display:flex;flex-direction:column;gap:4px;max-width:180px;
-  background:rgba(251,250,246,.92);border:1px solid var(--line);border-radius:6px;
-  padding:7px 9px;box-shadow:0 1px 5px rgba(0,0,0,.12);
-  font-size:11px;color:var(--ink)}
-.legend span{display:flex;align-items:center;gap:6px}
-.dot{width:11px;height:11px;border-radius:50%;display:inline-block;border:1.5px solid rgba(0,0,0,.25)}
+/* legenda de cores: tarjinha fina horizontal de UMA linha, encostada no rodape do mapa
+   (canto inferior-esquerdo), fora do fluxo. Largura so do conteudo (width:max-content),
+   fundo levemente translucido. left:300px ~ logo apos o painel (290px), pra ficar sobre
+   o mapa e nao sobre o painel; no empilhado (mobile) volta pro canto.
+   ANCORA no rodape do MAPA (nao do mapwrap): em telas baixas o mapa fica mais curto que o
+   painel e encosta no TOPO do mapwrap, sobrando espaco embaixo. Por isso posiciono pela
+   altura do mapa (mesmo clamp do #map) + translateY(-100%): a base da tarja fica 10px acima
+   da base do mapa. Se mudar o clamp do #map, mudar aqui tambem. */
+.legend{position:absolute;left:300px;z-index:1000;
+  top:calc(clamp(320px,100vh - 363px,470px) - 10px);transform:translateY(-100%);
+  display:flex;flex-direction:row;align-items:center;gap:14px;width:max-content;
+  background:rgba(251,250,246,.85);border:1px solid var(--line);border-radius:7px;
+  padding:4px 11px;box-shadow:0 1px 4px rgba(0,0,0,.14);
+  font-size:10.5px;color:var(--ink);white-space:nowrap}
+.legend span{display:flex;align-items:center;gap:5px}
+.dot{width:9px;height:9px;border-radius:50%;display:inline-block;border:1.5px solid rgba(0,0,0,.25)}
 .d-clim{background:var(--verde)} .d-parc{background:var(--verde2)}
 .d-pipe{background:var(--amarelo)} .d-init{background:var(--cinza)}
-.legend .nota{margin-top:2px;font-family:'Spline Sans Mono',monospace;font-size:9.5px;
-  line-height:1.25;color:var(--ink2)}
 
 /* popup */
 .leaflet-popup-content-wrapper{border-radius:6px}
