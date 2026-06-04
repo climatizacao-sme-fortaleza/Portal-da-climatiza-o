@@ -29,10 +29,27 @@
         <div class="count"><b id="contagem">512</b> escolas no mapa<span id="sem-coord"></span></div>
       </div>
 
+      <!-- PRIMEIRO filtro: 'Ver por' (Distritos/Regionais) + trilha + botoes de navegacao (drill). -->
+      <div class="mapnav">
+        <div class="mapnav-top">
+          <div class="drill-modo">
+            <span class="drill-lab">Ver por:</span>
+            <button class="dm on" type="button" data-modo="distritos">Distritos</button>
+            <button class="dm" type="button" data-modo="regionais">Regionais</button>
+          </div>
+          <div class="mapnav-trilha">
+            <button class="drill-voltar" id="drill-voltar" type="button" aria-label="Voltar um nível" disabled>&#8592;</button>
+            <div class="drill-trilha" id="drill-trilha"></div>
+          </div>
+        </div>
+        <div class="drill-botoes" id="drill-botoes"></div>
+      </div>
+
+      <!-- ULTIMO filtro: Status geral + Limpar, alinhado a direita.
+           Junto seguem os controles antigos OCULTOS (display:none) mas MANTIDOS no DOM,
+           porque o drill os usa por baixo como filtro (f-regional, sel-distrito, sel-bairro).
+           Nao remover. -->
       <div class="filtros">
-        <!-- Controles antigos duplicados pela faixa de navegacao: escondidos da tela
-             (display:none), mas MANTIDOS no DOM porque o drill os usa por baixo como filtro
-             (regionalAtiva/chips, sel-distrito, sel-bairro). Nao remover. -->
         <div class="chiprow oculto" id="f-regional"></div>
         <div class="selgroup oculto">
           <label for="sel-distrito">Distrito</label>
@@ -47,22 +64,6 @@
           <select id="sel-status"><option value="">Todos</option></select>
         </div>
         <button class="btn-limpar" id="f-limpar" type="button">Limpar</button>
-      </div>
-
-      <!-- Faixa de navegacao por niveis (drill): seletor + trilha + botoes, acima do mapa -->
-      <div class="mapnav">
-        <div class="mapnav-top">
-          <div class="drill-modo">
-            <span class="drill-lab">Ver por:</span>
-            <button class="dm on" type="button" data-modo="distritos">Distritos</button>
-            <button class="dm" type="button" data-modo="regionais">Regionais</button>
-          </div>
-          <div class="mapnav-trilha">
-            <button class="drill-voltar" id="drill-voltar" type="button" aria-label="Voltar um nível" disabled>&#8592;</button>
-            <div class="drill-trilha" id="drill-trilha"></div>
-          </div>
-        </div>
-        <div class="drill-botoes" id="drill-botoes"></div>
       </div>
 
       <div class="mapwrap">
