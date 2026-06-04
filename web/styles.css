@@ -331,6 +331,10 @@ h1 .thin{font-weight:500;font-style:italic;color:var(--laranja)}
 .kv .k{color:var(--ink2)} .kv .v{text-align:right;font-weight:500}
 .empty{background:#F2EEE4;border:1px dashed var(--line);border-radius:5px;padding:12px 14px;
   font-size:13px;color:var(--ink2);margin-top:8px}
+/* marca de valor provisorio na ficha (estudo eletrico): asterisco discreto + nota "em ajuste" */
+.kv .v .prov{color:var(--ink2);font-weight:400;font-size:.8em}
+.prov-nota{font-family:'Spline Sans Mono',monospace;font-size:10.5px;color:var(--ink2);
+  text-align:right;margin-top:4px}
 
 /* estagio do repasse - gargalo */
 .gargalo{background:#FBF0D9;border:1px solid #F0DCAE;color:#9A6B12;border-radius:6px;
