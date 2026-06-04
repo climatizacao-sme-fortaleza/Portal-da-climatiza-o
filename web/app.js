@@ -569,14 +569,22 @@ function renderPainelContexto() {
   const body = document.getElementById("ctx-body");
   if (!body) return;
   const base = ESCOLAS.filter(passaFiltroGeo);
-  let nSalas = 0, nClim = 0, nParc = 0, nInic = 0, nMaq = 0, invest = 0, nSemSub = 0;
+  let nSalas = 0, nClim = 0, nParc = 0, nInic = 0, nMaq = 0, invest = 0;
+  // subestacao/estudo eletrico por SGE (CSV), recalculados por territorio:
+  let nNova = 0, nAumento = 0, nTemEst = 0, nFaltaEst = 0;
   for (const e of base) {
     nSalas += Number(e.salas) || 0;
     const s = (e.status || "").trim();
     if (s === "9. CLIMATIZADA") nClim++;
     else if (s === "10. CLIMATIZADA PARCIAL") nParc++;
     else nInic++;           // a iniciar = tudo que nao for 9 nem 10
-    if (String(e.subestacao).trim().toUpperCase() === "NÃO") nSemSub++;
+    const sub = SUBESTACAO[e.sge];
+    if (sub) {
+      if (sub.n === "NOVA") nNova++;
+      else if (sub.n === "AUMENTO") nAumento++;
+      if (sub.e === "TEM") nTemEst++;
+      else if (sub.e === "FALTA") nFaltaEst++;
+    }
     const arr = EXECUCAO[e.sge];
     if (arr) for (const x of arr) {
       if (typeof x.totalMaq === "number") nMaq += x.totalMaq;       // TOTAL MAQUINAS
@@ -671,8 +679,16 @@ function renderPainelContexto() {
              `${fmtPct(invest, PARQUE_VERBA)}% da verba do parque`) +
       cartao("Custo médio / escola", moedaCompacta(custoEscola),
              `${moedaCompacta(custoSala)} por sala climatizada`) +
-      cartao("Sem subestação", nSemSub.toLocaleString("pt-BR"),
-             `${fmtPct(nSemSub, nEsc)}% das escolas do território`);
+      `<div class="metricard sub4card">
+         <div class="mc-lab">Subestação · estudo elétrico</div>
+         <div class="sub4">
+           <div class="sub4-it"><b>${nNova.toLocaleString("pt-BR")}</b><span>nova</span></div>
+           <div class="sub4-it"><b>${nAumento.toLocaleString("pt-BR")}</b><span>aumento</span></div>
+           <div class="sub4-it"><b>${nTemEst.toLocaleString("pt-BR")}<sup>*</sup></b><span>têm estudo</span></div>
+           <div class="sub4-it"><b>${nFaltaEst.toLocaleString("pt-BR")}<sup>*</sup></b><span>falta estudo</span></div>
+         </div>
+         <div class="sub4-nota">* em ajuste</div>
+       </div>`;
   }
 }
 
