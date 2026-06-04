@@ -153,7 +153,7 @@ function setRegionaisDoDistrito(distNum, focoRegional) {
 function bairrosDaRegional(regionalNum) {
   const set = new Set();
   for (const e of ESCOLAS)
-    if (String(e.regional) === String(regionalNum)) set.add(normaliza(e.bairro));
+    if (String(e.regional) === String(regionalNum)) set.add(aliasBairro(normaliza(e.bairro)));
   return set;
 }
 
@@ -244,7 +244,7 @@ function entraRegional(num) {
 
 // ---- nivel 3: um bairro (mostra so ele, filtra as escolas do bairro) ----
 function entraBairro(rawKey) {
-  const nk = normaliza(rawKey);
+  const nk = aliasBairro(normaliza(rawKey));
   if (drillBairro !== null && drillBairro === nk) return; // ja focado
   const sub = bairrosSubs[nk];
   if (!sub) return;
@@ -428,8 +428,8 @@ function montaDrill() {
   // controle flutuante do Leaflet. Aqui so indexamos os bairros e ligamos os eventos.
   // indexa bairros por key normalizada e monta o mapa norm(bairro)->texto real (com acento).
   // feito aqui (e nao no topo) porque depende de normaliza(), que usa um const em TDZ.
-  bairrosLayer.eachLayer(l => { bairrosSubs[normaliza(l.feature.properties.key)] = l; });
-  ESCOLAS.forEach(e => { if (e.bairro != null) BAIRRO_REAL[normaliza(e.bairro)] = e.bairro; });
+  bairrosLayer.eachLayer(l => { bairrosSubs[aliasBairro(normaliza(l.feature.properties.key))] = l; });
+  ESCOLAS.forEach(e => { if (e.bairro != null) BAIRRO_REAL[aliasBairro(normaliza(e.bairro))] = e.bairro; });
 
   // os dois caminhos de "Ver por" (Distritos | Regionais) trocam o modo de entrada
   document.querySelectorAll(".mapnav .dm").forEach(b =>
@@ -746,6 +746,17 @@ const RE_DIACRITICOS = new RegExp("[\\u0300-\\u036f]", "g");
 function normaliza(s) {
   return String(s == null ? "" : s).toLowerCase()
     .normalize("NFD").replace(RE_DIACRITICOS, "");
+}
+
+// alias de bairro: dois bairros compostos tem a barra grafada diferente entre o geojson
+// ("BOA VISTA / CASTELAO", com espacos) e o campo das escolas ("BOA VISTA/CASTELAO", sem);
+// assim a key normalizada nao casa e o poligono fica sem a cor da regional. Canoniza cada
+// um pela parte distintiva (Castelao / Sapiranga) pra casar como os demais bairros.
+// Aplicado so no join bairro<->geojson (nao na busca), em todos os pontos da key normalizada.
+function aliasBairro(nk) {
+  if (nk.includes("castelao")) return "castelao";
+  if (nk.includes("sapiranga")) return "sapiranga";
+  return nk;
 }
 
 function renderLista() {
