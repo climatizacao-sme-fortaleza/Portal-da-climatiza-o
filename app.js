@@ -884,6 +884,24 @@ function blocoExecucao(sge){
   return h;
 }
 
+// Secao de subestacao da ficha (fonte: SUBESTACAO[sge], do CSV). Independente do
+// campo "Subestacao" do Cadastro e do "Necessita subestacao" do Diagnostico (nao os toca).
+function blocoSubestacao(sge){
+  const s = SUBESTACAO[sge];
+  let h = `<div class="sect">Subestação · estudo elétrico</div>`;
+  if (!s) return h + `<div class="empty">Sem dados de subestação.</div>`;
+  h += kv("Possui subestação", s.p === "SIM" ? "Sim" : "Não");
+  // "Necessita" so aparece se necessitar (NAO => nao mostra a linha). Sem potencia.
+  if (s.n === "NOVA") h += kv("Necessita", "subestação nova");
+  else if (s.n === "AUMENTO") h += kv("Necessita", "aumento de potência");
+  // Estudo eletrico: provisorio -> asterisco discreto + nota "em ajuste" (igual ao cartao).
+  if (s.e === "TEM" || s.e === "FALTA") {
+    h += kv("Estudo elétrico", `${s.e === "TEM" ? "finalizado" : "pendente"}<sup class="prov">*</sup>`);
+    h += `<div class="prov-nota">* em ajuste</div>`;
+  }
+  return h;
+}
+
 function abreFicha(sge){
   const e = ESCOLAS.find(x => x.sge === sge); if (!e) return;
   const b = bucket(e.status);
@@ -910,6 +928,7 @@ function abreFicha(sge){
   if (e.asCivil) h += kv("Nº A.S. civil", e.asCivil);
   if (e.asEletrica) h += kv("Nº A.S. elétrica", e.asEletrica);
 
+  h += blocoSubestacao(sge);
   h += blocoDiagnostico(sge);
   h += blocoOS(sge);
   h += blocoExecucao(sge);
