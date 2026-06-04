@@ -60,7 +60,7 @@ h1 .thin{font-weight:500;font-style:italic;color:var(--laranja)}
 .oculto{display:none}
 
 /* painel de contexto (esquerda) + mapa (resto da largura) */
-.mapwrap{display:flex;align-items:stretch}
+.mapwrap{display:flex;align-items:stretch;position:relative}
 .ctxpanel{flex:0 0 290px;width:290px;background:var(--panel);
   border-right:1px solid var(--line);padding:16px;overflow:hidden}
 .ctx-head{border-bottom:2px solid var(--ink);padding-bottom:9px;margin-bottom:15px}
@@ -147,14 +147,14 @@ h1 .thin{font-weight:500;font-style:italic;color:var(--laranja)}
    abaixo), entao some a borda-caixa antiga (que tinha border-bottom:0 pra grudar no mapa);
    fica um divisor fino embaixo separando da linha do Status. Mesma altura de antes. */
 .mapnav{background:var(--panel);border:0;border-bottom:1px solid var(--line);
-  padding:10px 16px}
+  padding:4px 16px}
 .mapnav-top{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
 .mapnav-trilha{display:flex;align-items:center;gap:8px;flex:1;min-width:200px}
 .drill-modo{display:flex;align-items:center;gap:6px}
 .drill-lab{font-family:'Spline Sans Mono',monospace;font-size:10px;letter-spacing:.07em;
   text-transform:uppercase;color:var(--ink2)}
 .dm{font-family:'Spline Sans Mono',monospace;font-size:11px;border:1px solid var(--line);
-  background:#fff;color:var(--ink2);padding:4px 9px;border-radius:3px;cursor:pointer}
+  background:#fff;color:var(--ink2);padding:2px 9px;border-radius:3px;cursor:pointer}
 .dm.on{background:var(--ink);color:#fff;border-color:var(--ink)}
 .dm:disabled{opacity:.45;cursor:not-allowed}
 /* seta de voltar um nivel, a esquerda da trilha */
@@ -170,11 +170,11 @@ h1 .thin{font-weight:500;font-style:italic;color:var(--laranja)}
 .drill-trilha .crumb.link:hover{color:var(--laranja)}
 .drill-trilha .sep{color:var(--ink2)}
 /* botoes do nivel atual, abaixo; quebram em varias linhas e empurram o mapa */
-.drill-botoes{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px;padding-top:10px;
+.drill-botoes{display:flex;flex-wrap:wrap;gap:5px;margin-top:3px;padding-top:3px;
   border-top:1px dotted var(--line)}
 .drill-botoes:empty{display:none}
 .db{font-family:'Spline Sans Mono',monospace;font-size:11px;border:1px solid var(--line);
-  background:#fff;color:var(--ink2);padding:4px 9px;border-radius:3px;cursor:pointer;white-space:nowrap}
+  background:#fff;color:var(--ink2);padding:2px 9px;border-radius:3px;cursor:pointer;white-space:nowrap}
 .db:hover{background:#F1ECE0}
 .db.on{background:var(--ink);color:#fff;border-color:var(--ink)}
 /* distritos/regionais/bairros clicaveis: cursor de mao sobre as areas */
@@ -191,13 +191,19 @@ h1 .thin{font-weight:500;font-style:italic;color:var(--laranja)}
   padding:2px 7px;border-radius:11px;pointer-events:none}
 .leaflet-tooltip.rotulo-territorio::before{display:none}  /* sem setinha */
 
-.legend{display:flex;gap:16px;padding:11px 16px;font-size:12px;color:var(--ink2);
-  flex-wrap:wrap;border-top:1px solid var(--line)}
+/* legenda como overlay discreto no canto superior-direito do mapa (fora do fluxo:
+   nao ocupa altura, ajuda o bloco a caber na 1a tela a 100%). Caixinha translucida. */
+.legend{position:absolute;top:8px;right:8px;z-index:1000;
+  display:flex;flex-direction:column;gap:4px;max-width:180px;
+  background:rgba(251,250,246,.92);border:1px solid var(--line);border-radius:6px;
+  padding:7px 9px;box-shadow:0 1px 5px rgba(0,0,0,.12);
+  font-size:11px;color:var(--ink)}
 .legend span{display:flex;align-items:center;gap:6px}
 .dot{width:11px;height:11px;border-radius:50%;display:inline-block;border:1.5px solid rgba(0,0,0,.25)}
 .d-clim{background:var(--verde)} .d-parc{background:var(--verde2)}
 .d-pipe{background:var(--amarelo)} .d-init{background:var(--cinza)}
-.legend .nota{margin-left:auto;font-family:'Spline Sans Mono',monospace;font-size:11px}
+.legend .nota{margin-top:2px;font-family:'Spline Sans Mono',monospace;font-size:9.5px;
+  line-height:1.25;color:var(--ink2)}
 
 /* popup */
 .leaflet-popup-content-wrapper{border-radius:6px}

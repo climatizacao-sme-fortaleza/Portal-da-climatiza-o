@@ -77,14 +77,15 @@
           <div class="ctx-body" id="ctx-body"></div>
         </aside>
         <div id="map"></div>
-      </div>
-
-      <div class="legend">
-        <span><i class="dot d-clim"></i>Climatizada</span>
-        <span><i class="dot d-parc"></i>Parcial</span>
-        <span><i class="dot d-pipe"></i>Em andamento</span>
-        <span><i class="dot d-init"></i>A iniciar</span>
-        <span class="nota">coordenadas exatas da base oficial da Prefeitura</span>
+        <!-- legenda de cores: overlay discreto no canto do mapa (fora do fluxo, libera
+             altura pro bloco caber na 1a tela). A nota da fonte vai pequena ao pe. -->
+        <div class="legend">
+          <span><i class="dot d-clim"></i>Climatizada</span>
+          <span><i class="dot d-parc"></i>Parcial</span>
+          <span><i class="dot d-pipe"></i>Em andamento</span>
+          <span><i class="dot d-init"></i>A iniciar</span>
+          <span class="nota">coordenadas da base oficial da Prefeitura</span>
+        </div>
       </div>
 
       <!-- Faixa de cartoes do territorio (largura total, abaixo do mapa). Recalcula por territorio. -->
