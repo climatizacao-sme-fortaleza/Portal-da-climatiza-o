@@ -818,7 +818,6 @@ function blocoDiagnostico(sge){
   if (!d) { return h + `<div class="empty">Sem registro de diagnóstico.</div>`; }
   h += kv("Salas climatizáveis", txt(d.salasClim));
   h += kv("Salas fora", txt(d.salasFora));
-  h += kv("Necessita subestação", txt(d.necessitaSub));
   h += kv("Estágio do repasse", txt(d.estagio));
   if (d.estagio) {
     const est = d.estagio;
@@ -890,10 +889,17 @@ function blocoSubestacao(sge){
   const s = SUBESTACAO[sge];
   let h = `<div class="sect">Subestação · estudo elétrico</div>`;
   if (!s) return h + `<div class="empty">Sem dados de subestação.</div>`;
-  h += kv("Possui subestação", s.p === "SIM" ? "Sim" : "Não");
-  // "Necessita" so aparece se necessitar (NAO => nao mostra a linha). Sem potencia.
-  if (s.n === "NOVA") h += kv("Necessita", "subestação nova");
-  else if (s.n === "AUMENTO") h += kv("Necessita", "aumento de potência");
+  const possui = s.p === "SIM";
+  h += kv("Possui subestação", possui ? "Sim" : "Não");
+  // potencia atual: so quando possui e ha valor
+  if (possui && s.pa) h += kv("Potência atual", s.pa);
+  // "Necessita" so aparece se necessitar (NAO => nao mostra). Potencia futura entre
+  // parenteses quando houver; e a data de solicitacao logo abaixo, se houver.
+  if (s.n === "NOVA" || s.n === "AUMENTO") {
+    const nec = s.n === "NOVA" ? "subestação nova" : "aumento de potência";
+    h += kv("Necessita", s.pf ? `${nec} (${s.pf})` : nec);
+    if (s.d) h += kv("Solicitada à SEINF em", s.d);
+  }
   // Estudo eletrico: provisorio -> asterisco discreto + nota "em ajuste" (igual ao cartao).
   if (s.e === "TEM" || s.e === "FALTA") {
     h += kv("Estudo elétrico", `${s.e === "TEM" ? "finalizado" : "pendente"}<sup class="prov">*</sup>`);
@@ -918,7 +924,6 @@ function abreFicha(sge){
   h += kv("Território", txt(e.territorio));
   h += kv("Etapa", txt(e.etapa));
   h += kv("Nº de salas", txt(e.salas));
-  h += kv("Subestação", `${txt(e.subestacao)}${e.potenciaSub ? " · " + e.potenciaSub : ""}`);
   if (e.endereco) h += kv("Endereço", e.endereco);
 
   h += `<div class="sect">Valores de adequação</div>`;
