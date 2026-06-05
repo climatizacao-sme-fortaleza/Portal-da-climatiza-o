@@ -624,13 +624,14 @@ function renderPainelContexto() {
     return `<circle cx="50" cy="50" r="${R}" fill="none" stroke="${s.cor}" stroke-width="${W}" ` +
            `stroke-dasharray="${(f * C).toFixed(2)} ${C.toFixed(2)}" transform="rotate(${rot.toFixed(2)} 50 50)"/>`;
   }).join("");
-  const centro = nEsc ? `${fmtPct(nClim, nEsc)}%` : "—";
+  // centro da rosca: soma de climatizadas (status 9) + parciais (status 10) = total onde
+  // houve intervencao, recalculado por territorio (Fortaleza = 32,4% = 29,3 + 3,1).
+  const centro = nEsc ? `${fmtPct(nClim + nParc, nEsc)}%` : "—";
   const donut =
     `<svg class="ctx-donut" viewBox="0 0 100 100" role="img" aria-label="Avanço da climatização">
        <circle cx="50" cy="50" r="${R}" fill="none" stroke="#EDEAE2" stroke-width="${W}"/>
        ${arcos}
-       <text x="50" y="49" text-anchor="middle" class="ctx-donut-num" font-size="15">${centro}</text>
-       <text x="50" y="62" text-anchor="middle" class="ctx-donut-sub" font-size="6">climatizadas</text>
+       <text x="50" y="55" text-anchor="middle" class="ctx-donut-num" font-size="16">${centro}</text>
      </svg>`;
   const legenda = segs.map(s =>
     `<li><i style="background:${s.cor}"></i>${s.lab}<b>${s.v}</b>` +
