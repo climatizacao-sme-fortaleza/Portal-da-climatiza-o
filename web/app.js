@@ -597,12 +597,23 @@ function renderPainelContexto() {
   let nSalas = 0, nClim = 0, nParc = 0, nInic = 0, nMaq = 0, invest = 0;
   // subestacao/estudo eletrico por SGE (CSV), recalculados por territorio:
   let nNova = 0, nAumento = 0, nTemEst = 0, nFaltaEst = 0;
+  // linha do tempo: contagem por periodo; o 2026 separa pronta/em processo/a iniciar por status
+  let nAntes = 0, nP2025 = 0, nP2026 = 0, n26pronta = 0, n26proc = 0, n26init = 0;
   for (const e of base) {
     nSalas += Number(e.salas) || 0;
     const s = (e.status || "").trim();
     if (s === "9. CLIMATIZADA") nClim++;
     else if (s === "10. CLIMATIZADA PARCIAL") nParc++;
     else nInic++;           // a iniciar = tudo que nao for 9 nem 10
+    const per = PERIODO[e.sge], bk = bucket(e.status);
+    if (per === "antes") nAntes++;
+    else if (per === "2025") nP2025++;
+    else if (per === "2026") {
+      nP2026++;
+      if (bk === "clim" || bk === "parc") n26pronta++;   // pronta
+      else if (bk === "iniciar") n26init++;              // a iniciar
+      else n26proc++;                                    // em processo (etapas do meio)
+    }
     const sub = SUBESTACAO[e.sge];
     if (sub) {
       if (sub.n === "NOVA") nNova++;
@@ -668,8 +679,31 @@ function renderPainelContexto() {
        <div class="ctx-donut-wrap">${donut}<ul class="ctx-leg">${legenda}</ul></div>
      </section>`;
 
-  // painel da ESQUERDA: enxuto, sem rolagem (Tamanho + Avanço + Equidade)
-  body.innerHTML = tamanho + avanco;
+  // bloco LINHA DO TEMPO: 3 barras por periodo, comprimento proporcional (escala pela maior).
+  // A barra de 2026 e segmentada por status: pronta (clim/parc) / em processo (meio) / a iniciar.
+  const tlMax = Math.max(1, nAntes, nP2025, nP2026);
+  const tlW = n => (n / tlMax * 100).toFixed(1);
+  const linhaTempo =
+    `<section class="ctx-block">
+       <div class="ctx-tit">Linha do tempo</div>
+       <div class="tl">
+         <div class="tl-row"><span class="tl-lab">Antes de 2025</span>
+           <span class="tl-bar"><span class="tl-seg tl-done" style="width:${tlW(nAntes)}%"></span></span>
+           <span class="tl-num">${nAntes}</span></div>
+         <div class="tl-row"><span class="tl-lab">2025</span>
+           <span class="tl-bar"><span class="tl-seg tl-done" style="width:${tlW(nP2025)}%"></span></span>
+           <span class="tl-num">${nP2025}</span></div>
+         <div class="tl-row"><span class="tl-lab">2026</span>
+           <span class="tl-bar"><span class="tl-seg tl-done" style="width:${tlW(n26pronta)}%"></span>` +
+             `<span class="tl-seg tl-proc" style="width:${tlW(n26proc)}%"></span>` +
+             `<span class="tl-seg tl-init" style="width:${tlW(n26init)}%"></span></span>
+           <span class="tl-num">${nP2026}</span></div>
+       </div>
+       <div class="tl-leg">2026: <i class="tl-done"></i>pronta <i class="tl-proc"></i>em processo <i class="tl-init"></i>a iniciar</div>
+     </section>`;
+
+  // painel da ESQUERDA: Tamanho + Avanço + Linha do tempo
+  body.innerHTML = tamanho + avanco + linhaTempo;
 
   // ---- FAIXA DE CARTOES embaixo do mapa (4 cartoes, recalculam por territorio) ----
   const strip = document.getElementById("cardstrip");

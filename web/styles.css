@@ -123,6 +123,22 @@ h1 .thin{font-weight:500;font-style:italic;color:var(--laranja)}
 .ctx-leg .lp{font-family:'Spline Sans Mono',monospace;font-size:10.5px;color:var(--ink2);
   min-width:42px;text-align:right}
 
+/* LINHA DO TEMPO (compacta): 3 barras por periodo. A de 2026 e segmentada por status:
+   pronta (verde) / em processo (verde claro = meia cor) / a iniciar (cinza neutro). */
+.tl{display:flex;flex-direction:column;gap:6px;margin-top:2px}
+.tl-row{display:flex;align-items:center;gap:8px}
+.tl-lab{flex:0 0 76px;font-size:11px;color:var(--ink2)}
+.tl-bar{flex:1;height:9px;background:#EDEAE2;border-radius:5px;overflow:hidden;display:flex}
+.tl-seg{height:100%}
+.tl-num{flex:0 0 auto;min-width:22px;text-align:right;
+  font-family:'Spline Sans Mono',monospace;font-size:11px;color:var(--ink)}
+.tl-done{background:var(--verde)}
+.tl-proc{background:var(--verde2)}
+.tl-init{background:var(--cinza)}
+.tl-leg{margin-top:7px;font-size:9.5px;color:var(--ink2);
+  display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+.tl-leg i{width:9px;height:9px;border-radius:2px;display:inline-block}
+
 /* altura do mapa responsiva: encolhe pra que o bloco do mapa (cabecalho do mapa ->
    painel/mapa -> faixa de indicadores) caiba junto na 1a tela, sem rolar, num desktop
    comum. O painel da esquerda NAO e tocado; o espaco vem so daqui.
