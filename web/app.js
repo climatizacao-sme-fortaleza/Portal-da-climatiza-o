@@ -511,16 +511,17 @@ function passaFiltroGeo(e) {
 // ---------- filtro de periodo por ano (derivado da ETAPA da execucao) ----------
 // Periodo de cada unidade: ETAPA 01 -> "2025", ETAPA 02 -> "2026". Climatizada/parcial
 // sem execucao em 2025/2026 -> "antes" (antes de 2025). As demais (sem execucao e nao
-// climatizadas) ficam sem periodo (null) = a iniciar futuras. Se tiver 01 e 02, vale a
-// mais recente (2026). PERIODO[sge] e calculado uma vez em montaPeriodos().
+// climatizadas) ficam sem periodo (null) = a iniciar futuras. Regra geral: a unidade
+// pertence ao ANO EM QUE A CLIMATIZACAO COMECOU; entao quem tem 01 e 02 conta no mais
+// antigo (2025). PERIODO[sge] e calculado uma vez em montaPeriodos().
 let periodoAtivo = "all";
 const PERIODO = {};
 function periodoDaEscola(e) {
   const arr = EXECUCAO[e.sge] || [];
   const has01 = arr.some(x => String(x.etapa || "").trim().toUpperCase().startsWith("ETAPA 01"));
   const has02 = arr.some(x => String(x.etapa || "").trim().toUpperCase().startsWith("ETAPA 02"));
+  if (has01) return "2025";   // tem 01 (mesmo que tambem tenha 02): ano em que comecou
   if (has02) return "2026";
-  if (has01) return "2025";
   const b = bucket(e.status);
   if (b === "clim" || b === "parc") return "antes";   // climatizada/parcial sem exec 25/26
   return null;                                         // a iniciar futuras: sem periodo

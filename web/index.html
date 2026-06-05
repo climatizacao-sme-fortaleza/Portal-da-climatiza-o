@@ -45,7 +45,19 @@
         <div class="drill-botoes" id="drill-botoes"></div>
       </div>
 
-      <!-- ULTIMO filtro: Status geral + Limpar, alinhado a direita.
+      <!-- PERIODO: acima do Status geral, alinhado a direita (bloco de filtros).
+           Filtra mapa/lista/funil reusando aplicaFiltros. "Todos" limpa o periodo. -->
+      <div class="filtros-periodo">
+        <span class="fp-lab">Período</span>
+        <div class="chiprow" id="f-periodo">
+          <button type="button" class="on" data-p="all">Todos</button>
+          <button type="button" data-p="antes">Antes de 2025</button>
+          <button type="button" data-p="2025">2025</button>
+          <button type="button" data-p="2026">2026</button>
+        </div>
+      </div>
+
+      <!-- ULTIMO filtro: Status geral + Limpar, alinhado a direita (abaixo do Periodo).
            Junto seguem os controles antigos OCULTOS (display:none) mas MANTIDOS no DOM,
            porque o drill os usa por baixo como filtro (f-regional, sel-distrito, sel-bairro).
            Nao remover. -->
@@ -64,18 +76,6 @@
           <select id="sel-status"><option value="">Todos</option></select>
         </div>
         <button class="btn-limpar" id="f-limpar" type="button">Limpar</button>
-      </div>
-
-      <!-- filtro de periodo por ano: logo abaixo do Status geral, mesma area de filtros.
-           Filtra mapa/lista/funil reusando aplicaFiltros. "Todos" limpa o periodo. -->
-      <div class="filtros-periodo">
-        <span class="fp-lab">Período</span>
-        <div class="chiprow" id="f-periodo">
-          <button type="button" class="on" data-p="all">Todos</button>
-          <button type="button" data-p="antes">Antes de 2025</button>
-          <button type="button" data-p="2025">2025</button>
-          <button type="button" data-p="2026">2026</button>
-        </div>
       </div>
 
       <div class="mapwrap">
