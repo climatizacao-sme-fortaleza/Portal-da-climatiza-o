@@ -34,7 +34,10 @@ function data(v){
 function txt(v){ return (v===null||v===undefined||v==="") ? "—" : v; }
 
 // ---------- mapa ----------
-const map = L.map("map", { scrollWheelZoom: false }).setView([-3.768, -38.545], 11.4);
+// zoomSnap:0 -> permite zoom fracionario, pra o fitBounds encaixar o territorio com a
+// folga real do padding (com o snap=1 padrao o zoom travava no nivel inteiro e o
+// territorio nao crescia mesmo reduzindo o padding). zoomDelta:1 mantem o passo dos botoes +/-.
+const map = L.map("map", { scrollWheelZoom: false, zoomSnap: 0, zoomDelta: 1 }).setView([-3.768, -38.545], 11.4);
 L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
   maxZoom: 19, subdomains: "abcd",
   attribution: "&copy; OpenStreetMap &copy; CARTO"
@@ -108,7 +111,7 @@ let drillRegional = null;      // null = nivel 1; num = regional focada (nivel 2
 let drillBairro = null;        // null = nivel 2; norm(key) = bairro focado (nivel 3)
 let rotulos = [];              // tooltips permanentes com o nome do territorio (distrito/regional/bairro)
 const VIEW0 = { center: [-3.768, -38.545], zoom: 11.4 };
-const FIT_PAD = [40, 40];   // folga (px) na borda do fitBounds pra o contorno do territorio nao ser cortado
+const FIT_PAD = [14, 14];   // folga (px) na borda do fitBounds: respiro leve pra o territorio ficar grande sem cortar a borda
 
 // mostra so o distrito focado: removemos as outras sublayers do grupo
 // (remover, e nao so esconder, garante que elas nao capturem cliques)
@@ -511,9 +514,9 @@ function passaFiltroGeo(e) {
 // ---------- filtro de periodo por ano (derivado da ETAPA da execucao) ----------
 // Periodo de cada unidade: ETAPA 01 -> "2025", ETAPA 02 -> "2026". Climatizada/parcial
 // sem execucao em 2025/2026 -> "antes" (antes de 2025). As demais (sem execucao e nao
-// climatizadas) ficam sem periodo (null) = a iniciar futuras. Regra geral: a unidade
+// climatizadas) sao as a iniciar futuras, planejadas -> "2027/2028". Regra geral: a unidade
 // pertence ao ANO EM QUE A CLIMATIZACAO COMECOU; entao quem tem 01 e 02 conta no mais
-// antigo (2025). PERIODO[sge] e calculado uma vez em montaPeriodos().
+// antigo (2025). Assim todas as 512 tem periodo. PERIODO[sge] e calculado uma vez em montaPeriodos().
 let periodoAtivo = "all";
 const PERIODO = {};
 function periodoDaEscola(e) {
@@ -524,7 +527,7 @@ function periodoDaEscola(e) {
   if (has02) return "2026";
   const b = bucket(e.status);
   if (b === "clim" || b === "parc") return "antes";   // climatizada/parcial sem exec 25/26
-  return null;                                         // a iniciar futuras: sem periodo
+  return "2027/2028";                                  // a iniciar futuras (planejadas)
 }
 function montaPeriodos() { for (const e of ESCOLAS) PERIODO[e.sge] = periodoDaEscola(e); }
 function passaPeriodo(e) {
