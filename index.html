@@ -45,39 +45,6 @@
         <div class="drill-botoes" id="drill-botoes"></div>
       </div>
 
-      <!-- PERIODO: acima do Status geral, alinhado a direita (bloco de filtros).
-           Filtra mapa/lista/funil reusando aplicaFiltros. "Todos" limpa o periodo. -->
-      <div class="filtros-periodo">
-        <span class="fp-lab">Período</span>
-        <div class="chiprow" id="f-periodo">
-          <button type="button" class="on" data-p="all">Todos</button>
-          <button type="button" data-p="antes">Antes de 2025</button>
-          <button type="button" data-p="2025">2025</button>
-          <button type="button" data-p="2026">2026</button>
-        </div>
-      </div>
-
-      <!-- ULTIMO filtro: Status geral + Limpar, alinhado a direita (abaixo do Periodo).
-           Junto seguem os controles antigos OCULTOS (display:none) mas MANTIDOS no DOM,
-           porque o drill os usa por baixo como filtro (f-regional, sel-distrito, sel-bairro).
-           Nao remover. -->
-      <div class="filtros">
-        <div class="chiprow oculto" id="f-regional"></div>
-        <div class="selgroup oculto">
-          <label for="sel-distrito">Distrito</label>
-          <select id="sel-distrito"><option value="">Todos</option></select>
-        </div>
-        <div class="selgroup oculto">
-          <label for="sel-bairro">Bairro</label>
-          <select id="sel-bairro"><option value="">Todos</option></select>
-        </div>
-        <div class="selgroup">
-          <label for="sel-status">Status geral</label>
-          <select id="sel-status"><option value="">Todos</option></select>
-        </div>
-        <button class="btn-limpar" id="f-limpar" type="button">Limpar</button>
-      </div>
-
       <div class="mapwrap">
         <!-- Painel de contexto da REGIAO (territorio atual). Diferente da ficha da ESCOLA
              (drawer a direita). Recalcula conforme a navegacao (mesmo estado do mapa/lista/funil). -->
@@ -96,6 +63,37 @@
           <span><i class="dot d-parc"></i>Parcial</span>
           <span><i class="dot d-pipe"></i>Em andamento</span>
           <span><i class="dot d-init"></i>A iniciar</span>
+        </div>
+
+        <!-- coluna fina de filtros a DIREITA do mapa: Periodo em cima, Status geral abaixo.
+             Filtram mapa/lista/funil pelos mesmos IDs (aplicaFiltros). Os controles antigos
+             ocultos (f-regional/sel-distrito/sel-bairro) seguem no DOM, usados pelo drill. -->
+        <div class="mapfiltros">
+          <div class="filtros-periodo">
+            <span class="fp-lab">Período</span>
+            <div class="chiprow" id="f-periodo">
+              <button type="button" class="on" data-p="all">Todos</button>
+              <button type="button" data-p="antes">Antes de 2025</button>
+              <button type="button" data-p="2025">2025</button>
+              <button type="button" data-p="2026">2026</button>
+            </div>
+          </div>
+          <div class="filtros">
+            <div class="chiprow oculto" id="f-regional"></div>
+            <div class="selgroup oculto">
+              <label for="sel-distrito">Distrito</label>
+              <select id="sel-distrito"><option value="">Todos</option></select>
+            </div>
+            <div class="selgroup oculto">
+              <label for="sel-bairro">Bairro</label>
+              <select id="sel-bairro"><option value="">Todos</option></select>
+            </div>
+            <div class="selgroup">
+              <label for="sel-status">Status geral</label>
+              <select id="sel-status"><option value="">Todos</option></select>
+            </div>
+            <button class="btn-limpar" id="f-limpar" type="button">Limpar</button>
+          </div>
         </div>
       </div>
 
