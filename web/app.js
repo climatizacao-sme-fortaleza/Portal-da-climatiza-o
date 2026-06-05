@@ -917,14 +917,34 @@ function blocoSubestacao(sge){
   return h;
 }
 
+// rotulo de status SO para exibicao na ficha: esconde o prefixo numerico "N. "
+// (ex: "9. CLIMATIZADA" -> "CLIMATIZADA"). NAO altera e.status (navegacao/filtros/calculos usam).
+function statusLabel(s){
+  return String(s == null || s === "" ? "0. A INICIAR" : s).replace(/^\s*\d+\.\s*/, "");
+}
+
 function abreFicha(sge){
   const e = ESCOLAS.find(x => x.sge === sge); if (!e) return;
   const b = bucket(e.status);
   document.getElementById("dr-sge").textContent = `SGE ${e.sge} · ${e.tipo || ""}`;
   document.getElementById("dr-nome").textContent = e.nome || "";
   const st = document.getElementById("dr-status");
-  st.textContent = e.status || "0. A INICIAR";
+  st.textContent = statusLabel(e.status);   // so exibicao; e.status (com numero) fica intacto
   st.className = "st " + STCLS[b];
+
+  // selo de periodo de climatizacao em destaque no topo (usa PERIODO[sge] ja calculado).
+  const per = PERIODO[e.sge];
+  let seloTxt, seloCls;
+  if (per === "antes")     { seloTxt = "Climatizada antes de 2025"; seloCls = "selo-antes"; }
+  else if (per === "2025") { seloTxt = "Climatizada em 2025";       seloCls = "selo-2025"; }
+  else if (per === "2026") {
+    const clima = (b === "clim" || b === "parc");   // climatizada/parcial vs em processo
+    seloTxt = clima ? "Climatizada em 2026" : "Em processo de climatização 2026";
+    seloCls = clima ? "selo-2026" : "selo-proc";
+  } else                   { seloTxt = "A iniciar"; seloCls = "selo-init"; }   // sem periodo: neutro discreto
+  const selo = document.getElementById("dr-selo");
+  selo.textContent = seloTxt;
+  selo.className = "dr-selo " + seloCls;
 
   let h = `<div class="sect">Cadastro</div>`;
   h += kv("Regional", txt(e.regional));

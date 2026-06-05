@@ -319,6 +319,16 @@ h1 .thin{font-weight:500;font-style:italic;color:var(--laranja)}
   display:inline-block;border:1px solid transparent}
 .close{position:absolute;top:16px;right:18px;font-size:26px;cursor:pointer;color:var(--ink2);
   background:0;border:0;line-height:1}
+/* selo de periodo de climatizacao, em destaque no topo da ficha. Cor pelo periodo:
+   verde (mais escuro = mais antigo) p/ climatizada; laranja p/ em processo; neutro a iniciar. */
+.dr-selo{display:inline-block;margin-bottom:14px;padding:7px 15px;border-radius:999px;
+  font-family:'Spline Sans Mono',monospace;font-size:12.5px;font-weight:700;letter-spacing:.03em;
+  color:#fff;max-width:calc(100% - 44px)}
+.dr-selo.selo-antes{background:#2F6E43}
+.dr-selo.selo-2025{background:var(--verde)}
+.dr-selo.selo-2026{background:var(--verde2);color:var(--ink)}
+.dr-selo.selo-proc{background:var(--laranja)}
+.dr-selo.selo-init{background:#EDEAE2;color:var(--ink2);border:1px solid var(--line)}
 .dr-body{padding:6px 22px 48px}
 .sect{font-family:'Spline Sans Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;
   color:var(--ink2);margin:24px 0 8px;padding-top:14px;border-top:2px solid var(--ink)}
