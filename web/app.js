@@ -637,29 +637,10 @@ function renderPainelContexto() {
     `<li><i style="background:${s.cor}"></i>${s.lab}<b>${s.v}</b>` +
     `<span class="lp">${fmtPct(s.v, nEsc)}%</span></li>`).join("");
 
-  // EQUIDADE: indice (verba% / escolas%). Em Fortaleza nao faz sentido (100%/100%) => oculto.
-  const ehFortaleza = (drillDistrito == null && drillRegional == null && drillBairro == null);
-  let equidade = "";
-  if (!ehFortaleza && nEsc > 0) {
-    const fracVerba = PARQUE_VERBA ? invest / PARQUE_VERBA : 0;
-    const fracEsc = nEsc / PARQUE_ESCOLAS;
-    const idx = fracEsc ? fracVerba / fracEsc : 0;
-    const cls = idx < 0.85 ? "eq-baixo" : (idx > 1.15 ? "eq-alto" : "eq-neutro");
-    const idxStr = idx.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    equidade =
-      `<div class="ctx-equidade ${cls}">
-         <div class="eq-idx">${idxStr}</div>
-         <div class="eq-info">
-           <div class="eq-lab">Índice de equidade</div>
-           <div class="eq-frase">${fmtPct(nEsc, PARQUE_ESCOLAS)}% do parque, ${fmtPct(invest, PARQUE_VERBA)}% da verba</div>
-         </div>
-       </div>`;
-  }
   const avanco =
     `<section class="ctx-block">
        <div class="ctx-tit">Avanço</div>
        <div class="ctx-donut-wrap">${donut}<ul class="ctx-leg">${legenda}</ul></div>
-       ${equidade}
      </section>`;
 
   // painel da ESQUERDA: enxuto, sem rolagem (Tamanho + Avanço + Equidade)
