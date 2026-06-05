@@ -508,11 +508,35 @@ function passaFiltroGeo(e) {
   return true;
 }
 
-// predicado compartilhado entre mapa e lista (geografico + status; a busca textual e so da lista)
+// ---------- filtro de periodo por ano (derivado da ETAPA da execucao) ----------
+// Periodo de cada unidade: ETAPA 01 -> "2025", ETAPA 02 -> "2026". Climatizada/parcial
+// sem execucao em 2025/2026 -> "antes" (antes de 2025). As demais (sem execucao e nao
+// climatizadas) ficam sem periodo (null) = a iniciar futuras. Se tiver 01 e 02, vale a
+// mais recente (2026). PERIODO[sge] e calculado uma vez em montaPeriodos().
+let periodoAtivo = "all";
+const PERIODO = {};
+function periodoDaEscola(e) {
+  const arr = EXECUCAO[e.sge] || [];
+  const has01 = arr.some(x => String(x.etapa || "").trim().toUpperCase().startsWith("ETAPA 01"));
+  const has02 = arr.some(x => String(x.etapa || "").trim().toUpperCase().startsWith("ETAPA 02"));
+  if (has02) return "2026";
+  if (has01) return "2025";
+  const b = bucket(e.status);
+  if (b === "clim" || b === "parc") return "antes";   // climatizada/parcial sem exec 25/26
+  return null;                                         // a iniciar futuras: sem periodo
+}
+function montaPeriodos() { for (const e of ESCOLAS) PERIODO[e.sge] = periodoDaEscola(e); }
+function passaPeriodo(e) {
+  if (periodoAtivo === "all") return true;
+  return PERIODO[e.sge] === periodoAtivo;
+}
+
+// predicado compartilhado entre mapa e lista (geografico + status + periodo; a busca textual e so da lista)
 function passaFiltro(e) {
   if (!passaFiltroGeo(e)) return false;
   const fs = document.getElementById("sel-status").value;
   if (fs && e.status !== fs) return false;
+  if (!passaPeriodo(e)) return false;
   return true;
 }
 
@@ -688,7 +712,9 @@ const FUNIL = [
 ];
 
 function renderPanorama() {
-  const base = ESCOLAS.filter(passaFiltroGeo);
+  // funil/panorama acompanham o recorte geografico + o filtro de periodo (sem o status,
+  // que e justamente o que o funil decompoe).
+  const base = ESCOLAS.filter(e => passaFiltroGeo(e) && passaPeriodo(e));
   const total = base.length;
 
   // contagem por status + por bucket
@@ -940,14 +966,25 @@ function init(){
   preencheSelect("sel-distrito", new Set(ESCOLAS.map(e => e.distrito)));
   preencheSelect("sel-bairro", new Set(ESCOLAS.map(e => e.bairro)));
   preencheSelect("sel-status", new Set(ESCOLAS.map(e => e.status)));
+  montaPeriodos();
 
   ["sel-distrito","sel-bairro","sel-status"].forEach(id =>
     document.getElementById(id).addEventListener("change", aplicaFiltros));
+  // botoes de periodo: filtram mapa/lista/funil reusando aplicaFiltros (igual o Status geral)
+  document.querySelectorAll("#f-periodo button").forEach(b => b.addEventListener("click", () => {
+    document.querySelectorAll("#f-periodo button").forEach(x => x.classList.remove("on"));
+    b.classList.add("on");
+    periodoAtivo = b.dataset.p;
+    aplicaFiltros();
+  }));
   document.getElementById("f-limpar").addEventListener("click", () => {
     regionalAtiva = "all";
     document.querySelectorAll("#f-regional button").forEach((b,i) => b.classList.toggle("on", i===0));
     ["sel-distrito","sel-bairro","sel-status"].forEach(id => document.getElementById(id).value = "");
     document.getElementById("q").value = "";
+    // reseta o filtro de periodo de volta para "Todos"
+    periodoAtivo = "all";
+    document.querySelectorAll("#f-periodo button").forEach((b,i) => b.classList.toggle("on", i===0));
     // volta o drill ao nivel 0 (mapa cheio com os 6 distritos) sem aplicar filtros 2x
     drillDistrito = null;
     drillRegional = null;
