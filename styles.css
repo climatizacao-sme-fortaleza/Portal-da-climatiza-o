@@ -54,6 +54,12 @@ h1 .thin{font-weight:500;font-style:italic;color:var(--laranja)}
 .btn-limpar{font-family:'Spline Sans Mono',monospace;font-size:11px;border:1px solid var(--line);
   background:#fff;color:var(--ink2);padding:6px 10px;border-radius:4px;cursor:pointer;align-self:flex-end}
 .btn-limpar:hover{background:#F1ECE0}
+/* filtro de periodo por ano: linha propria logo abaixo do Status geral, alinhada a direita.
+   Reusa o visual de .chiprow/.chiprow button (igual aos chips de regional). */
+.filtros-periodo{display:flex;align-items:center;justify-content:flex-end;gap:9px;
+  padding:0 16px 10px;flex-wrap:wrap}
+.fp-lab{font-family:'Spline Sans Mono',monospace;font-size:10px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--ink2)}
 
 /* controles antigos (Distrito, Bairro, chips R1-R12) escondidos: a faixa de navegacao
    ja cobre essa funcao. Ficam no DOM e funcionando (o drill os usa como filtro). */
