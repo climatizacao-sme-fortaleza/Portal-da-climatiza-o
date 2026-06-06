@@ -76,10 +76,11 @@ h1 .thin{font-weight:500;font-style:italic;color:var(--laranja)}
 .oculto{display:none}
 
 /* painel de contexto (esquerda) + mapa (resto da largura) */
-.mapwrap{display:flex;align-items:flex-start;position:relative}
+.mapwrap{display:flex;align-items:stretch;position:relative}
 /* coluna direita: linha do mapa (mapa + filtros) em cima e o balao de indicadores embaixo.
-   align-items:flex-start no mapwrap => o painel da esquerda mantem o tamanho proprio (nao
-   estica pra acompanhar a altura desta coluna); e o balao que entra no espaco. */
+   align-items:stretch => a coluna direita estica ate a altura do painel (que e o mais alto
+   por causa da linha do tempo); o balao preenche o vazio que ja existe abaixo do mapa, SEM
+   criar altura nova no conjunto. O painel mantem seu tamanho (e o elemento mais alto). */
 .mapcol{flex:1 1 auto;min-width:0;display:flex;flex-direction:column}
 .maprow{display:flex;align-items:stretch;position:relative;flex:0 0 auto}
 .ctxpanel{flex:0 0 290px;width:290px;background:var(--panel);
@@ -104,9 +105,11 @@ h1 .thin{font-weight:500;font-style:italic;color:var(--laranja)}
 
 /* BALAO UNICO de indicadores (abaixo do mapa+filtros): uma so moldura com 4 secoes lado a
    lado, separadas por divisoria fina vertical, cada uma com uma listra de cor fina no topo. */
-.cardstrip{display:grid;grid-template-columns:repeat(4,1fr);margin-top:12px;
+.cardstrip{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:1fr;
+  flex:1 1 auto;margin-top:12px;
   background:var(--panel);border:1px solid var(--line);border-radius:6px;overflow:hidden}
-.metricard{padding:11px 14px;border-top:3px solid var(--azul)}      /* listra de cor no topo */
+.metricard{padding:11px 14px;border-top:3px solid var(--azul);   /* listra de cor no topo */
+  display:flex;flex-direction:column;justify-content:center}      /* conteudo centrado no vazio */
 .metricard + .metricard{border-left:1px solid var(--line)}          /* divisoria fina vertical */
 .metricard:nth-child(1){border-top-color:var(--verde)}
 .metricard:nth-child(2){border-top-color:var(--laranja)}
