@@ -596,27 +596,18 @@ function moedaCompacta(v) {
 function renderPainelContexto() {
   const body = document.getElementById("ctx-body");
   if (!body) return;
-  const base = ESCOLAS.filter(passaFiltroGeo);
-  let nSalas = 0, nClim = 0, nParc = 0, nInic = 0, nMaq = 0, invest = 0;
-  // subestacao/estudo eletrico por SGE (CSV), recalculados por territorio:
+  // recorte FILTRADO (territorio + Status geral + periodo): alimenta os NUMEROS (Tamanho e o
+  // balao de indicadores), refletindo o mesmo recorte do mapa/lista.
+  const base = ESCOLAS.filter(passaFiltro);
+  // recorte so do TERRITORIO (geo): alimenta a rosca de avanco e a linha do tempo, que sao o
+  // PANORAMA do territorio (independem do status/periodo; senao a rosca viraria 100% de 1 status).
+  const baseGeo = ESCOLAS.filter(passaFiltroGeo);
+
+  // NUMEROS pelo recorte filtrado (salas, maquinas, investimento, subestacao)
+  let nSalas = 0, nMaq = 0, invest = 0;
   let nNova = 0, nAumento = 0, nTemEst = 0, nFaltaEst = 0;
-  // linha do tempo: contagem por periodo; o 2026 separa pronta/em processo/a iniciar por status
-  let nAntes = 0, nP2025 = 0, nP2026 = 0, n26pronta = 0, n26proc = 0, n26init = 0;
   for (const e of base) {
     nSalas += Number(e.salas) || 0;
-    const s = (e.status || "").trim();
-    if (s === "9. CLIMATIZADA") nClim++;
-    else if (s === "10. CLIMATIZADA PARCIAL") nParc++;
-    else nInic++;           // a iniciar = tudo que nao for 9 nem 10
-    const per = PERIODO[e.sge], bk = bucket(e.status);
-    if (per === "antes") nAntes++;
-    else if (per === "2025") nP2025++;
-    else if (per === "2026") {
-      nP2026++;
-      if (bk === "clim" || bk === "parc") n26pronta++;   // pronta
-      else if (bk === "iniciar") n26init++;              // a iniciar
-      else n26proc++;                                    // em processo (etapas do meio)
-    }
     const sub = SUBESTACAO[e.sge];
     if (sub) {
       if (sub.n === "NOVA") nNova++;
@@ -631,6 +622,26 @@ function renderPainelContexto() {
     }
   }
   const nEsc = base.length;
+
+  // PANORAMA do territorio (so geo): contagem por status (rosca/legenda) e por periodo (linha do tempo)
+  let nClim = 0, nParc = 0, nInic = 0;
+  let nAntes = 0, nP2025 = 0, nP2026 = 0, n26pronta = 0, n26proc = 0, n26init = 0;
+  for (const e of baseGeo) {
+    const s = (e.status || "").trim();
+    if (s === "9. CLIMATIZADA") nClim++;
+    else if (s === "10. CLIMATIZADA PARCIAL") nParc++;
+    else nInic++;           // a iniciar = tudo que nao for 9 nem 10
+    const per = PERIODO[e.sge], bk = bucket(e.status);
+    if (per === "antes") nAntes++;
+    else if (per === "2025") nP2025++;
+    else if (per === "2026") {
+      nP2026++;
+      if (bk === "clim" || bk === "parc") n26pronta++;   // pronta
+      else if (bk === "iniciar") n26init++;              // a iniciar
+      else n26proc++;                                    // em processo (etapas do meio)
+    }
+  }
+  const nEscGeo = baseGeo.length;
   document.getElementById("ctx-nome").textContent = territorioAtual();
 
   // bloco TAMANHO: escolas e salas, cada um com % do parque + barra
@@ -657,15 +668,15 @@ function renderPainelContexto() {
   const R = 40, W = 15, C = 2 * Math.PI * R;
   let acc = 0;
   const arcos = segs.map(s => {
-    if (!s.v || !nEsc) return "";
-    const f = s.v / nEsc;
+    if (!s.v || !nEscGeo) return "";
+    const f = s.v / nEscGeo;
     const rot = acc * 360 - 90; acc += f;
     return `<circle cx="50" cy="50" r="${R}" fill="none" stroke="${s.cor}" stroke-width="${W}" ` +
            `stroke-dasharray="${(f * C).toFixed(2)} ${C.toFixed(2)}" transform="rotate(${rot.toFixed(2)} 50 50)"/>`;
   }).join("");
   // centro da rosca: soma de climatizadas (status 9) + parciais (status 10) = total onde
   // houve intervencao, recalculado por territorio (Fortaleza = 32,4% = 29,3 + 3,1).
-  const centro = nEsc ? `${fmtPct(nClim + nParc, nEsc)}%` : "—";
+  const centro = nEscGeo ? `${fmtPct(nClim + nParc, nEscGeo)}%` : "—";
   const donut =
     `<svg class="ctx-donut" viewBox="0 0 100 100" role="img" aria-label="Avanço da climatização">
        <circle cx="50" cy="50" r="${R}" fill="none" stroke="#EDEAE2" stroke-width="${W}"/>
@@ -674,7 +685,7 @@ function renderPainelContexto() {
      </svg>`;
   const legenda = segs.map(s =>
     `<li><i style="background:${s.cor}"></i>${s.lab}<b>${s.v}</b>` +
-    `<span class="lp">${fmtPct(s.v, nEsc)}%</span></li>`).join("");
+    `<span class="lp">${fmtPct(s.v, nEscGeo)}%</span></li>`).join("");
 
   const avanco =
     `<section class="ctx-block">
