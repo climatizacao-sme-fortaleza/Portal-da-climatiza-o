@@ -76,7 +76,12 @@ h1 .thin{font-weight:500;font-style:italic;color:var(--laranja)}
 .oculto{display:none}
 
 /* painel de contexto (esquerda) + mapa (resto da largura) */
-.mapwrap{display:flex;align-items:stretch;position:relative}
+.mapwrap{display:flex;align-items:flex-start;position:relative}
+/* coluna direita: linha do mapa (mapa + filtros) em cima e o balao de indicadores embaixo.
+   align-items:flex-start no mapwrap => o painel da esquerda mantem o tamanho proprio (nao
+   estica pra acompanhar a altura desta coluna); e o balao que entra no espaco. */
+.mapcol{flex:1 1 auto;min-width:0;display:flex;flex-direction:column}
+.maprow{display:flex;align-items:stretch;position:relative;flex:0 0 auto}
 .ctxpanel{flex:0 0 290px;width:290px;background:var(--panel);
   border-right:1px solid var(--line);padding:16px;overflow:hidden}
 .ctx-head{border-bottom:2px solid var(--ink);padding-bottom:9px;margin-bottom:15px}
@@ -97,30 +102,41 @@ h1 .thin{font-weight:500;font-style:italic;color:var(--laranja)}
 .ctx-bar span{display:block;height:100%;background:var(--azul);border-radius:5px}
 .ctx-bar.verde span{background:var(--verde)}
 
-/* faixa de cartoes do territorio (largura total, abaixo do mapa) */
-.cardstrip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;
-  padding:14px 16px 16px;border-top:1px solid var(--line)}
-.metricard{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--azul);
-  border-radius:6px;padding:13px 15px}
-.metricard:nth-child(1){border-left-color:var(--verde)}
-.metricard:nth-child(2){border-left-color:var(--azul)}
-.metricard:nth-child(3){border-left-color:var(--ink2)}
-.metricard:nth-child(4){border-left-color:var(--vermelho)}
+/* BALAO UNICO de indicadores (abaixo do mapa+filtros): uma so moldura com 4 secoes lado a
+   lado, separadas por divisoria fina vertical, cada uma com uma listra de cor fina no topo. */
+.cardstrip{display:grid;grid-template-columns:repeat(4,1fr);margin-top:12px;
+  background:var(--panel);border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.metricard{padding:11px 14px;border-top:3px solid var(--azul)}      /* listra de cor no topo */
+.metricard + .metricard{border-left:1px solid var(--line)}          /* divisoria fina vertical */
+.metricard:nth-child(1){border-top-color:var(--verde)}
+.metricard:nth-child(2){border-top-color:var(--laranja)}
+.metricard:nth-child(3){border-top-color:var(--azul)}
+.metricard:nth-child(4){border-top-color:var(--vermelho)}
 .metricard .mc-lab{font-family:'Spline Sans Mono',monospace;font-size:9.5px;letter-spacing:.08em;
   text-transform:uppercase;color:var(--ink2)}
-.metricard .mc-num{font-family:'Fraunces',serif;font-weight:700;font-size:25px;line-height:1.05;
-  color:var(--ink);margin-top:5px}
-.metricard .mc-sub{font-size:11.5px;color:var(--ink2);margin-top:5px;line-height:1.35}
-/* 4o cartao: quatro situacoes de subestacao/estudo em grade 2x2 (compacto, mesma altura
-   dos demais pra nao crescer a faixa). tem/falta de estudo sao provisorios -> asterisco + nota. */
-.sub4{display:grid;grid-template-columns:1fr 1fr;gap:3px 12px;margin-top:3px}
+.metricard .mc-num{font-family:'Fraunces',serif;font-weight:700;font-size:23px;line-height:1.05;
+  color:var(--ink);margin-top:4px}
+.metricard .mc-sub{font-size:11px;color:var(--ink2);margin-top:5px;line-height:1.3}
+/* secao Investimento: barra fina sob o numero */
+.mc-bar{height:6px;background:#EDEAE2;border-radius:4px;overflow:hidden;margin-top:6px}
+.mc-bar span{display:block;height:100%;background:var(--laranja);border-radius:4px}
+/* secao Salas climatizadas: rosca pequena + texto ao lado */
+.mc-donut-row{display:flex;align-items:center;gap:10px;margin-top:5px}
+.mini-donut{width:50px;height:50px;flex:0 0 auto}
+.mini-donut-num{font-family:'Fraunces',serif;font-weight:700;fill:var(--ink)}
+.mc-donut-sub{font-size:10.5px;color:var(--ink2);line-height:1.3}
+/* secao Subestacao: grade 2x2 (nova/aumento/tem/falta); tem/falta provisorios -> asterisco + nota */
+.sub4{display:grid;grid-template-columns:1fr 1fr;gap:3px 12px;margin-top:4px}
 .sub4-it{display:flex;align-items:baseline;gap:5px}
 .sub4-it b{font-family:'Fraunces',serif;font-weight:700;font-size:15px;line-height:1;color:var(--ink)}
 .sub4-it sup{font-size:8px;color:var(--ink2);font-weight:400;top:-.5em}
 .sub4-it span{font-size:10px;color:var(--ink2);line-height:1.1}
 .sub4-nota{margin-top:3px;font-family:'Spline Sans Mono',monospace;font-size:9px;color:var(--ink2)}
-@media(max-width:960px){.cardstrip{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:560px){.cardstrip{grid-template-columns:1fr}}
+/* responsivo do balao: 2 colunas e depois 1; ajusta as divisorias verticais */
+@media(max-width:960px){.cardstrip{grid-template-columns:repeat(2,1fr)}
+  .metricard:nth-child(odd){border-left:0}}
+@media(max-width:560px){.cardstrip{grid-template-columns:1fr}
+  .metricard + .metricard{border-left:0}}
 .ctx-donut-wrap{display:flex;align-items:center;gap:14px}
 .ctx-donut{width:104px;height:104px;flex:0 0 auto}
 .ctx-donut-num{font-family:'Fraunces',serif;font-weight:700;fill:var(--ink)}
@@ -159,11 +175,10 @@ h1 .thin{font-weight:500;font-style:italic;color:var(--laranja)}
 @media(max-width:760px){
   .mapwrap{flex-direction:column}
   .ctxpanel{flex:auto;width:auto;max-height:none;border-right:0;border-bottom:1px solid var(--line)}
+  /* empilhado: a coluna direita ocupa a largura toda; dentro dela o mapa em cima e os filtros abaixo */
+  .mapcol{width:auto}
+  .maprow{flex-direction:column}
   #map{width:100%}
-  /* empilhado: painel em cima, mapa ocupa a largura toda e encosta no rodape do mapwrap,
-     entao o bottom simples volta a valer (e a tarja vai pro canto esquerdo). */
-  .legend{left:10px;top:auto;transform:none;bottom:10px}
-  /* empilhado: a coluna de filtros vira um bloco full-width abaixo do mapa */
   .mapfiltros{flex:auto;width:auto;border-left:0;border-top:1px solid var(--line)}
 }
 
@@ -233,7 +248,7 @@ h1 .thin{font-weight:500;font-style:italic;color:var(--laranja)}
    painel e encosta no TOPO do mapwrap, sobrando espaco embaixo. Por isso posiciono pela
    altura do mapa (mesmo clamp do #map) + translateY(-100%): a base da tarja fica 10px acima
    da base do mapa. Se mudar o clamp do #map, mudar aqui tambem. */
-.legend{position:absolute;left:300px;z-index:1000;
+.legend{position:absolute;left:10px;z-index:1000;
   top:calc(clamp(320px,100vh - 363px,470px) - 10px);transform:translateY(-100%);
   display:flex;flex-direction:row;align-items:center;gap:14px;width:max-content;
   background:rgba(251,250,246,.85);border:1px solid var(--line);border-radius:7px;
