@@ -55,6 +55,10 @@
           </div>
           <div class="ctx-body" id="ctx-body"></div>
         </aside>
+        <!-- coluna direita: linha do mapa (mapa + filtros) em cima e, abaixo, o balao de indicadores.
+             O painel da esquerda fica fora dela e mantem o tamanho proprio (nao estica). -->
+        <div class="mapcol">
+          <div class="maprow">
         <div id="map"></div>
         <!-- legenda de cores: tarjinha fina de UMA linha, encostada no rodape do mapa
              (overlay fora do fluxo: nao empurra os indicadores nem afeta o caber em 100%). -->
@@ -96,11 +100,13 @@
             <button class="btn-limpar" id="f-limpar" type="button">Limpar</button>
           </div>
         </div>
-      </div>
+          </div><!-- /maprow -->
 
-      <!-- Faixa de cartoes do territorio (largura total, abaixo do mapa). Recalcula por territorio. -->
-      <div class="cardstrip" id="cardstrip"></div>
-    </div>
+          <!-- balao UNICO de indicadores do territorio: abaixo do mapa+filtros, larguras somadas.
+               Comeca grudado no painel (a esquerda fica de fora). Recalcula por territorio. -->
+          <div class="cardstrip" id="cardstrip"></div>
+        </div><!-- /mapcol -->
+      </div><!-- /mapwrap -->
 
     <div class="card panorama">
       <div class="maphead">

@@ -708,21 +708,44 @@ function renderPainelContexto() {
   // painel da ESQUERDA: Tamanho + Avanço + Linha do tempo
   body.innerHTML = tamanho + avanco + linhaTempo;
 
-  // ---- FAIXA DE CARTOES embaixo do mapa (4 cartoes, recalculam por territorio) ----
+  // ---- BALAO UNICO de indicadores embaixo do mapa (4 secoes, recalculam por territorio) ----
   const strip = document.getElementById("cardstrip");
   if (strip) {
     const custoEscola = nEsc ? invest / nEsc : 0;
     const custoSala = nMaq ? invest / nMaq : null;
-    const cartao = (lab, num, sub) =>
-      `<div class="metricard"><div class="mc-lab">${lab}</div>` +
-      `<div class="mc-num">${num}</div><div class="mc-sub">${sub}</div></div>`;
+    const pctSalas = pctNum(nMaq, nSalas);          // fracao p/ a rosca
+    const pctVerba = pctNum(invest, PARQUE_VERBA);  // fracao p/ a barra
+    // rosca pequena (salas climatizadas): anel + % no centro
+    const R = 16, W = 5, C = 2 * Math.PI * R, f = Math.max(0, Math.min(1, pctSalas / 100));
+    const donut =
+      `<svg class="mini-donut" viewBox="0 0 40 40" role="img" aria-label="${fmtPct(nMaq, nSalas)}% das salas com máquinas">
+         <circle cx="20" cy="20" r="${R}" fill="none" stroke="#EDEAE2" stroke-width="${W}"/>
+         <circle cx="20" cy="20" r="${R}" fill="none" stroke="var(--verde)" stroke-width="${W}"
+           stroke-dasharray="${(f * C).toFixed(2)} ${C.toFixed(2)}" transform="rotate(-90 20 20)" stroke-linecap="round"/>
+         <text x="20" y="24" text-anchor="middle" class="mini-donut-num" font-size="11">${Math.round(pctSalas)}%</text>
+       </svg>`;
     strip.innerHTML =
-      cartao("Salas climatizadas", `${fmtPct(nMaq, nSalas)}%`,
-             `${nMaq.toLocaleString("pt-BR")} de ${nSalas.toLocaleString("pt-BR")} salas · máquinas instaladas`) +
-      cartao("Investimento", moedaCompacta(invest),
-             `${fmtPct(invest, PARQUE_VERBA)}% da verba do parque`) +
-      cartao("Custo médio / escola", moedaCompacta(custoEscola),
-             `${moedaCompacta(custoSala)} por sala climatizada`) +
+      // 1) Salas climatizadas: rosca pequena com a porcentagem
+      `<div class="metricard">
+         <div class="mc-lab">Salas climatizadas</div>
+         <div class="mc-donut-row">${donut}
+           <div class="mc-donut-sub">${nMaq.toLocaleString("pt-BR")} de ${nSalas.toLocaleString("pt-BR")} salas<br>máquinas instaladas</div>
+         </div>
+       </div>` +
+      // 2) Investimento: numero grande com uma barra
+      `<div class="metricard">
+         <div class="mc-lab">Investimento</div>
+         <div class="mc-num">${moedaCompacta(invest)}</div>
+         <div class="mc-bar"><span style="width:${pctVerba.toFixed(1)}%"></span></div>
+         <div class="mc-sub">${fmtPct(invest, PARQUE_VERBA)}% da verba do parque</div>
+       </div>` +
+      // 3) Custo medio: por escola e por sala
+      `<div class="metricard">
+         <div class="mc-lab">Custo médio</div>
+         <div class="mc-num">${moedaCompacta(custoEscola)}</div>
+         <div class="mc-sub">por escola<br>${moedaCompacta(custoSala)} por sala climatizada</div>
+       </div>` +
+      // 4) Subestacao: a grade dos quatro (nova / aumento / tem estudo / falta estudo)
       `<div class="metricard sub4card">
          <div class="mc-lab">Subestação · estudo elétrico</div>
          <div class="sub4">
