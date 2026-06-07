@@ -600,9 +600,20 @@ function moedaCompacta(v) {
 function renderPainelContexto() {
   const body = document.getElementById("ctx-body");
   if (!body) return;
-  // recorte FILTRADO (territorio + Status geral + periodo): alimenta os NUMEROS (Tamanho e o
-  // balao de indicadores), refletindo o mesmo recorte do mapa/lista.
-  const base = ESCOLAS.filter(passaFiltro);
+  // ordem dos periodos como SEQUENCIA (antes -> 2025 -> 2026 -> 2027/2028). O periodo selecionado
+  // e um corte ACUMULADO: tudo ATE ele entra. Em "Todos" = parque inteiro.
+  const ordPer = { "antes": 0, "2025": 1, "2026": 2, "2027/2028": 3 };
+  const cutoff = (periodoAtivo === "all") ? Infinity : (ordPer[periodoAtivo] ?? Infinity);
+  const atePeriodo = e => (ordPer[PERIODO[e.sge]] ?? Infinity) <= cutoff;
+  // recorte FILTRADO (territorio + Status geral + funil + periodo ACUMULADO): alimenta os NUMEROS
+  // (Tamanho e o balao de indicadores). O periodo aqui ACUMULA (igual a rosca): 2025 = antes+2025,
+  // 2026 = antes+2025+2026... — diferente do mapa/lista, que mostram so o periodo exato.
+  const fsNum = document.getElementById("sel-status").value;
+  const base = ESCOLAS.filter(e =>
+    passaFiltroGeo(e)
+    && (!fsNum || e.status === fsNum)
+    && (!funilBucket || bucket(e.status) === funilBucket)
+    && atePeriodo(e));
   // recorte so do TERRITORIO (geo): alimenta a rosca de avanco e a linha do tempo.
   const baseGeo = ESCOLAS.filter(passaFiltroGeo);
 
@@ -630,8 +641,6 @@ function renderPainelContexto() {
   // ATE o periodo selecionado, como sequencia (antes de 2025 -> +2025 -> +2026 -> 2027/2028 nao
   // acrescenta nada ainda). Proporcional ao total do territorio (nEscGeo). O Status NAO entra na
   // rosca. Em "Todos" = acumulado total do territorio (mesmo numero do panorama).
-  const ordPer = { "antes": 0, "2025": 1, "2026": 2, "2027/2028": 3 };
-  const cutoff = (periodoAtivo === "all") ? Infinity : (ordPer[periodoAtivo] ?? Infinity);
   let nClim = 0, nParc = 0;
   for (const e of baseGeo) {
     const bk = bucket(e.status);
