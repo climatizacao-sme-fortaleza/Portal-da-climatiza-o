@@ -541,9 +541,9 @@ function passaPeriodo(e) {
 // predicado compartilhado entre mapa e lista (geografico + status + periodo; a busca textual e so da lista)
 function passaFiltro(e) {
   if (!passaFiltroGeo(e)) return false;
-  const fs = document.getElementById("sel-status").value;
-  if (fs && e.status !== fs) return false;
-  if (funilBucket && bucket(e.status) !== funilBucket) return false;   // grupo do funil
+  // Status geral (dropdown) e funil controlam o MESMO filtro por grupo (funilBucket): A iniciar /
+  // Em processo (status 1-6) / Climatizada parcial / Climatizada. Os dois ficam sincronizados.
+  if (funilBucket && bucket(e.status) !== funilBucket) return false;   // grupo (dropdown ou funil)
   if (!passaPeriodo(e)) return false;
   return true;
 }
@@ -608,11 +608,9 @@ function renderPainelContexto() {
   // recorte FILTRADO (territorio + Status geral + funil + periodo ACUMULADO): alimenta os NUMEROS
   // (Tamanho e o balao de indicadores). O periodo aqui ACUMULA (igual a rosca): 2025 = antes+2025,
   // 2026 = antes+2025+2026... — diferente do mapa/lista, que mostram so o periodo exato.
-  const fsNum = document.getElementById("sel-status").value;
   const base = ESCOLAS.filter(e =>
     passaFiltroGeo(e)
-    && (!fsNum || e.status === fsNum)
-    && (!funilBucket || bucket(e.status) === funilBucket)
+    && (!funilBucket || bucket(e.status) === funilBucket)   // Status geral/funil = grupo (funilBucket)
     && atePeriodo(e));
   // recorte so do TERRITORIO (geo): alimenta a rosca de avanco e a linha do tempo.
   const baseGeo = ESCOLAS.filter(passaFiltroGeo);
@@ -844,7 +842,7 @@ function renderPanorama() {
 
   document.querySelectorAll("#funil .fbar").forEach(btn => btn.onclick = () => {
     funilBucket = (funilBucket === btn.dataset.b) ? null : btn.dataset.b;  // alterna o grupo
-    document.getElementById("sel-status").value = "";   // funil e o dropdown de status nao se acumulam
+    document.getElementById("sel-status").value = funilBucket || "";   // espelha no dropdown de Status geral
     aplicaFiltros();
   });
 }
@@ -1040,13 +1038,21 @@ function init(){
   montaChipsRegional(ESCOLAS);
   preencheSelect("sel-distrito", new Set(ESCOLAS.map(e => e.distrito)));
   preencheSelect("sel-bairro", new Set(ESCOLAS.map(e => e.bairro)));
-  preencheSelect("sel-status", new Set(ESCOLAS.map(e => e.status)));
+  // Status geral: os 4 grupos do funil (oculta os status individuais; value = bucket = funilBucket).
+  document.getElementById("sel-status").innerHTML =
+    '<option value="">Todos</option>' +
+    '<option value="iniciar">A iniciar</option>' +
+    '<option value="pipeline">Em processo</option>' +
+    '<option value="parc">Climatizada parcial</option>' +
+    '<option value="clim">Climatizada</option>';
   montaPeriodos();
 
   ["sel-distrito","sel-bairro"].forEach(id =>
     document.getElementById(id).addEventListener("change", aplicaFiltros));
-  // o dropdown de Status geral e o funil nao se acumulam: mexer no dropdown zera o grupo do funil
-  document.getElementById("sel-status").addEventListener("change", () => { funilBucket = null; aplicaFiltros(); });
+  // Status geral e o funil sao o MESMO filtro por grupo: mexer no dropdown ajusta o funilBucket
+  document.getElementById("sel-status").addEventListener("change", e => {
+    funilBucket = e.target.value || null; aplicaFiltros();
+  });
   // botoes de periodo: filtram mapa/lista/funil reusando aplicaFiltros (igual o Status geral)
   document.querySelectorAll("#f-periodo button").forEach(b => b.addEventListener("click", () => {
     document.querySelectorAll("#f-periodo button").forEach(x => x.classList.remove("on"));
