@@ -599,8 +599,7 @@ function renderPainelContexto() {
   // recorte FILTRADO (territorio + Status geral + periodo): alimenta os NUMEROS (Tamanho e o
   // balao de indicadores), refletindo o mesmo recorte do mapa/lista.
   const base = ESCOLAS.filter(passaFiltro);
-  // recorte so do TERRITORIO (geo): alimenta a rosca de avanco e a linha do tempo, que sao o
-  // PANORAMA do territorio (independem do status/periodo; senao a rosca viraria 100% de 1 status).
+  // recorte so do TERRITORIO (geo): alimenta a rosca de avanco e a linha do tempo.
   const baseGeo = ESCOLAS.filter(passaFiltroGeo);
 
   // NUMEROS pelo recorte filtrado (salas, maquinas, investimento, subestacao)
@@ -623,14 +622,25 @@ function renderPainelContexto() {
   }
   const nEsc = base.length;
 
-  // PANORAMA do territorio (so geo): contagem por status (rosca/legenda) e por periodo (linha do tempo)
-  let nClim = 0, nParc = 0, nInic = 0;
+  // ROSCA/LEGENDA (avanco ACUMULADO por periodo): quanto do territorio ja esta climatizado/parcial
+  // ATE o periodo selecionado, como sequencia (antes de 2025 -> +2025 -> +2026 -> 2027/2028 nao
+  // acrescenta nada ainda). Proporcional ao total do territorio (nEscGeo). O Status NAO entra na
+  // rosca. Em "Todos" = acumulado total do territorio (mesmo numero do panorama).
+  const ordPer = { "antes": 0, "2025": 1, "2026": 2, "2027/2028": 3 };
+  const cutoff = (periodoAtivo === "all") ? Infinity : (ordPer[periodoAtivo] ?? Infinity);
+  let nClim = 0, nParc = 0;
+  for (const e of baseGeo) {
+    const bk = bucket(e.status);
+    if (bk !== "clim" && bk !== "parc") continue;        // so climatizada/parcial entram no acumulado
+    if ((ordPer[PERIODO[e.sge]] ?? Infinity) <= cutoff) { if (bk === "clim") nClim++; else nParc++; }
+  }
+  const nEscGeo = baseGeo.length;                          // total do territorio (denominador)
+  const nInic = nEscGeo - nClim - nParc;                   // resto = ainda nao climatizado ate o periodo
+
+  // LINHA DO TEMPO: composicao por periodo do territorio (so geo, pra nao degenerar a 1 barra
+  // quando o periodo esta filtrado).
   let nAntes = 0, nP2025 = 0, nP2026 = 0, n26pronta = 0, n26proc = 0, n26init = 0;
   for (const e of baseGeo) {
-    const s = (e.status || "").trim();
-    if (s === "9. CLIMATIZADA") nClim++;
-    else if (s === "10. CLIMATIZADA PARCIAL") nParc++;
-    else nInic++;           // a iniciar = tudo que nao for 9 nem 10
     const per = PERIODO[e.sge], bk = bucket(e.status);
     if (per === "antes") nAntes++;
     else if (per === "2025") nP2025++;
@@ -641,7 +651,6 @@ function renderPainelContexto() {
       else n26proc++;                                    // em processo (etapas do meio)
     }
   }
-  const nEscGeo = baseGeo.length;
   document.getElementById("ctx-nome").textContent = territorioAtual();
 
   // bloco TAMANHO: escolas e salas, cada um com % do parque + barra
@@ -894,7 +903,7 @@ function kv(k, v){ return `<div class="kv"><span class="k">${k}</span><span clas
 
 function blocoDiagnostico(sge){
   const d = DIAGNOSTICO[sge];
-  let h = `<div class="sect">Diagnóstico (estudo do Ed)</div>`;
+  let h = `<div class="sect">Diagnóstico</div>`;
   if (!d) { return h + `<div class="empty">Sem registro de diagnóstico.</div>`; }
   h += kv("Salas climatizáveis", txt(d.salasClim));
   h += kv("Salas fora", txt(d.salasFora));
@@ -938,7 +947,7 @@ function blocoOS(sge){
 
 function blocoExecucao(sge){
   const lista = EXECUCAO[sge] || [];
-  let h = `<div class="sect">Execução · custos (foco do Paço)</div>`;
+  let h = `<div class="sect">Execução · custos</div>`;
   if (!lista.length) return h + `<div class="empty">Sem dados de execução (2025/26) para esta escola.</div>`;
   for (const x of lista) {
     const btus = [["12K",x.ar12],["18K",x.ar18],["24K",x.ar24],["36K",x.ar36],["48K",x.ar48]]
@@ -1026,17 +1035,15 @@ function abreFicha(sge){
   h += kv("Nº de salas", txt(e.salas));
   if (e.endereco) h += kv("Endereço", e.endereco);
 
-  h += `<div class="sect">Valores de adequação</div>`;
-  h += kv("Adeq. civil", moeda(e.valorCivil));
-  h += kv("Adeq. elétrica", moeda(e.valorEletrica));
-  h += kv("Total adequação", moeda(e.valorTotal));
-  if (e.asCivil) h += kv("Nº A.S. civil", e.asCivil);
-  if (e.asEletrica) h += kv("Nº A.S. elétrica", e.asEletrica);
-
   h += blocoSubestacao(sge);
-  h += blocoDiagnostico(sge);
-  h += blocoOS(sge);
-  h += blocoExecucao(sge);
+  // Historico (Diagnostico, O.S., Execucao) so nas unidades de periodo 2025 em diante; as de
+  // "antes de 2025" foram climatizadas antes desse processo existir e nao tem historico.
+  if (PERIODO[e.sge] !== "antes") {
+    // Diagnostico so nas NAO climatizadas (climatizada/parcial dispensam diagnostico)
+    if (b !== "clim" && b !== "parc") h += blocoDiagnostico(sge);
+    h += blocoOS(sge);
+    h += blocoExecucao(sge);
+  }
 
   document.getElementById("dr-body").innerHTML = h;
   document.getElementById("drawer").classList.add("on");
