@@ -518,6 +518,9 @@ function passaFiltroGeo(e) {
 // pertence ao ANO EM QUE A CLIMATIZACAO COMECOU; entao quem tem 01 e 02 conta no mais
 // antigo (2025). Assim todas as 512 tem periodo. PERIODO[sge] e calculado uma vez em montaPeriodos().
 let periodoAtivo = "all";
+// grupo do funil (bucket) ativo: null | "iniciar" | "pipeline" | "parc" | "clim".
+// Filtra mapa/lista por bucket (a faixa "Em processo" = bucket "pipeline" = status 1-6).
+let funilBucket = null;
 const PERIODO = {};
 function periodoDaEscola(e) {
   const arr = EXECUCAO[e.sge] || [];
@@ -540,6 +543,7 @@ function passaFiltro(e) {
   if (!passaFiltroGeo(e)) return false;
   const fs = document.getElementById("sel-status").value;
   if (fs && e.status !== fs) return false;
+  if (funilBucket && bucket(e.status) !== funilBucket) return false;   // grupo do funil
   if (!passaPeriodo(e)) return false;
   return true;
 }
@@ -658,13 +662,13 @@ function renderPainelContexto() {
     `<div class="ctx-metric">
        <div class="ctx-mrow"><span class="ctx-mlab">${lab}</span>` +
        `<span class="ctx-mval">${val.toLocaleString("pt-BR")}</span>` +
-       `<span class="ctx-mpct">${fmtPct(val, lab === "Escolas" ? PARQUE_ESCOLAS : PARQUE_SALAS)}% do parque</span></div>` +
+       `<span class="ctx-mpct">${fmtPct(val, lab === "Unidades" ? PARQUE_ESCOLAS : PARQUE_SALAS)}% do parque</span></div>` +
        `<div class="ctx-bar"><span style="width:${pct.toFixed(1)}%"></span></div>
      </div>`;
   const tamanho =
     `<section class="ctx-block">
        <div class="ctx-tit">Tamanho</div>
-       ${barra("Escolas", nEsc, pctNum(nEsc, PARQUE_ESCOLAS))}
+       ${barra("Unidades", nEsc, pctNum(nEsc, PARQUE_ESCOLAS))}
        ${barra("Salas", nSalas, pctNum(nSalas, PARQUE_SALAS))}
      </section>`;
 
@@ -763,7 +767,7 @@ function renderPainelContexto() {
       `<div class="metricard">
          <div class="mc-lab">Custo médio</div>
          <div class="mc-num">${moedaCompacta(custoEscola)}</div>
-         <div class="mc-sub">por escola<br>${moedaCompacta(custoSala)} por sala climatizada</div>
+         <div class="mc-sub">por unidade<br>${moedaCompacta(custoSala)} por sala climatizada</div>
        </div>` +
       // 4) Subestacao: a grade dos quatro (nova / aumento / tem estudo / falta estudo)
       `<div class="metricard sub4card">
@@ -780,29 +784,15 @@ function renderPainelContexto() {
 }
 
 // ---------- panorama / funil (Camada 3) ----------
-const FUNIL = [
-  ["0. A INICIAR", "iniciar", "A iniciar"],
-  ["1. VISTORIA", "pipeline", "Vistoria"],
-  ["2. ANALISE ELETRICA E CIVIL", "pipeline", "Análise elétrica e civil"],
-  ["3. ORÇAMENTO E PLANTA", "pipeline", "Orçamento e planta"],
-  ["4. APROVAÇÃO A.S.", "pipeline", "Aprovação A.S."],
-  ["5. EXECUÇÃO DAS ADEQUAÇÕES", "pipeline", "Execução das adequações"],
-  ["6. ENTREGA DE MÁQUINAS", "pipeline", "Entrega de máquinas"],
-  ["9. CLIMATIZADA", "clim", "Climatizada"],
-  ["10. CLIMATIZADA PARCIAL", "parc", "Climatizada parcial"]
-];
-
 function renderPanorama() {
   // funil/panorama acompanham o recorte geografico + o filtro de periodo (sem o status,
   // que e justamente o que o funil decompoe).
   const base = ESCOLAS.filter(e => passaFiltroGeo(e) && passaPeriodo(e));
   const total = base.length;
 
-  // contagem por status + por bucket
-  const cont = {};
+  // contagem por bucket: a iniciar (0) / em processo (1-6) / parcial (10) / climatizada (9)
   let nClim = 0, nParc = 0, nInic = 0, nAnd = 0, nSemSub = 0, invest = 0;
   for (const e of base) {
-    cont[e.status] = (cont[e.status] || 0) + 1;
     const b = bucket(e.status);
     if (b === "clim") nClim++; else if (b === "parc") nParc++;
     else if (b === "iniciar") nInic++; else nAnd++;
@@ -825,21 +815,27 @@ function renderPanorama() {
     `<div class="kpi ${k.cls}"><div class="kpi-val">${k.val}</div><div class="kpi-lab">${k.lab}</div></div>`
   ).join("");
 
-  const fsAtivo = document.getElementById("sel-status").value;
-  const max = Math.max(1, ...FUNIL.map(([s]) => cont[s] || 0));
-  document.getElementById("funil").innerHTML = FUNIL.map(([s, b, lab]) => {
-    const c = cont[s] || 0;
+  // funil simplificado: 4 grupos por bucket, na ordem A iniciar -> Em processo (status 1-6)
+  // -> Climatizada parcial -> Climatizada. Clicar filtra mapa/lista pelo grupo (funilBucket).
+  const GRUPOS = [
+    ["iniciar",  "A iniciar",           nInic],
+    ["pipeline", "Em processo",         nAnd],
+    ["parc",     "Climatizada parcial", nParc],
+    ["clim",     "Climatizada",         nClim]
+  ];
+  const max = Math.max(1, ...GRUPOS.map(g => g[2]));
+  document.getElementById("funil").innerHTML = GRUPOS.map(([k, lab, c]) => {
     const pct = Math.round((c / max) * 100);
-    return `<button class="fbar${fsAtivo === s ? " on" : ""}" data-s="${s}">
+    return `<button class="fbar${funilBucket === k ? " on" : ""}" data-b="${k}">
       <span class="fbar-lab">${lab}</span>
-      <span class="fbar-track"><span class="fbar-fill bk-${b}" style="width:${pct}%"></span></span>
+      <span class="fbar-track"><span class="fbar-fill bk-${k}" style="width:${pct}%"></span></span>
       <span class="fbar-num">${c}</span>
     </button>`;
   }).join("");
 
   document.querySelectorAll("#funil .fbar").forEach(btn => btn.onclick = () => {
-    const sel = document.getElementById("sel-status");
-    sel.value = (sel.value === btn.dataset.s) ? "" : btn.dataset.s; // alterna
+    funilBucket = (funilBucket === btn.dataset.b) ? null : btn.dataset.b;  // alterna o grupo
+    document.getElementById("sel-status").value = "";   // funil e o dropdown de status nao se acumulam
     aplicaFiltros();
   });
 }
@@ -879,7 +875,7 @@ function renderLista() {
   const tbody = document.getElementById("tbody");
   document.getElementById("lista-contagem").textContent = filtradas.length;
   if (!filtradas.length) {
-    tbody.innerHTML = `<tr><td colspan="4" class="lista-vazia">Nenhuma escola encontrada para esse filtro.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="4" class="lista-vazia">Nenhuma unidade encontrada para esse filtro.</td></tr>`;
     return;
   }
   const frag = document.createDocumentFragment();
@@ -919,29 +915,6 @@ function blocoDiagnostico(sge){
   h += kv("Data O.S. elétrica", data(d.dataOsEletrica));
   h += kv("Responsável", txt(d.responsavel));
   if (d.obs) h += kv("Observação", d.obs);
-  return h;
-}
-
-function blocoOS(sge){
-  const lista = OS[sge] || [];
-  let h = `<div class="sect">Ordens de serviço (${lista.length})</div>`;
-  if (!lista.length) return h + `<div class="empty">Nenhuma O.S. cadastrada para esta escola.</div>`;
-  for (const o of lista) {
-    const atras = (o.diasEstagio != null && o.diasEstagio > LIMITE_DIAS_OS);
-    h += `<div class="os-card">
-      <div class="os-top">
-        <span class="os-num">${txt(o.numero)}</span>
-        <span class="os-tipo">${txt(o.tipo)}${o.responsavel ? " · " + o.responsavel : ""}</span>
-      </div>
-      <div class="os-meta">
-        <span>Estágio: <b>${o.estagio || "—"}</b></span>
-        ${o.diasEstagio != null ? `<span class="${atras?"vermelho":""}">${o.diasEstagio} dias no estágio${atras?" ⚠":""}</span>` : ""}
-        ${o.valor != null ? `<span>${moeda(o.valor)}</span>` : ""}
-        ${o.prioridade ? `<span>Prioridade: ${o.prioridade}</span>` : ""}
-      </div>
-      ${o.obs ? `<div class="os-meta">${o.obs}</div>` : ""}
-    </div>`;
-  }
   return h;
 }
 
@@ -1041,7 +1014,6 @@ function abreFicha(sge){
   if (PERIODO[e.sge] !== "antes") {
     // Diagnostico so nas NAO climatizadas (climatizada/parcial dispensam diagnostico)
     if (b !== "clim" && b !== "parc") h += blocoDiagnostico(sge);
-    h += blocoOS(sge);
     h += blocoExecucao(sge);
   }
 
@@ -1067,8 +1039,10 @@ function init(){
   preencheSelect("sel-status", new Set(ESCOLAS.map(e => e.status)));
   montaPeriodos();
 
-  ["sel-distrito","sel-bairro","sel-status"].forEach(id =>
+  ["sel-distrito","sel-bairro"].forEach(id =>
     document.getElementById(id).addEventListener("change", aplicaFiltros));
+  // o dropdown de Status geral e o funil nao se acumulam: mexer no dropdown zera o grupo do funil
+  document.getElementById("sel-status").addEventListener("change", () => { funilBucket = null; aplicaFiltros(); });
   // botoes de periodo: filtram mapa/lista/funil reusando aplicaFiltros (igual o Status geral)
   document.querySelectorAll("#f-periodo button").forEach(b => b.addEventListener("click", () => {
     document.querySelectorAll("#f-periodo button").forEach(x => x.classList.remove("on"));
@@ -1084,6 +1058,7 @@ function init(){
     // reseta o filtro de periodo de volta para "Todos"
     periodoAtivo = "all";
     document.querySelectorAll("#f-periodo button").forEach((b,i) => b.classList.toggle("on", i===0));
+    funilBucket = null;   // limpa o grupo selecionado no funil
     // volta o drill ao nivel 0 (mapa cheio com os 6 distritos) sem aplicar filtros 2x
     drillDistrito = null;
     drillRegional = null;
