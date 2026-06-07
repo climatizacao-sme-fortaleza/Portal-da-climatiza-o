@@ -897,24 +897,14 @@ function renderLista() {
 // ---------- ficha (Camada 2) ----------
 function kv(k, v){ return `<div class="kv"><span class="k">${k}</span><span class="v">${v}</span></div>`; }
 
-function blocoDiagnostico(sge){
+function blocoDiagnostico(sge, salas){
   const d = DIAGNOSTICO[sge];
   let h = `<div class="sect">Diagnóstico</div>`;
+  h += kv("Nº de salas", txt(salas));   // trazido do cadastro: nº de salas / climatizaveis / aguardando
   if (!d) { return h + `<div class="empty">Sem registro de diagnóstico.</div>`; }
   h += kv("Salas climatizáveis", txt(d.salasClim));
-  h += kv("Salas fora", txt(d.salasFora));
-  h += kv("Estágio do repasse", txt(d.estagio));
-  if (d.estagio) {
-    const est = d.estagio;
-    if (/^2\./.test(est)) h += `<div class="gargalo"><b>Atenção:</b> estudo concluído, aguardando repasse — cobrar o <b>Ed</b>.</div>`;
-    else if (/^3\./.test(est)) h += `<div class="gargalo"><b>Atenção:</b> repassado ao Luccas, aguardando O.S. elétrica — cobrar o <b>Luccas</b>.</div>`;
-  }
-  h += kv("Data visita", data(d.dataVisita));
-  h += kv("Data estudo (Ed)", data(d.dataEstudo));
-  h += kv("Data repasse (Luccas)", data(d.dataRepasse));
-  h += kv("Data O.S. elétrica", data(d.dataOsEletrica));
-  h += kv("Responsável", txt(d.responsavel));
-  if (d.obs) h += kv("Observação", d.obs);
+  h += kv("Salas aguardando", txt(d.salasFora));
+  h += kv("Data da visita", data(d.dataVisita));
   return h;
 }
 
@@ -937,8 +927,7 @@ function blocoExecucao(sge){
         ${kv("Serv. elétrica", moeda(x.servEletrica))}
         ${kv("Serv. instalação", moeda(x.servInstalacao))}
         ${(x.statusCivil||x.statusEletrica||x.statusInstalacao) ? kv("Status (civil/elét./instal.)", `${txt(x.statusCivil)} / ${txt(x.statusEletrica)} / ${txt(x.statusInstalacao)}`) : ""}
-        ${x.equipe ? kv("Equipe", x.equipe) : ""}
-        ${(x.inicio||x.fim) ? kv("Início → Fim", `${data(x.inicio)} → ${data(x.fim)}`) : ""}
+        ${x.fim ? kv("Climatizada em", data(x.fim)) : ""}
       </div>
     </div>`;
   }
@@ -947,10 +936,11 @@ function blocoExecucao(sge){
 
 // Secao de subestacao da ficha (fonte: SUBESTACAO[sge], do CSV). Independente do
 // campo "Subestacao" do Cadastro e do "Necessita subestacao" do Diagnostico (nao os toca).
-function blocoSubestacao(sge){
+function blocoSubestacao(sge, b){
   const s = SUBESTACAO[sge];
   let h = `<div class="sect">Subestação · estudo elétrico</div>`;
   if (!s) return h + `<div class="empty">Sem dados de subestação.</div>`;
+  const climatizada = (b === "clim" || b === "parc");   // ja climatizada (total/parcial)
   const possui = s.p === "SIM";
   h += kv("Possui subestação", possui ? "Sim" : "Não");
   // potencia atual: so quando possui e ha valor
@@ -962,8 +952,11 @@ function blocoSubestacao(sge){
     h += kv("Necessita", s.pf ? `${nec} (${s.pf})` : nec);
     if (s.d) h += kv("Solicitada à SEINF em", s.d);
   }
-  // Estudo eletrico: provisorio -> asterisco discreto + nota "em ajuste" (igual ao cartao).
-  if (s.e === "TEM" || s.e === "FALTA") {
+  // Estudo eletrico: nas ja climatizadas (total/parcial) e Finalizado, definitivo (sem asterisco
+  // nem nota); nas demais segue provisorio -> asterisco discreto + nota "em ajuste".
+  if (climatizada) {
+    h += kv("Estudo elétrico", "Finalizado");
+  } else if (s.e === "TEM" || s.e === "FALTA") {
     h += kv("Estudo elétrico", `${s.e === "TEM" ? "finalizado" : "pendente"}<sup class="prov">*</sup>`);
     h += `<div class="prov-nota">* em ajuste</div>`;
   }
@@ -999,21 +992,23 @@ function abreFicha(sge){
   selo.textContent = seloTxt;
   selo.className = "dr-selo " + seloCls;
 
-  let h = `<div class="sect">Cadastro</div>`;
+  // Cadastro: cabecalho discreto da ficha (compacto, sem chamar atencao). Nº de salas saiu
+  // daqui e foi pro Diagnostico.
+  let h = `<div class="dr-cad"><div class="sect">Cadastro</div>`;
   h += kv("Regional", txt(e.regional));
   h += kv("Distrito", txt(e.distrito));
   h += kv("Bairro", txt(e.bairro));
   h += kv("Território", txt(e.territorio));
   h += kv("Etapa", txt(e.etapa));
-  h += kv("Nº de salas", txt(e.salas));
   if (e.endereco) h += kv("Endereço", e.endereco);
+  h += `</div>`;
 
-  h += blocoSubestacao(sge);
-  // Historico (Diagnostico, O.S., Execucao) so nas unidades de periodo 2025 em diante; as de
+  h += blocoSubestacao(sge, b);
+  // Historico (Diagnostico, Execucao) so nas unidades de periodo 2025 em diante; as de
   // "antes de 2025" foram climatizadas antes desse processo existir e nao tem historico.
   if (PERIODO[e.sge] !== "antes") {
     // Diagnostico so nas NAO climatizadas (climatizada/parcial dispensam diagnostico)
-    if (b !== "clim" && b !== "parc") h += blocoDiagnostico(sge);
+    if (b !== "clim" && b !== "parc") h += blocoDiagnostico(sge, e.salas);
     h += blocoExecucao(sge);
   }
 
