@@ -17,7 +17,7 @@
       <div>
         <div class="eyebrow">Secretaria Municipal da Educação · COINF</div>
         <h1>Climatização Escolar<br><span class="thin">Fortaleza</span></h1>
-        <p class="sub">Acompanhamento da climatização das escolas da rede municipal de Fortaleza. 512 unidades, com mapa, status de execução e investimentos por escola.</p>
+        <p class="sub">Acompanhamento da climatização das unidades escolares da rede municipal de Fortaleza. 512 unidades, com mapa, status de execução e investimentos por unidade.</p>
       </div>
       <div class="badge" id="badge">512 UNIDADES · DADOS REAIS</div>
     </header>
@@ -26,7 +26,7 @@
     <div class="card">
       <div class="maphead">
         <h2>Mapa do parque</h2>
-        <div class="count"><b id="contagem">512</b> escolas no mapa<span id="sem-coord"></span></div>
+        <div class="count"><b id="contagem">512</b> unidades escolares no mapa<span id="sem-coord"></span></div>
       </div>
 
       <!-- PRIMEIRO filtro: 'Ver por' (Distritos/Regionais) + trilha + botoes de navegacao (drill). -->
@@ -111,7 +111,7 @@
     <div class="card panorama">
       <div class="maphead">
         <h2>Panorama do parque</h2>
-        <div class="count"><b id="pano-total">512</b> escolas no recorte<span id="pano-rec"></span></div>
+        <div class="count"><b id="pano-total">512</b> unidades escolares no recorte<span id="pano-rec"></span></div>
       </div>
       <div class="kpis" id="kpis"></div>
       <div class="funil-wrap">
@@ -122,7 +122,7 @@
 
     <div class="card tablecard">
       <div class="tabhead">
-        <h2>Buscar escola</h2>
+        <h2>Buscar unidade</h2>
         <div class="count"><b id="lista-contagem">512</b> na lista</div>
       </div>
       <div class="search">
@@ -131,7 +131,7 @@
       <div class="scroll">
         <table>
           <thead>
-            <tr><th>Escola</th><th>SGE</th><th>Bairro</th><th>Status</th></tr>
+            <tr><th>Unidade</th><th>SGE</th><th>Bairro</th><th>Status</th></tr>
           </thead>
           <tbody id="tbody"></tbody>
         </table>
@@ -139,9 +139,9 @@
     </div>
 
     <p class="nota-base" id="nota-base">
-      <b>Posicionamento.</b> As 512 escolas estão posicionadas pelas coordenadas exatas
+      <b>Posicionamento.</b> As 512 unidades escolares estão posicionadas pelas coordenadas exatas
       (colunas <span class="mono">LAT</span>/<span class="mono">LNG</span>) vindas da base oficial
-      da Prefeitura. Se em alguma carga futura faltar coordenada, a escola cai no centroide do
+      da Prefeitura. Se em alguma carga futura faltar coordenada, a unidade cai no centroide do
       bairro como aproximação.
     </p>
   </div>
