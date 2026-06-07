@@ -369,7 +369,7 @@ h1 .thin{font-weight:500;font-style:italic;color:var(--laranja)}
    verde (mais escuro = mais antigo) p/ climatizada; laranja p/ em processo; neutro a iniciar. */
 .dr-selo{display:inline-block;margin-bottom:14px;padding:7px 15px;border-radius:999px;
   font-family:'Spline Sans Mono',monospace;font-size:12.5px;font-weight:700;letter-spacing:.03em;
-  color:#fff;max-width:calc(100% - 44px)}
+  text-transform:uppercase;color:#fff;max-width:calc(100% - 44px)}
 .dr-selo.selo-antes{background:#2F6E43}
 .dr-selo.selo-2025{background:var(--verde)}
 .dr-selo.selo-2026{background:var(--verde2);color:var(--ink)}
@@ -380,6 +380,11 @@ h1 .thin{font-weight:500;font-style:italic;color:var(--laranja)}
   color:var(--ink2);margin:24px 0 8px;padding-top:14px;border-top:2px solid var(--ink)}
 .kv{display:flex;justify-content:space-between;gap:14px;padding:8px 0;border-bottom:1px dotted var(--line);font-size:14px}
 .kv .k{color:var(--ink2)} .kv .v{text-align:right;font-weight:500}
+/* Cadastro: cabecalho discreto da ficha — compacto (linhas justas, sem divisorias) e titulo
+   leve (sem a borda forte do .sect), pra existir mas nao chamar atencao. */
+.dr-cad{margin-bottom:6px}
+.dr-cad .sect{margin:10px 0 3px;padding-top:0;border-top:0;font-size:10px;color:var(--ink2)}
+.dr-cad .kv{padding:2.5px 0;border-bottom:0;font-size:12px}
 .empty{background:#F2EEE4;border:1px dashed var(--line);border-radius:5px;padding:12px 14px;
   font-size:13px;color:var(--ink2);margin-top:8px}
 /* marca de valor provisorio na ficha (estudo eletrico): asterisco discreto + nota "em ajuste" */
