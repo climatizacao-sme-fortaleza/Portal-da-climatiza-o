@@ -1064,7 +1064,7 @@ function fechaFicha(){
 // climatizada/liberada menores e esmaecidas (recuam). Ordem listada = ordem de desenho
 // (concluidas primeiro, acoes por cima).
 const SUBCAT = {
-  climatizada:  { cor: "#C2BDB2", r: 3.4, op: .42, w: .8, lab: "Climatizada", desc: "Já climatizada (concluída)" },
+  climatizada:  { cor: "#7FBE9B", r: 3.6, op: .58, w: .8, lab: "Climatizada", desc: "Já climatizada (concluída)" },
   liberada:     { cor: "#C9B68C", r: 4.2, op: .72, w: 1,  lab: "Liberada", desc: "Estudada — não precisa de subestação" },
   falta_estudo: { cor: "#1F6F9E", r: 5.6, op: .92, w: 1.4, lab: "Falta estudo elétrico", desc: "Ainda sem estudo elétrico" },
   aumento:      { cor: "#E0612B", r: 6,   op: .95, w: 1.5, lab: "Aumento de carga", desc: "Subestação existente precisa de mais potência" },
