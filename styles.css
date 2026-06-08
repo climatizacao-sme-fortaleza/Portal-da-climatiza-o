@@ -105,42 +105,57 @@ h1 .thin{font-weight:500;font-style:italic;color:var(--laranja)}
 
 /* BALAO UNICO de indicadores (abaixo do mapa+filtros): uma so moldura com 4 secoes lado a
    lado, separadas por divisoria fina vertical, cada uma com uma listra de cor fina no topo. */
+/* faixa de indicadores: card flutuante, fonte Inter (escopo SO da faixa), cantos 14px */
 .cardstrip{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:1fr;
   flex:1 1 auto;margin-top:12px;
-  background:var(--panel);border:1px solid var(--line);border-radius:6px;overflow:hidden}
+  font-family:'Inter',system-ui,-apple-system,sans-serif;
+  background:var(--panel);border:1px solid var(--line);border-radius:14px;
+  box-shadow:0 1px 2px rgba(0,0,0,.04);overflow:hidden}
 .metricard{padding:11px 14px;border-top:3px solid var(--azul);   /* listra de cor no topo */
-  display:flex;flex-direction:column;justify-content:center}      /* conteudo centrado no vazio */
+  display:flex;flex-direction:column;justify-content:center;       /* conteudo centrado no vazio */
+  opacity:0;animation:mc-in .5s ease both}                          /* entrada em cascata */
 .metricard + .metricard{border-left:1px solid var(--line)}          /* divisoria fina vertical */
-.metricard:nth-child(1){border-top-color:var(--verde)}
-.metricard:nth-child(2){border-top-color:var(--laranja)}
-.metricard:nth-child(3){border-top-color:var(--azul)}
-.metricard:nth-child(4){border-top-color:var(--roxo)}
-.metricard .mc-lab{font-family:'Spline Sans Mono',monospace;font-size:9.5px;letter-spacing:.08em;
-  text-transform:uppercase;color:var(--ink2)}
-.metricard .mc-num{font-family:'Fraunces',serif;font-weight:700;font-size:23px;line-height:1.05;
-  color:var(--ink);margin-top:4px}
-.metricard .mc-sub{font-size:11px;color:var(--ink2);margin-top:5px;line-height:1.3}
-/* secao Investimento: barra fina sob o numero */
-.mc-bar{height:6px;background:#EDEAE2;border-radius:4px;overflow:hidden;margin-top:6px}
-.mc-bar span{display:block;height:100%;background:var(--laranja);border-radius:4px}
+.metricard:nth-child(1){border-top-color:var(--verde);animation-delay:0s}
+.metricard:nth-child(2){border-top-color:var(--laranja);animation-delay:.08s}
+.metricard:nth-child(3){border-top-color:var(--azul);animation-delay:.16s}
+.metricard:nth-child(4){border-top-color:var(--roxo);animation-delay:.24s}
+@keyframes mc-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+/* titulos das secoes: caixa alta, recuados (cinza suave) pra destacar os numeros */
+.metricard .mc-lab{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--cinza)}
+/* numeros: Inter, digitos tabulares e levemente apertados */
+.metricard .mc-num{font-family:'Inter',sans-serif;font-weight:700;font-size:23px;line-height:1.05;
+  color:var(--ink);margin-top:4px;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.metricard .mc-sub{font-family:'Inter',sans-serif;font-size:11px;color:var(--ink2);margin-top:5px;line-height:1.3}
+/* barras de progresso da faixa: 6px, cantos 4px, trilho clarinho da cor + preenchimento cheio
+   que cresce da esquerda (scaleX) ao montar/trocar periodo */
+.mc-bar,.mc-bar2{height:6px;border-radius:4px;overflow:hidden;margin-top:6px}
+.mc-bar span,.mc-bar2 span{display:block;height:100%;border-radius:4px;
+  transform-origin:left center;animation:mc-grow .9s cubic-bezier(.22,.61,.36,1) both;animation-delay:.2s}
+@keyframes mc-grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.mc-bar{background:#EFE7E1;background:color-mix(in srgb,var(--laranja) 16%,#fff)}
+.mc-bar span{background:var(--laranja)}
+.mc-bar-cob{background:#DDE7EE;background:color-mix(in srgb,var(--azul) 16%,#fff);margin-top:8px}
+.mc-bar-cob span{background:var(--azul)}
+.mc-bar2{background:#E6E0EE;background:color-mix(in srgb,var(--roxo) 16%,#fff);margin-top:3px}
+.mc-bar2 span{background:var(--roxo)}
 /* secao Salas climatizadas: rosca pequena + texto ao lado */
 .mc-donut-row{display:flex;align-items:center;gap:10px;margin-top:5px}
 .mini-donut{width:50px;height:50px;flex:0 0 auto}
-.mini-donut-num{font-family:'Fraunces',serif;font-weight:700;fill:var(--ink)}
-.mc-donut-sub{font-size:10.5px;color:var(--ink2);line-height:1.3}
+.mini-donut-num{font-family:'Inter',sans-serif;font-weight:700;fill:var(--ink);letter-spacing:-.02em}
+.mc-donut-sub{font-family:'Inter',sans-serif;font-size:10.5px;color:var(--ink2);line-height:1.3}
 /* secao Investimento: quebra por ano sob a barra (dois numeros menores) */
 .mc-anos{display:flex;gap:14px;margin-top:6px;font-size:11px;color:var(--ink2)}
-.mc-anos b{font-family:'Spline Sans Mono',monospace;font-size:9px;letter-spacing:.04em;
-  color:var(--ink2);margin-right:3px}
+.mc-anos b{font-family:'Inter',sans-serif;font-size:9px;font-weight:600;letter-spacing:.04em;
+  color:var(--cinza);margin-right:3px}
 /* secao Cobertura: unidade do numero grande (de X bairros) menor ao lado */
-.mc-unit{font-family:'Archivo';font-weight:500;font-size:12px;color:var(--ink2)}
+.mc-unit{font-family:'Inter',sans-serif;font-weight:500;font-size:12px;color:var(--ink2)}
 /* secao Climatizadas por tipo: duas barras de progresso empilhadas */
 .mc-tipos{display:flex;flex-direction:column;gap:8px;margin-top:6px}
 .mc-tipo-top{display:flex;align-items:baseline;justify-content:space-between;gap:6px}
 .mc-tipo-top span{font-size:11px;color:var(--ink2)}
-.mc-tipo-top b{font-family:'Fraunces',serif;font-weight:700;font-size:14px;color:var(--ink)}
-.mc-bar2{height:6px;background:#EDEAE2;border-radius:4px;overflow:hidden;margin-top:3px}
-.mc-bar2 span{display:block;height:100%;background:var(--roxo);border-radius:4px}
+.mc-tipo-top b{font-family:'Inter',sans-serif;font-weight:700;font-size:14px;color:var(--ink);
+  font-variant-numeric:tabular-nums;letter-spacing:-.02em}
 /* responsivo do balao: 2 colunas e depois 1; ajusta as divisorias verticais */
 @media(max-width:960px){.cardstrip{grid-template-columns:repeat(2,1fr)}
   .metricard:nth-child(odd){border-left:0}}

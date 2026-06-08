@@ -783,10 +783,11 @@ function renderPainelContexto() {
            <span><b>2026</b> ${moedaCompacta(bInv26)}</span>
          </div>
        </div>` +
-      // 3) COBERTURA (azul): bairros (grande) + unidades (menor)
+      // 3) COBERTURA (azul): bairros (grande) + barra (proporcao de bairros) + unidades (menor)
       `<div class="metricard">
          <div class="mc-lab">Cobertura</div>
          <div class="mc-num">${cobBairros.size}<span class="mc-unit"> de ${totBairros.size} bairros</span></div>
+         <div class="mc-bar mc-bar-cob"><span style="width:${pctNum(cobBairros.size, totBairros.size).toFixed(1)}%"></span></div>
          <div class="mc-sub">${cobUni.toLocaleString("pt-BR")} de ${baseBalao.length.toLocaleString("pt-BR")} unidades</div>
        </div>` +
       // 4) CLIMATIZADAS POR TIPO (roxo): duas barras (Escolas / CEI), so plenas
