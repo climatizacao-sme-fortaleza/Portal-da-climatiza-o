@@ -600,6 +600,15 @@ function moedaCompacta(v) {
   return moeda(n);
 }
 
+// anima um numero SO quando o valor muda entre renders (troca de territorio/periodo). Retorna
+// o sufixo de classe " num-anim" quando mudou; no 1o render (sem valor anterior) nao anima.
+const PREV_NUM = {};
+function numAnim(key, val) {
+  const mudou = (key in PREV_NUM) && PREV_NUM[key] !== val;
+  PREV_NUM[key] = val;
+  return mudou ? " num-anim" : "";
+}
+
 function renderPainelContexto() {
   const body = document.getElementById("ctx-body");
   if (!body) return;
@@ -657,7 +666,7 @@ function renderPainelContexto() {
   const barra = (lab, val, pct) =>
     `<div class="ctx-metric">
        <div class="ctx-mrow"><span class="ctx-mlab">${lab}</span>` +
-       `<span class="ctx-mval">${val.toLocaleString("pt-BR")}</span>` +
+       `<span class="ctx-mval${numAnim("tam-" + lab, val)}">${val.toLocaleString("pt-BR")}</span>` +
        `<span class="ctx-mpct">${fmtPct(val, lab === "Unidades" ? PARQUE_ESCOLAS : PARQUE_SALAS)}% do parque</span></div>` +
        `<div class="ctx-bar"><span style="width:${pct.toFixed(1)}%"></span></div>
      </div>`;
@@ -690,7 +699,7 @@ function renderPainelContexto() {
     `<svg class="ctx-donut" viewBox="0 0 100 100" role="img" aria-label="Avanço da climatização">
        <circle cx="50" cy="50" r="${R}" fill="none" stroke="#EDEAE2" stroke-width="${W}"/>
        ${arcos}
-       <text x="50" y="55" text-anchor="middle" class="ctx-donut-num" font-size="16">${centro}</text>
+       <text x="50" y="55" text-anchor="middle" class="ctx-donut-num${numAnim("avanco-centro", centro)}" font-size="16">${centro}</text>
      </svg>`;
   const legenda = segs.map(s =>
     `<li><i style="background:${s.cor}"></i>${s.lab}<b>${s.v}</b>` +
@@ -702,8 +711,8 @@ function renderPainelContexto() {
        <div class="ctx-donut-wrap">${donut}<ul class="ctx-leg">${legenda}</ul></div>
      </section>`;
 
-  // bloco LINHA DO TEMPO: 3 barras por periodo, comprimento proporcional (escala pela maior).
-  // A barra de 2026 e segmentada por status: pronta (clim/parc) / em processo (meio) / a iniciar.
+  // bloco LINHA DO TEMPO: 3 barras por periodo, comprimento proporcional (escala pela maior),
+  // cada uma na cor de periodo padronizada (antes=cinza / 2025=verde / 2026=azul).
   const tlMax = Math.max(1, nAntes, nP2025, nP2026);
   const tlW = n => (n / tlMax * 100).toFixed(1);
   const linhaTempo =
@@ -711,18 +720,15 @@ function renderPainelContexto() {
        <div class="ctx-tit">Linha do tempo</div>
        <div class="tl">
          <div class="tl-row"><span class="tl-lab">Antes de 2025</span>
-           <span class="tl-bar"><span class="tl-seg tl-done" style="width:${tlW(nAntes)}%"></span></span>
-           <span class="tl-num">${nAntes}</span></div>
+           <span class="tl-bar tl-antes"><span class="tl-seg" style="width:${tlW(nAntes)}%"></span></span>
+           <span class="tl-num${numAnim("tl-antes", nAntes)}">${nAntes}</span></div>
          <div class="tl-row"><span class="tl-lab">2025</span>
-           <span class="tl-bar"><span class="tl-seg tl-done" style="width:${tlW(nP2025)}%"></span></span>
-           <span class="tl-num">${nP2025}</span></div>
+           <span class="tl-bar tl-2025"><span class="tl-seg" style="width:${tlW(nP2025)}%"></span></span>
+           <span class="tl-num${numAnim("tl-2025", nP2025)}">${nP2025}</span></div>
          <div class="tl-row"><span class="tl-lab">2026</span>
-           <span class="tl-bar"><span class="tl-seg tl-done" style="width:${tlW(n26pronta)}%"></span>` +
-             `<span class="tl-seg tl-proc" style="width:${tlW(n26proc)}%"></span>` +
-             `<span class="tl-seg tl-init" style="width:${tlW(n26init)}%"></span></span>
-           <span class="tl-num">${nP2026}</span></div>
+           <span class="tl-bar tl-2026"><span class="tl-seg" style="width:${tlW(nP2026)}%"></span></span>
+           <span class="tl-num${numAnim("tl-2026", nP2026)}">${nP2026}</span></div>
        </div>
-       <div class="tl-leg">2026: <i class="tl-done"></i>pronta <i class="tl-proc"></i>em processo <i class="tl-init"></i>a iniciar</div>
      </section>`;
 
   // painel da ESQUERDA: Tamanho + Avanço + Linha do tempo
