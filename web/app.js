@@ -615,24 +615,10 @@ function renderPainelContexto() {
   // recorte so do TERRITORIO (geo): alimenta a rosca de avanco e a linha do tempo.
   const baseGeo = ESCOLAS.filter(passaFiltroGeo);
 
-  // NUMEROS pelo recorte filtrado (salas, maquinas, investimento, subestacao)
-  let nSalas = 0, nMaq = 0, invest = 0;
-  let nNova = 0, nAumento = 0, nTemEst = 0, nFaltaEst = 0;
-  for (const e of base) {
-    nSalas += Number(e.salas) || 0;
-    const sub = SUBESTACAO[e.sge];
-    if (sub) {
-      if (sub.n === "NOVA") nNova++;
-      else if (sub.n === "AUMENTO") nAumento++;
-      if (sub.e === "TEM") nTemEst++;
-      else if (sub.e === "FALTA") nFaltaEst++;
-    }
-    const arr = EXECUCAO[e.sge];
-    if (arr) for (const x of arr) {
-      if (typeof x.totalMaq === "number") nMaq += x.totalMaq;       // TOTAL MAQUINAS
-      if (typeof x.totalGasto === "number") invest += x.totalGasto; // VALOR TOTAL GASTO
-    }
-  }
+  // NUMEROS do bloco TAMANHO (salas do recorte filtrado). Maquinas/investimento/cobertura/tipo
+  // sao do BALAO, calculados mais abaixo a partir do recorte territorio+periodo (igual a rosca).
+  let nSalas = 0;
+  for (const e of base) nSalas += Number(e.salas) || 0;
   const nEsc = base.length;
 
   // ROSCA/LEGENDA (avanco ACUMULADO por periodo): quanto do territorio ja esta climatizado/parcial
@@ -739,53 +725,83 @@ function renderPainelContexto() {
   // painel da ESQUERDA: Tamanho + Avanço + Linha do tempo
   body.innerHTML = tamanho + avanco + linhaTempo;
 
-  // ---- BALAO UNICO de indicadores embaixo do mapa (4 secoes, recalculam por territorio) ----
+  // ---- BALAO UNICO de indicadores embaixo do mapa: 4 secoes lado a lado ----
+  // Recorte do BALAO = territorio + periodo ACUMULADO, SEM o filtro de status (igual a rosca de
+  // avanco). As secoes 3 e 4 ja carregam semantica de status interna (cobertura/plenas), por isso
+  // nao se cruzam com o dropdown de Status geral. Cada secao reage ao Periodo de forma cumulativa.
   const strip = document.getElementById("cardstrip");
   if (strip) {
-    const custoEscola = nEsc ? invest / nEsc : 0;
-    const custoSala = nMaq ? invest / nMaq : null;
-    const pctSalas = pctNum(nMaq, nSalas);          // fracao p/ a rosca
-    const pctVerba = pctNum(invest, PARQUE_VERBA);  // fracao p/ a barra
-    // rosca pequena (salas climatizadas): anel + % no centro
+    const baseBalao = baseGeo.filter(atePeriodo);
+    let bMaq = 0, bSalas = 0, bInv = 0, bInv25 = 0, bInv26 = 0;
+    let cobUni = 0; const cobBairros = new Set(), totBairros = new Set();
+    let escClim = 0, escTot = 0, ceiClim = 0, ceiTot = 0;
+    for (const e of baseBalao) {
+      bSalas += Number(e.salas) || 0;
+      totBairros.add(e.bairro);
+      if (bucket(e.status) !== "iniciar") { cobUni++; cobBairros.add(e.bairro); }  // cobertura = nao "A iniciar"
+      const ehCEI = e.tipo === "CEI";                                              // CEI vs Escolas (EMTP/EMTI/ANE)
+      if (ehCEI) ceiTot++; else escTot++;
+      if (String(e.status).startsWith("9.")) { if (ehCEI) ceiClim++; else escClim++; }  // so plenas (status 9)
+      const arr = EXECUCAO[e.sge];
+      if (arr) for (const x of arr) {
+        if (typeof x.totalMaq === "number") bMaq += x.totalMaq;
+        if (typeof x.totalGasto === "number") {
+          bInv += x.totalGasto;
+          const et = String(x.etapa || "").toUpperCase();                          // ano pela aba/etapa
+          if (et.startsWith("ETAPA 01")) bInv25 += x.totalGasto;
+          else if (et.startsWith("ETAPA 02")) bInv26 += x.totalGasto;
+        }
+      }
+    }
+    // SECAO 1: rosca de % das salas com maquina
+    const pctSalas = pctNum(bMaq, bSalas);
     const R = 16, W = 5, C = 2 * Math.PI * R, f = Math.max(0, Math.min(1, pctSalas / 100));
     const donut =
-      `<svg class="mini-donut" viewBox="0 0 40 40" role="img" aria-label="${fmtPct(nMaq, nSalas)}% das salas com máquinas">
+      `<svg class="mini-donut" viewBox="0 0 40 40" role="img" aria-label="${fmtPct(bMaq, bSalas)}% das salas climatizadas">
          <circle cx="20" cy="20" r="${R}" fill="none" stroke="#EDEAE2" stroke-width="${W}"/>
          <circle cx="20" cy="20" r="${R}" fill="none" stroke="var(--verde)" stroke-width="${W}"
            stroke-dasharray="${(f * C).toFixed(2)} ${C.toFixed(2)}" transform="rotate(-90 20 20)" stroke-linecap="round"/>
          <text x="20" y="24" text-anchor="middle" class="mini-donut-num" font-size="11">${Math.round(pctSalas)}%</text>
        </svg>`;
+    const pctVerba = pctNum(bInv, PARQUE_VERBA);
     strip.innerHTML =
-      // 1) Salas climatizadas: rosca pequena com a porcentagem
+      // 1) SALAS CLIMATIZADAS (verde)
       `<div class="metricard">
          <div class="mc-lab">Salas climatizadas</div>
          <div class="mc-donut-row">${donut}
-           <div class="mc-donut-sub">${nMaq.toLocaleString("pt-BR")} de ${nSalas.toLocaleString("pt-BR")} salas<br>máquinas instaladas</div>
+           <div class="mc-donut-sub">${bMaq.toLocaleString("pt-BR")} de ${bSalas.toLocaleString("pt-BR")} salas</div>
          </div>
        </div>` +
-      // 2) Investimento: numero grande com uma barra
+      // 2) INVESTIMENTO (laranja): total + barra + quebra por ano
       `<div class="metricard">
          <div class="mc-lab">Investimento</div>
-         <div class="mc-num">${moedaCompacta(invest)}</div>
+         <div class="mc-num">${moedaCompacta(bInv)}</div>
          <div class="mc-bar"><span style="width:${pctVerba.toFixed(1)}%"></span></div>
-         <div class="mc-sub">${fmtPct(invest, PARQUE_VERBA)}% da verba do parque</div>
-       </div>` +
-      // 3) Custo medio: por escola e por sala
-      `<div class="metricard">
-         <div class="mc-lab">Custo médio</div>
-         <div class="mc-num">${moedaCompacta(custoEscola)}</div>
-         <div class="mc-sub">por unidade<br>${moedaCompacta(custoSala)} por sala climatizada</div>
-       </div>` +
-      // 4) Subestacao: a grade dos quatro (nova / aumento / tem estudo / falta estudo)
-      `<div class="metricard sub4card">
-         <div class="mc-lab">Subestação · estudo elétrico</div>
-         <div class="sub4">
-           <div class="sub4-it"><b>${nNova.toLocaleString("pt-BR")}</b><span>nova</span></div>
-           <div class="sub4-it"><b>${nAumento.toLocaleString("pt-BR")}</b><span>aumento</span></div>
-           <div class="sub4-it"><b>${nTemEst.toLocaleString("pt-BR")}<sup>*</sup></b><span>têm estudo</span></div>
-           <div class="sub4-it"><b>${nFaltaEst.toLocaleString("pt-BR")}<sup>*</sup></b><span>falta estudo</span></div>
+         <div class="mc-sub">${fmtPct(bInv, PARQUE_VERBA)}% da verba do parque</div>
+         <div class="mc-anos">
+           <span><b>2025</b> ${moedaCompacta(bInv25)}</span>
+           <span><b>2026</b> ${moedaCompacta(bInv26)}</span>
          </div>
-         <div class="sub4-nota">* em ajuste</div>
+       </div>` +
+      // 3) COBERTURA (azul): bairros (grande) + unidades (menor)
+      `<div class="metricard">
+         <div class="mc-lab">Cobertura</div>
+         <div class="mc-num">${cobBairros.size}<span class="mc-unit"> de ${totBairros.size} bairros</span></div>
+         <div class="mc-sub">${cobUni.toLocaleString("pt-BR")} de ${baseBalao.length.toLocaleString("pt-BR")} unidades</div>
+       </div>` +
+      // 4) CLIMATIZADAS POR TIPO (roxo): duas barras (Escolas / CEI), so plenas
+      `<div class="metricard">
+         <div class="mc-lab">Climatizadas por tipo</div>
+         <div class="mc-tipos">
+           <div class="mc-tipo">
+             <div class="mc-tipo-top"><span>Escolas</span><b>${escClim} / ${escTot}</b></div>
+             <div class="mc-bar2"><span style="width:${pctNum(escClim, escTot).toFixed(1)}%"></span></div>
+           </div>
+           <div class="mc-tipo">
+             <div class="mc-tipo-top"><span>CEI (creche)</span><b>${ceiClim} / ${ceiTot}</b></div>
+             <div class="mc-bar2"><span style="width:${pctNum(ceiClim, ceiTot).toFixed(1)}%"></span></div>
+           </div>
+         </div>
        </div>`;
   }
 }
