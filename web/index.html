@@ -29,19 +29,26 @@
         <div class="count"><b id="contagem">512</b> unidades escolares no mapa<span id="sem-coord"></span></div>
       </div>
 
-      <!-- PRIMEIRO filtro: 'Ver por' (Distritos/Regionais) + trilha + botoes de navegacao (drill). -->
+      <!-- Navegacao do mapa em 3 linhas: (1) controles 'Ver por' + 'Voltar', (2) breadcrumb do
+           caminho percorrido, (3) atalhos do nivel atual. Toda a logica de drill e preservada;
+           muda so a apresentacao. IDs drill-voltar/drill-trilha/drill-botoes e os .dm mantidos. -->
       <div class="mapnav">
-        <div class="mapnav-top">
+        <!-- LINHA 1: controles -->
+        <div class="mapnav-ctrl">
           <div class="drill-modo">
-            <span class="drill-lab">Ver por:</span>
-            <button class="dm on" type="button" data-modo="distritos">Distritos</button>
-            <button class="dm" type="button" data-modo="regionais">Regionais</button>
+            <span class="drill-lab">Ver por</span>
+            <div class="modo-toggle">
+              <button class="dm on" type="button" data-modo="distritos">Distritos</button>
+              <button class="dm dm-reg" type="button" data-modo="regionais">Regionais</button>
+            </div>
           </div>
-          <div class="mapnav-trilha">
-            <button class="drill-voltar" id="drill-voltar" type="button" aria-label="Voltar um nível" disabled>&#8592;</button>
-            <div class="drill-trilha" id="drill-trilha"></div>
-          </div>
+          <button class="drill-voltar" id="drill-voltar" type="button" aria-label="Voltar um nível" disabled>
+            <span class="dv-ico" aria-hidden="true">&#8592;</span>Voltar
+          </button>
         </div>
+        <!-- LINHA 2: breadcrumb (caminho real percorrido; niveis anteriores clicaveis) -->
+        <div class="drill-trilha" id="drill-trilha"></div>
+        <!-- LINHA 3: atalhos do nivel atual (distritos/regionais/bairros) -->
         <div class="drill-botoes" id="drill-botoes"></div>
       </div>
 

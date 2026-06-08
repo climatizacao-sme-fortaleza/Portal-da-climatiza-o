@@ -219,37 +219,52 @@ h1 .thin{font-weight:500;font-style:italic;color:var(--laranja)}
 /* 'Ver por' + navegacao: PRIMEIRO filtro. Agora nao encosta mais no mapa (o Status fica
    abaixo), entao some a borda-caixa antiga (que tinha border-bottom:0 pra grudar no mapa);
    fica um divisor fino embaixo separando da linha do Status. Mesma altura de antes. */
+/* navegacao do mapa: 3 linhas (controles / breadcrumb / atalhos), fonte Inter */
 .mapnav{background:var(--panel);border:0;border-bottom:1px solid var(--line);
-  padding:4px 16px}
-.mapnav-top{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
-.mapnav-trilha{display:flex;align-items:center;gap:8px;flex:1;min-width:200px}
-.drill-modo{display:flex;align-items:center;gap:6px}
-.drill-lab{font-family:'Spline Sans Mono',monospace;font-size:10px;letter-spacing:.07em;
-  text-transform:uppercase;color:var(--ink2)}
-.dm{font-family:'Spline Sans Mono',monospace;font-size:11px;border:1px solid var(--line);
-  background:#fff;color:var(--ink2);padding:2px 9px;border-radius:3px;cursor:pointer}
-.dm.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+  padding:8px 16px;font-family:'Inter',system-ui,sans-serif}
+/* LINHA 1: 'Ver por' + toggle (esq) | botao Voltar (dir) */
+.mapnav-ctrl{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.drill-modo{display:flex;align-items:center;gap:9px}
+.drill-lab{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--cinza)}
+/* toggle deslizante: dois botoes colados num trilho arredondado */
+.modo-toggle{display:inline-flex;background:#EFEADF;border:1px solid var(--line);
+  border-radius:8px;padding:2px;gap:2px}
+.dm{font-family:'Inter',sans-serif;font-size:12px;font-weight:500;border:0;background:transparent;
+  color:var(--ink2);padding:4px 13px;border-radius:6px;cursor:pointer;
+  transition:background .18s ease,color .18s ease}
+.dm:hover:not(.on){color:var(--ink)}
+.dm.on{background:var(--azul);color:#fff;box-shadow:0 1px 2px rgba(0,0,0,.10)}
 .dm:disabled{opacity:.45;cursor:not-allowed}
-/* seta de voltar um nivel, a esquerda da trilha */
-.drill-voltar{font-family:'Spline Sans Mono',monospace;font-size:14px;line-height:1;
-  border:1px solid var(--line);background:#fff;color:var(--ink);width:26px;height:24px;
-  border-radius:3px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
-.drill-voltar:hover:not(:disabled){background:#F1ECE0}
-.drill-voltar:disabled{opacity:.4;cursor:not-allowed}
-.drill-trilha{font-family:'Spline Sans Mono',monospace;font-size:12px;color:var(--ink);
-  display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-.drill-trilha .crumb.atual{font-weight:600}
-.drill-trilha .crumb.link{color:var(--azul);cursor:pointer;text-decoration:underline}
-.drill-trilha .crumb.link:hover{color:var(--laranja)}
-.drill-trilha .sep{color:var(--ink2)}
-/* botoes do nivel atual, abaixo; quebram em varias linhas e empurram o mapa */
-.drill-botoes{display:flex;flex-wrap:wrap;gap:5px;margin-top:3px;padding-top:3px;
+/* 'Regionais' com leve prioridade visual (caminho mais conhecido) */
+.dm-reg{font-weight:600}
+/* botao Voltar explicito (seta + palavra); some no nivel raiz (Fortaleza) */
+.drill-voltar{font-family:'Inter',sans-serif;font-size:12px;font-weight:500;line-height:1;
+  border:1px solid var(--line);background:#fff;color:var(--ink);padding:6px 12px 6px 10px;
+  border-radius:8px;cursor:pointer;display:inline-flex;align-items:center;gap:5px;flex:0 0 auto;
+  transition:background .15s ease,border-color .15s ease}
+.drill-voltar .dv-ico{font-size:14px;line-height:1}
+.drill-voltar:hover:not(:disabled){background:#F1ECE0;border-color:var(--cinza)}
+.drill-voltar:disabled{display:none}
+/* LINHA 2: breadcrumb do caminho percorrido */
+.drill-trilha{font-family:'Inter',sans-serif;font-size:12.5px;color:var(--ink);
+  display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:8px}
+.drill-trilha .crumb{display:inline-flex;align-items:center;gap:4px}
+.drill-trilha .crumb-casa{width:13px;height:13px;flex:0 0 auto}
+.drill-trilha .crumb.link{color:var(--azul);cursor:pointer;text-decoration:none}
+.drill-trilha .crumb.link:hover{color:var(--laranja);text-decoration:underline}
+/* nivel atual: nao clicavel, negrito num chip de fundo suave */
+.drill-trilha .crumb.atual{font-weight:700;background:#EFEADF;border-radius:6px;padding:2px 9px}
+.drill-trilha .sep{color:var(--cinza)}
+/* LINHA 3: atalhos do nivel atual; quebram em varias linhas e empurram o mapa */
+.drill-botoes{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;padding-top:8px;
   border-top:1px dotted var(--line)}
 .drill-botoes:empty{display:none}
-.db{font-family:'Spline Sans Mono',monospace;font-size:11px;border:1px solid var(--line);
-  background:#fff;color:var(--ink2);padding:2px 9px;border-radius:3px;cursor:pointer;white-space:nowrap}
-.db:hover{background:#F1ECE0}
-.db.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.db{font-family:'Inter',sans-serif;font-size:11.5px;font-weight:500;border:1px solid var(--line);
+  background:#fff;color:var(--ink2);padding:3px 10px;border-radius:7px;cursor:pointer;white-space:nowrap;
+  transition:background .15s ease,color .15s ease}
+.db:hover{background:#F1ECE0;color:var(--ink)}
+.db.on{background:var(--azul);color:#fff;border-color:var(--azul)}
 /* distritos/regionais/bairros clicaveis: cursor de mao sobre as areas */
 .leaflet-paneDistritos-pane,
 .leaflet-paneRegionais-pane,
