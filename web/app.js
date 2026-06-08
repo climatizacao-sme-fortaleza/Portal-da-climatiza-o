@@ -8,6 +8,7 @@ const ESCOLAS     = window.ESCOLAS || [];
 const DIAGNOSTICO = window.DIAGNOSTICO || {};
 const OS          = window.OS || {};
 const EXECUCAO    = window.EXECUCAO || {};
+const MAPA_SUB    = window.MAPA_SUB || {};   // SGE -> CATEGORIA (subestacao / estudo eletrico)
 const LIMITE_DIAS_OS = 15;
 
 function bucket(status) {
@@ -569,6 +570,7 @@ function aplicaFiltros() {
   renderLista();
   renderPanorama();
   renderPainelContexto();
+  renderMapaSub();   // 2o mapa (subestacao) acompanha territorio + periodo
 }
 
 // ---------- painel de contexto do territorio (esquerda do mapa) ----------
@@ -786,7 +788,6 @@ function renderPainelContexto() {
          <div class="mc-lab">Investimento</div>
          <div class="mc-num">${moedaCompacta(bInv)}</div>
          <div class="mc-bar"><span style="width:${pctVerba.toFixed(1)}%"></span></div>
-         <div class="mc-sub">${fmtPct(bInv, PARQUE_VERBA)}% da verba do parque</div>
          <div class="mc-anos">
            <span><b>2025</b> ${moedaCompacta(bInv25)}</span>
            <span><b>2026</b> ${moedaCompacta(bInv26)}</span>
@@ -1057,9 +1058,89 @@ function fechaFicha(){
   document.getElementById("drawer").setAttribute("aria-hidden", "true");
 }
 
+// ---------- 2o mapa: subestacao / estudo eletrico ----------
+// pontos nas MESMAS coordenadas das unidades, coloridos pela CATEGORIA do mapa_sub.js.
+// Hierarquia visual: acoes (nova/aumento/falta_estudo) maiores e opacas (saltam);
+// climatizada/liberada menores e esmaecidas (recuam). Ordem listada = ordem de desenho
+// (concluidas primeiro, acoes por cima).
+const SUBCAT = {
+  climatizada:  { cor: "#C2BDB2", r: 3.4, op: .42, w: .8, lab: "Climatizada", desc: "Já climatizada (concluída)" },
+  liberada:     { cor: "#C9B68C", r: 4.2, op: .72, w: 1,  lab: "Liberada", desc: "Estudada — não precisa de subestação" },
+  falta_estudo: { cor: "#1F6F9E", r: 5.6, op: .92, w: 1.4, lab: "Falta estudo elétrico", desc: "Ainda sem estudo elétrico" },
+  aumento:      { cor: "#E0612B", r: 6,   op: .95, w: 1.5, lab: "Aumento de carga", desc: "Subestação existente precisa de mais potência" },
+  nova:         { cor: "#C0432E", r: 6,   op: .95, w: 1.5, lab: "Nova subestação", desc: "Precisa instalar uma subestação nova" }
+};
+const ORDEM_SUB = ["climatizada", "liberada", "falta_estudo", "aumento", "nova"]; // desenho: discretas -> acoes
+let mapSub = null, subLayer = null;
+// recorte do 2o mapa = territorio (drill) + periodo, mesma logica do mapa principal (SEM status).
+// Assim os contadores/pontos recalculam quando ha filtro de periodo ou territorio ativo.
+function passaSubmapa(e){ return passaFiltroGeo(e) && passaPeriodo(e); }
+function initMapaSub(){
+  const el = document.getElementById("map-sub");
+  if (!el || mapSub) return;
+  mapSub = L.map("map-sub", { scrollWheelZoom: false, zoomSnap: 0, zoomDelta: 1 }).setView([-3.768, -38.545], 11.4);
+  L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+    maxZoom: 19, subdomains: "abcd", attribution: "&copy; OpenStreetMap &copy; CARTO"
+  }).addTo(mapSub);
+  // shapes padrao (distritos) como pano de fundo, igual ao nivel 0 do mapa principal.
+  // Pane abaixo dos pontos e NAO-interativo, pra os cliques chegarem nos pontos (abrem a ficha).
+  mapSub.createPane("subShapes");
+  mapSub.getPane("subShapes").style.zIndex = 350;             // overlayPane (pontos) = 400
+  mapSub.getPane("subShapes").style.pointerEvents = "none";
+  L.geoJSON(window.DISTRITOS || null, {
+    pane: "subShapes", interactive: false,
+    style: f => ({ color: "#2A2A2A", weight: 2.7, opacity: .9, fillColor: f.properties.cor, fillOpacity: .18 })
+  }).addTo(mapSub);
+  subLayer = L.layerGroup().addTo(mapSub);
+  renderMapaSub();
+}
+// re-desenha pontos + recalcula contadores e legenda para o recorte atual (territorio + periodo)
+function renderMapaSub(){
+  if (!subLayer) return;
+  subLayer.clearLayers();
+  const cont = {}, porCat = {};
+  for (const k of ORDEM_SUB) { cont[k] = 0; porCat[k] = []; }
+  for (const e of TODAS) {
+    if (!passaSubmapa(e)) continue;
+    const cat = MAPA_SUB[String(e.sge)];
+    if (cat && porCat[cat]) { porCat[cat].push(e); cont[cat]++; }
+  }
+  // desenha discretas primeiro, acoes por cima
+  for (const cat of ORDEM_SUB) {
+    const cfg = SUBCAT[cat];
+    for (const e of porCat[cat]) {
+      const m = L.circleMarker(e._latlng, {
+        radius: cfg.r, weight: cfg.w, color: "rgba(0,0,0,.32)",
+        fillColor: cfg.cor, fillOpacity: cfg.op
+      });
+      m.on("click", () => abreFicha(e.sge));
+      m.bindTooltip(`${e.nome} — ${cfg.lab}`, { direction: "top", offset: [0, -4] });
+      subLayer.addLayer(m);
+    }
+  }
+  // contadores do topo (recalculam com filtro) + total do recorte
+  const total = ORDEM_SUB.reduce((s, k) => s + cont[k], 0);
+  const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+  set("sub-total", total);
+  set("sub-c-nova", cont.nova);
+  set("sub-c-aumento", cont.aumento);
+  set("sub-c-falta", cont.falta_estudo);
+  // legenda explicativa: acoes primeiro (em destaque), depois concluidas; cada uma com descricao
+  const legOrder = ["nova", "aumento", "falta_estudo", "liberada", "climatizada"];
+  const leg = document.getElementById("sublegend");
+  if (leg) leg.innerHTML = legOrder.map(k => {
+    const c = SUBCAT[k];
+    const acaoCls = (k === "nova" || k === "aumento" || k === "falta_estudo") ? " acao" : " calmo";
+    return `<div class="subleg-it${acaoCls}"><i style="background:${c.cor}"></i>` +
+      `<div class="subleg-body"><span class="subleg-nome">${c.lab}<b>${cont[k]}</b></span>` +
+      `<span class="subleg-desc">${c.desc}</span></div></div>`;
+  }).join("");
+}
+
 // ---------- init ----------
 function init(){
   preparaCoordenadas(ESCOLAS);
+  initMapaSub();
   montaDrill();
   montaChipsRegional(ESCOLAS);
   preencheSelect("sel-distrito", new Set(ESCOLAS.map(e => e.distrito)));
@@ -1118,8 +1199,8 @@ function init(){
   nota.textContent = avisos.length ? ` · ${avisos.join(", ")}` : "";
   aplicaFiltros();
   // o mapa agora divide a largura com o painel de contexto (flex): recalcula o tamanho
-  setTimeout(() => map.invalidateSize(), 0);
-  window.addEventListener("resize", () => map.invalidateSize());
+  setTimeout(() => { map.invalidateSize(); if (mapSub) mapSub.invalidateSize(); }, 0);
+  window.addEventListener("resize", () => { map.invalidateSize(); if (mapSub) mapSub.invalidateSize(); });
 }
 
 init();
