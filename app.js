@@ -314,7 +314,10 @@ function voltaNivel0() {
 function renderTrilha() {
   const tr = document.getElementById("drill-trilha");
   if (!tr) return;
-  const forta = `<a class="crumb link" id="crumb-forta">Fortaleza</a>`;
+  // icone de casa no inicio do breadcrumb (herda a cor do crumb: azul no link, escuro no atual)
+  const casa = `<svg class="crumb-casa" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>`;
+  const forta = `<a class="crumb link" id="crumb-forta">${casa}Fortaleza</a>`;
+  const fortaAtual = `<span class="crumb atual">${casa}Fortaleza</span>`;
   const sep = `<span class="sep">›</span>`;
   const atual = t => `<span class="crumb atual">${t}</span>`;
   const linkDist = `<a class="crumb link" id="crumb-dist">${nomeDistrito(drillDistrito)}</a>`;
@@ -322,12 +325,12 @@ function renderTrilha() {
   let html;
   if (drillModo === "regionais") {
     // trilha sem distrito: Fortaleza > Regional > Bairro
-    if (drillRegional == null) html = atual("Fortaleza");
+    if (drillRegional == null) html = fortaAtual;
     else if (drillBairro == null) html = forta + sep + atual(nomeRegional(drillRegional));
     else html = forta + sep + linkReg + sep + atual(nomeBairro(drillBairro));
   } else {
     // trilha com distrito: Fortaleza > Distrito > Regional > Bairro
-    if (drillDistrito == null) html = atual("Fortaleza");
+    if (drillDistrito == null) html = fortaAtual;
     else if (drillRegional == null) html = forta + sep + atual(nomeDistrito(drillDistrito));
     else if (drillBairro == null) html = forta + sep + linkDist + sep + atual(nomeRegional(drillRegional));
     else html = forta + sep + linkDist + sep + linkReg + sep + atual(nomeBairro(drillBairro));
