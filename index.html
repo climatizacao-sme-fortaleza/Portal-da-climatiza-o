@@ -115,16 +115,36 @@
         </div><!-- /mapcol -->
       </div><!-- /mapwrap -->
 
+    <!-- segundo mapa: subestacao / estudo eletrico. Mesmas coordenadas das unidades (e._latlng),
+         pontos coloridos pela CATEGORIA (mapa_sub.js). Acoes (nova/aumento/falta_estudo) saltam;
+         climatizada/liberada ficam discretas. Sem drill: so o panorama eletrico do parque. -->
+    <div class="card submapa">
+      <div class="maphead">
+        <h2>Mapa da subestação e estudo elétrico</h2>
+        <div class="count"><b id="sub-total">512</b> unidades no recorte</div>
+      </div>
+      <!-- contadores das situacoes que exigem acao; recalculam com periodo/territorio -->
+      <div class="sub-counters">
+        <div class="subc subc-nova"><b id="sub-c-nova">72</b><span>precisam de subestação nova</span></div>
+        <div class="subc subc-aumento"><b id="sub-c-aumento">25</b><span>precisam de aumento</span></div>
+        <div class="subc subc-falta"><b id="sub-c-falta">177</b><span>falta estudo elétrico</span></div>
+      </div>
+      <div id="map-sub"></div>
+      <div class="sublegend" id="sublegend"></div>
+    </div>
+
+    <!-- ordem vertical: FUNIL em cima, PANORAMA (cabecalho + KPIs) embaixo. So a ordem mudou;
+         renderPanorama() preenche #kpis e #funil por id, entao o reorder nao afeta dados/clique. -->
     <div class="card panorama">
+      <div class="funil-wrap">
+        <div class="funil-tit">Funil — status geral <span class="funil-dica">(clique numa faixa para filtrar mapa e lista)</span></div>
+        <div class="funil" id="funil"></div>
+      </div>
       <div class="maphead">
         <h2>Panorama do parque</h2>
         <div class="count"><b id="pano-total">512</b> unidades escolares no recorte<span id="pano-rec"></span></div>
       </div>
       <div class="kpis" id="kpis"></div>
-      <div class="funil-wrap">
-        <div class="funil-tit">Funil — status geral <span class="funil-dica">(clique numa faixa para filtrar mapa e lista)</span></div>
-        <div class="funil" id="funil"></div>
-      </div>
     </div>
 
     <div class="card tablecard">
@@ -174,6 +194,7 @@
   <script src="data/bairros_areas.js"></script>
   <script src="data/dados.js"></script>
   <script src="data/subestacao.js"></script>
+  <script src="data/mapa_sub.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
