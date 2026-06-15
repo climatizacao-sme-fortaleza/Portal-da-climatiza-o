@@ -129,7 +129,15 @@
         <div class="subc subc-aumento"><b id="sub-c-aumento">25</b><span>precisam de aumento</span></div>
         <div class="subc subc-falta"><b id="sub-c-falta">177</b><span>falta estudo elétrico</span></div>
       </div>
-      <div id="map-sub"></div>
+      <!-- mapa + coluna de filtros por situacao (a direita). Os chips ligam/desligam cada
+           categoria no mapa; os contadores das chips refletem o recorte (periodo/territorio). -->
+      <div class="submap-row">
+        <div id="map-sub"></div>
+        <aside class="submap-filtros">
+          <div class="smf-lab">Situações</div>
+          <div class="smf-list" id="smf-list"></div>
+        </aside>
+      </div>
       <div class="sublegend" id="sublegend"></div>
     </div>
 

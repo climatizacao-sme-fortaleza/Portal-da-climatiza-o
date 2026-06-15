@@ -743,19 +743,27 @@ function renderPainelContexto() {
   const strip = document.getElementById("cardstrip");
   if (strip) {
     const baseBalao = baseGeo.filter(atePeriodo);
-    let bMaq = 0, bSalas = 0, bInv = 0, bInv25 = 0, bInv26 = 0;
+    // SECAO 1 (Salas climatizadas): numerador = salas climatizadas ACUMULADAS ate o periodo (bMaq,
+    // mesma acumulacao da rosca de Avanco); denominador = total de salas do TERRITORIO (baseGeo),
+    // FIXO para qualquer periodo. Assim a rosca e sempre cumulativa sobre o total geral do parque.
+    let salasTerritorio = 0;
+    for (const e of baseGeo) salasTerritorio += Number(e.salas) || 0;
+    let bMaq = 0, bInv = 0, bInv25 = 0, bInv26 = 0;
     let cobUni = 0; const cobBairros = new Set(), totBairros = new Set();
     let escClim = 0, escTot = 0, ceiClim = 0, ceiTot = 0;
     for (const e of baseBalao) {
-      bSalas += Number(e.salas) || 0;
       totBairros.add(e.bairro);
       if (bucket(e.status) !== "iniciar") { cobUni++; cobBairros.add(e.bairro); }  // cobertura = nao "A iniciar"
       const ehCEI = e.tipo === "CEI";                                              // CEI vs Escolas (EMTP/EMTI/ANE)
       if (ehCEI) ceiTot++; else escTot++;
       if (String(e.status).startsWith("9.")) { if (ehCEI) ceiClim++; else escClim++; }  // so plenas (status 9)
+      // SALAS CLIMATIZADAS (numerador): "antes de 2025" = salas da unidade (climatizada sem registro
+      // de maquina na execucao); 2025/2026 = maquinas instaladas (totalMaq). Acumula por periodo.
+      const ehAntes = PERIODO[e.sge] === "antes";
+      if (ehAntes) bMaq += Number(e.salas) || 0;
       const arr = EXECUCAO[e.sge];
       if (arr) for (const x of arr) {
-        if (typeof x.totalMaq === "number") bMaq += x.totalMaq;
+        if (!ehAntes && typeof x.totalMaq === "number") bMaq += x.totalMaq;
         if (typeof x.totalGasto === "number") {
           bInv += x.totalGasto;
           const et = String(x.etapa || "").toUpperCase();                          // ano pela aba/etapa
@@ -764,11 +772,11 @@ function renderPainelContexto() {
         }
       }
     }
-    // SECAO 1: rosca de % das salas com maquina
-    const pctSalas = pctNum(bMaq, bSalas);
+    // SECAO 1: rosca cumulativa = salas climatizadas (ate o periodo) / total de salas do territorio
+    const pctSalas = pctNum(bMaq, salasTerritorio);
     const R = 16, W = 5, C = 2 * Math.PI * R, f = Math.max(0, Math.min(1, pctSalas / 100));
     const donut =
-      `<svg class="mini-donut" viewBox="0 0 40 40" role="img" aria-label="${fmtPct(bMaq, bSalas)}% das salas climatizadas">
+      `<svg class="mini-donut" viewBox="0 0 40 40" role="img" aria-label="${fmtPct(bMaq, salasTerritorio)}% das salas climatizadas">
          <circle cx="20" cy="20" r="${R}" fill="none" stroke="#EDEAE2" stroke-width="${W}"/>
          <circle cx="20" cy="20" r="${R}" fill="none" stroke="var(--verde)" stroke-width="${W}"
            stroke-dasharray="${(f * C).toFixed(2)} ${C.toFixed(2)}" transform="rotate(-90 20 20)" stroke-linecap="round"/>
@@ -780,7 +788,7 @@ function renderPainelContexto() {
       `<div class="metricard">
          <div class="mc-lab">Salas climatizadas</div>
          <div class="mc-donut-row">${donut}
-           <div class="mc-donut-sub">${bMaq.toLocaleString("pt-BR")} de ${bSalas.toLocaleString("pt-BR")} salas</div>
+           <div class="mc-donut-sub">${bMaq.toLocaleString("pt-BR")} de ${salasTerritorio.toLocaleString("pt-BR")} salas</div>
          </div>
        </div>` +
       // 2) INVESTIMENTO (laranja): total + barra + quebra por ano
@@ -1072,6 +1080,7 @@ const SUBCAT = {
 };
 const ORDEM_SUB = ["climatizada", "liberada", "falta_estudo", "aumento", "nova"]; // desenho: discretas -> acoes
 let mapSub = null, subLayer = null;
+let subCatSel = "all";   // filtro por situacao (selecao unica): "all" = todas, ou uma categoria isolada
 // recorte do 2o mapa = territorio (drill) + periodo, mesma logica do mapa principal (SEM status).
 // Assim os contadores/pontos recalculam quando ha filtro de periodo ou territorio ativo.
 function passaSubmapa(e){ return passaFiltroGeo(e) && passaPeriodo(e); }
@@ -1105,8 +1114,9 @@ function renderMapaSub(){
     const cat = MAPA_SUB[String(e.sge)];
     if (cat && porCat[cat]) { porCat[cat].push(e); cont[cat]++; }
   }
-  // desenha discretas primeiro, acoes por cima
+  // desenha discretas primeiro, acoes por cima. Selecao unica: "all" mostra tudo; senao isola 1.
   for (const cat of ORDEM_SUB) {
+    if (subCatSel !== "all" && cat !== subCatSel) continue;
     const cfg = SUBCAT[cat];
     for (const e of porCat[cat]) {
       const m = L.circleMarker(e._latlng, {
@@ -1135,6 +1145,33 @@ function renderMapaSub(){
       `<div class="subleg-body"><span class="subleg-nome">${c.lab}<b>${cont[k]}</b></span>` +
       `<span class="subleg-desc">${c.desc}</span></div></div>`;
   }).join("");
+  // chips de filtro por situacao (coluna direita), SELECAO UNICA: clicar isola so aquela
+  // categoria no mapa (apaga o resto); "Todas" volta a mostrar tudo. Clicar na ja selecionada
+  // tambem volta pra "Todas". Contagens = recorte (periodo/territorio).
+  const fl = document.getElementById("smf-list");
+  if (fl) {
+    const selAll = subCatSel === "all";
+    const chipTodas =
+      `<button type="button" class="smf-chip smf-todas-chip${selAll ? " sel" : ""}" data-cat="all">` +
+      `<span class="smf-nome">Todas as situações</span><span class="smf-n">${total}</span></button>`;
+    const chipsCat = legOrder.map(k => {
+      const c = SUBCAT[k], sel = subCatSel === k;
+      const selStyle = sel
+        ? ` style="background:color-mix(in srgb,${c.cor} 14%,#fff);border-color:color-mix(in srgb,${c.cor} 45%,#fff)"`
+        : "";
+      return `<button type="button" class="smf-chip${sel ? " sel" : ""}" data-cat="${k}"${selStyle}>` +
+        `<span class="smf-sw" style="background:${c.cor}"></span>` +
+        `<span class="smf-nome">${c.lab}</span>` +
+        `<span class="smf-n">${cont[k]}</span></button>`;
+    }).join("");
+    fl.innerHTML = chipTodas + chipsCat;
+    fl.querySelectorAll(".smf-chip").forEach(btn => btn.onclick = () => {
+      const k = btn.dataset.cat;
+      // single-select com toggle: clicar na categoria ja ativa volta pra "all"
+      subCatSel = (k === "all") ? "all" : (subCatSel === k ? "all" : k);
+      renderMapaSub();
+    });
+  }
 }
 
 // ---------- init ----------
