@@ -115,6 +115,15 @@
         </div><!-- /mapcol -->
       </div><!-- /mapwrap -->
 
+    <!-- Funil de Status: logo abaixo da faixa de indicadores, acima do mapa de subestacao.
+         Clicar numa faixa abre a LISTA das unidades daquela faixa (agrupada por distrito); nao filtra o mapa. -->
+    <div class="card funil-card">
+      <div class="funil-wrap">
+        <div class="funil-tit">Funil — status geral <span class="funil-dica">(clique numa faixa para ver as unidades)</span></div>
+        <div class="funil" id="funil"></div>
+      </div>
+    </div>
+
     <!-- segundo mapa: subestacao / estudo eletrico. Mesmas coordenadas das unidades (e._latlng),
          pontos coloridos pela CATEGORIA (mapa_sub.js). Acoes (nova/aumento/falta_estudo) saltam;
          climatizada/liberada ficam discretas. Sem drill: so o panorama eletrico do parque. -->
@@ -141,13 +150,8 @@
       <div class="sublegend" id="sublegend"></div>
     </div>
 
-    <!-- ordem vertical: FUNIL em cima, PANORAMA (cabecalho + KPIs) embaixo. So a ordem mudou;
-         renderPanorama() preenche #kpis e #funil por id, entao o reorder nao afeta dados/clique. -->
+    <!-- Panorama do parque (KPIs). O Funil saiu daqui e virou bloco proprio, acima do mapa de subestacao. -->
     <div class="card panorama">
-      <div class="funil-wrap">
-        <div class="funil-tit">Funil — status geral <span class="funil-dica">(clique numa faixa para filtrar mapa e lista)</span></div>
-        <div class="funil" id="funil"></div>
-      </div>
       <div class="maphead">
         <h2>Panorama do parque</h2>
         <div class="count"><b id="pano-total">512</b> unidades escolares no recorte<span id="pano-rec"></span></div>
