@@ -757,13 +757,10 @@ function renderPainelContexto() {
       const ehCEI = e.tipo === "CEI";                                              // CEI vs Escolas (EMTP/EMTI/ANE)
       if (ehCEI) ceiTot++; else escTot++;
       if (String(e.status).startsWith("9.")) { if (ehCEI) ceiClim++; else escClim++; }  // so plenas (status 9)
-      // SALAS CLIMATIZADAS (numerador): "antes de 2025" = salas da unidade (climatizada sem registro
-      // de maquina na execucao); 2025/2026 = maquinas instaladas (totalMaq). Acumula por periodo.
-      const ehAntes = PERIODO[e.sge] === "antes";
-      if (ehAntes) bMaq += Number(e.salas) || 0;
+      // SALAS CLIMATIZADAS (numerador): maquinas instaladas (totalMaq), acumuladas ate o periodo.
       const arr = EXECUCAO[e.sge];
       if (arr) for (const x of arr) {
-        if (!ehAntes && typeof x.totalMaq === "number") bMaq += x.totalMaq;
+        if (typeof x.totalMaq === "number") bMaq += x.totalMaq;
         if (typeof x.totalGasto === "number") {
           bInv += x.totalGasto;
           const et = String(x.etapa || "").toUpperCase();                          // ano pela aba/etapa
