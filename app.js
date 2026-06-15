@@ -523,8 +523,10 @@ function passaFiltroGeo(e) {
 // antigo (2025). Assim todas as 512 tem periodo. PERIODO[sge] e calculado uma vez em montaPeriodos().
 let periodoAtivo = "all";
 // grupo do funil (bucket) ativo: null | "iniciar" | "pipeline" | "parc" | "clim".
-// Filtra mapa/lista por bucket (a faixa "Em processo" = bucket "pipeline" = status 1-6).
+// Filtra mapa/lista por bucket. Hoje so o dropdown "Status geral" usa isso; o FUNIL nao filtra mais.
 let funilBucket = null;
+// faixa do funil com a lista de unidades aberta (expandida). NAO filtra o mapa, so mostra a lista.
+let funilExpandido = null;
 const PERIODO = {};
 function periodoDaEscola(e) {
   const arr = EXECUCAO[e.sge] || [];
@@ -568,6 +570,7 @@ function aplicaFiltros() {
   }
   document.getElementById("contagem").textContent = n;
   renderLista();
+  funilExpandido = null;   // qualquer mudanca de recorte (drill/periodo/status) fecha a lista do funil
   renderPanorama();
   renderPainelContexto();
   renderMapaSub();   // 2o mapa (subestacao) acompanha territorio + periodo
@@ -854,8 +857,8 @@ function renderPanorama() {
     `<div class="kpi ${k.cls}"><div class="kpi-val">${k.val}</div><div class="kpi-lab">${k.lab}</div></div>`
   ).join("");
 
-  // funil simplificado: 4 grupos por bucket, na ordem A iniciar -> Em processo (status 1-6)
-  // -> Climatizada parcial -> Climatizada. Clicar filtra mapa/lista pelo grupo (funilBucket).
+  // funil simplificado: 4 grupos por bucket (A iniciar / Em processo / Parcial / Climatizada).
+  // Clicar numa faixa ABRE a lista das unidades daquela faixa (agrupada por distrito); NAO filtra o mapa.
   const GRUPOS = [
     ["iniciar",  "A iniciar",           nInic],
     ["pipeline", "Em processo",         nAnd],
@@ -865,18 +868,54 @@ function renderPanorama() {
   const max = Math.max(1, ...GRUPOS.map(g => g[2]));
   document.getElementById("funil").innerHTML = GRUPOS.map(([k, lab, c]) => {
     const pct = Math.round((c / max) * 100);
-    return `<button class="fbar${funilBucket === k ? " on" : ""}" data-b="${k}">
+    const aberta = funilExpandido === k;
+    const bar = `<button class="fbar${aberta ? " on" : ""}" type="button" data-b="${k}" aria-expanded="${aberta}">
       <span class="fbar-lab">${lab}</span>
       <span class="fbar-track"><span class="fbar-fill bk-${k}" style="width:${pct}%"></span></span>
       <span class="fbar-num">${c}</span>
     </button>`;
+    return bar + (aberta ? funilListaHTML(k, base) : "");
   }).join("");
 
+  // clique na faixa: abre/fecha a lista (toggle); clicar em outra fecha a anterior. NAO toca no mapa.
   document.querySelectorAll("#funil .fbar").forEach(btn => btn.onclick = () => {
-    funilBucket = (funilBucket === btn.dataset.b) ? null : btn.dataset.b;  // alterna o grupo
-    document.getElementById("sel-status").value = funilBucket || "";   // espelha no dropdown de Status geral
-    aplicaFiltros();
+    funilExpandido = (funilExpandido === btn.dataset.b) ? null : btn.dataset.b;
+    renderPanorama();   // re-renderiza so o painel/funil; o mapa fica intacto
   });
+  document.querySelectorAll("#funil .fl-close").forEach(btn => btn.onclick = ev => {
+    ev.stopPropagation(); funilExpandido = null; renderPanorama();
+  });
+  document.querySelectorAll("#funil .fl-item").forEach(btn => btn.onclick = ev => {
+    ev.stopPropagation(); abreFicha(btn.dataset.sge);
+  });
+}
+
+// lista das unidades de uma faixa do funil, agrupada por DISTRITO (rolavel; cada item abre a ficha).
+// base = recorte do funil (territorio + periodo), o mesmo das contagens das faixas.
+function funilListaHTML(k, base) {
+  const us = base.filter(e => bucket(e.status) === k);
+  const porDist = {};
+  for (const e of us) (porDist[e.distrito] = porDist[e.distrito] || []).push(e);
+  const ordem = ["I", "II", "III", "IV", "V", "VI"];
+  const dists = Object.keys(porDist).sort((a, b) => {
+    const ia = ordem.indexOf(a) < 0 ? 99 : ordem.indexOf(a);
+    const ib = ordem.indexOf(b) < 0 ? 99 : ordem.indexOf(b);
+    return ia - ib || String(a).localeCompare(String(b), "pt-BR");
+  });
+  const grupos = dists.map(d => {
+    const lista = porDist[d].slice().sort((a, b) => String(a.nome).localeCompare(String(b.nome), "pt-BR"));
+    const itens = lista.map(e => {
+      const b = bucket(e.status);
+      return `<button class="fl-item" type="button" data-sge="${e.sge}">` +
+        `<span class="fl-nome">${e.nome}</span>` +
+        `<span class="pill ${PILL[b]}">${statusLabel(e.status)}</span></button>`;
+    }).join("");
+    return `<div class="fl-grupo"><div class="fl-dist">Distrito ${d}<span class="fl-dist-n">${lista.length}</span></div>${itens}</div>`;
+  }).join("");
+  return `<div class="funil-lista">` +
+    `<div class="fl-head"><span class="fl-tot">${us.length} unidade${us.length === 1 ? "" : "s"}</span>` +
+    `<button class="fl-close" type="button" aria-label="Fechar lista">&times;</button></div>` +
+    `<div class="fl-scroll">${grupos || '<div class="fl-vazia">Nenhuma unidade neste recorte.</div>'}</div></div>`;
 }
 
 // ---------- lista / busca ----------
