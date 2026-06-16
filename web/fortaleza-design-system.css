@@ -1,0 +1,335 @@
+/* =============================================================
+   FORTALEZA / SME - DESIGN SYSTEM
+   Fonte: Manual de Identidade Visual PMF 2025-2028
+          + padroes do Portal da Educacao (educacao.sme.fortaleza.ce.gov.br)
+   Uso: importe este arquivo antes do seu CSS de portal.
+   ============================================================= */
+
+:root {
+
+  /* ---------- CORES OFICIAIS (manual, pag. 21-22) ---------- */
+  --fz-laranja:    #F15A22;  /* cor prioritaria  | rgb 241,90,34  */
+  --fz-verde:      #009889;  /* cor secundaria   | rgb 0,152,137  */
+  --fz-azul:       #00A0DC;  /* cor de detalhe   | rgb 0,160,220  */
+  --fz-creme:      #FFE6CB;  /* fundo prioritario| rgb 255,230,203 */
+  --fz-petroleo:   #325565;  /* tipografia       | rgb 50,85,101  */
+  --fz-grafite:    #414042;  /* tipografia       | rgb 65,64,66   */
+  --fz-verde-tema: #15c8b4;  /* teal mais claro do tema Blocksy (Educacao). Use so
+                                se quiser bater pixel a pixel com o site. O oficial
+                                do manual e o --fz-verde acima (#009889). */
+
+  /* ---------- DERIVADOS (gerados, nao estao no manual) ---------- */
+  --fz-laranja-700: #C8430F;   /* hover de botao laranja */
+  --fz-verde-700:   #00766A;   /* hover de botao verde   */
+  --fz-creme-soft:  #FFF3E6;   /* fundo de secao suave   */
+  --fz-cinza-bar:   #ECECEC;   /* barra de utilidade do topo (Educacao) */
+  --fz-cinza-linha: #E2E2E2;   /* bordas e divisores     */
+  --fz-cinza-texto: #6B6B6B;   /* texto secundario       */
+  --fz-branco:      #FFFFFF;
+
+  /* ---------- PAPEIS SEMANTICOS ---------- */
+  --fz-bg:           var(--fz-branco);   /* fundo principal: branco institucional */
+  --fz-bg-accent:    var(--fz-creme);    /* secoes de destaque */
+  --fz-texto:        var(--fz-petroleo); /* titulos e numeros  */
+  --fz-texto-corpo:  var(--fz-grafite);  /* corpo de texto     */
+  --fz-link:         var(--fz-verde);    /* links de navegacao */
+  --fz-acao:         var(--fz-laranja);  /* botoes / CTA       */
+
+  /* ---------- STATUS (mapeado pro seu dashboard de climatizacao) ---------- */
+  --fz-st-climatizada: var(--fz-verde);   /* concluida   */
+  --fz-st-parcial:     #5FB98E;           /* parcial     */
+  --fz-st-execucao:    var(--fz-laranja); /* em execucao */
+  --fz-st-iniciar:     #9A958F;           /* a iniciar   */
+
+  /* ---------- TIPOGRAFIA ----------
+     CONFIRMADO pela auditoria: o Portal da Educacao usa MONTSERRAT (Google Fonts)
+     em todo o texto, inclusive titulos e nav. As fontes do manual (Fox Grotesque,
+     Aribau, Rawline) sao licenciadas e nao entram na web. Montserrat e o padrao
+     institucional real. Carregue no HTML:
+     https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap */
+  --fz-ff-display: "Montserrat", system-ui, sans-serif;
+  --fz-ff-titulo:  "Montserrat", system-ui, sans-serif;
+  --fz-ff-corpo:   "Montserrat", system-ui, -apple-system, Arial, sans-serif;
+  --fz-ff-rotulo:  "Montserrat", system-ui, sans-serif; /* micro-rotulos caixa alta */
+
+  --fz-peso-display: 800;
+  --fz-peso-titulo:  700;
+  --fz-peso-rotulo:  700;
+
+  /* ---------- ESCALA TIPOGRAFICA ---------- */
+  --fz-fs-display: clamp(2rem, 4vw, 3.25rem);
+  --fz-fs-h1: clamp(1.6rem, 2.6vw, 2.25rem);
+  --fz-fs-h2: 1.5rem;
+  --fz-fs-h3: 1.125rem;
+  --fz-fs-corpo: 1rem;
+  --fz-fs-peq: 0.8125rem;
+  --fz-fs-rotulo: 0.6875rem; /* labels caixa alta, com letter-spacing */
+
+  /* ---------- ESPACAMENTO (base 4px) ---------- */
+  --fz-sp-1: 4px;
+  --fz-sp-2: 8px;
+  --fz-sp-3: 12px;
+  --fz-sp-4: 16px;
+  --fz-sp-5: 24px;
+  --fz-sp-6: 32px;
+  --fz-sp-7: 48px;
+  --fz-sp-8: 64px;
+
+  /* ---------- RAIO ---------- */
+  --fz-r-sm: 3px;   /* botoes (padrao Educacao) */
+  --fz-r-md: 8px;   /* cards de servico */
+  --fz-r-lg: 12px;  /* paineis (Servicos, Transparencia) */
+
+  /* ---------- SOMBRA ---------- */
+  --fz-sombra-1: 0 1px 2px rgba(50,85,101,.08);
+  --fz-sombra-2: 0 4px 14px rgba(50,85,101,.12);
+
+  /* ---------- LAYOUT ---------- */
+  --fz-container: 1200px;
+}
+
+/* =============================================================
+   BASE
+   ============================================================= */
+body {
+  margin: 0;
+  background: var(--fz-bg);
+  color: var(--fz-texto-corpo);
+  font-family: var(--fz-ff-corpo);
+  font-size: var(--fz-fs-corpo);
+  line-height: 1.55;
+}
+
+h1, h2, h3, .fz-titulo {
+  font-family: var(--fz-ff-titulo);
+  color: var(--fz-texto);
+  font-weight: var(--fz-peso-titulo);
+  line-height: 1.1;
+  margin: 0 0 var(--fz-sp-3);
+}
+
+.fz-rotulo { /* micro-rotulo caixa alta dos seus cards */
+  font-family: var(--fz-ff-rotulo);
+  font-size: var(--fz-fs-rotulo);
+  font-weight: var(--fz-peso-rotulo);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--fz-cinza-texto);
+}
+
+/* =============================================================
+   BARRA DE UTILIDADE (topo cinza do Portal da Educacao)
+   ============================================================= */
+.fz-utilbar {
+  background: var(--fz-cinza-bar);
+  border-bottom: 1px solid var(--fz-cinza-linha);
+}
+.fz-utilbar .fz-inner {
+  max-width: var(--fz-container);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--fz-sp-5);
+  padding: var(--fz-sp-2) var(--fz-sp-5);
+}
+.fz-utilbar a {
+  font-family: var(--fz-ff-rotulo);
+  font-size: var(--fz-fs-rotulo);
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--fz-verde);
+  text-decoration: none;
+}
+.fz-utilbar a:hover { color: var(--fz-verde-700); }
+
+/* =============================================================
+   FAIXA MASTHEAD (faixa laranja institucional)
+   No seu portal: substitui o bloco "Climatizacao Escolar Fortaleza"
+   por esta faixa, mantendo o titulo. Os blocos decorativos a direita
+   replicam o canto do Portal da Educacao.
+   ============================================================= */
+.fz-masthead {
+  background: var(--fz-laranja);
+  color: var(--fz-branco);
+  position: relative;
+  overflow: hidden;
+}
+.fz-masthead .fz-inner {
+  max-width: var(--fz-container);
+  margin: 0 auto;
+  padding: var(--fz-sp-6) var(--fz-sp-5);
+}
+.fz-masthead .fz-kicker {
+  font-family: var(--fz-ff-titulo);
+  font-weight: 600;
+  font-size: 1rem;
+  opacity: .95;
+  margin: 0;
+}
+.fz-masthead .fz-titulo-grande {
+  font-family: var(--fz-ff-display);
+  font-weight: var(--fz-peso-display);
+  font-size: var(--fz-fs-display);
+  color: var(--fz-branco);
+  margin: 0;
+  line-height: 1;
+}
+/* blocos decorativos do canto (azul/verde/creme) */
+.fz-masthead .fz-blocos {
+  position: absolute;
+  right: 0; top: 0; bottom: 0;
+  display: flex; align-items: stretch;
+}
+.fz-masthead .fz-blocos i { display:block; width: 56px; }
+.fz-masthead .fz-blocos .b-azul  { background: var(--fz-azul); align-self: flex-start; height: 56px; }
+.fz-masthead .fz-blocos .b-verde { background: var(--fz-verde); align-self: flex-end; height: 56px; }
+.fz-masthead .fz-blocos .b-creme { background: var(--fz-creme); }
+
+/* =============================================================
+   REGUA TRICOLOR (voce ja usa; padronizada nas cores oficiais)
+   ============================================================= */
+.fz-regua {
+  display: flex;
+  height: 6px;
+}
+.fz-regua i { display:block; flex:1; }
+.fz-regua .t-laranja { background: var(--fz-laranja); }
+.fz-regua .t-azul    { background: var(--fz-azul); }
+.fz-regua .t-verde   { background: var(--fz-verde); }
+
+/* =============================================================
+   NAVEGACAO PRIMARIA (links teal, borda laranja embaixo)
+   ============================================================= */
+.fz-nav {
+  background: var(--fz-branco);
+  border-bottom: 2px solid var(--fz-laranja);
+}
+.fz-nav .fz-inner {
+  max-width: var(--fz-container);
+  margin: 0 auto;
+  display: flex; align-items: center; gap: var(--fz-sp-5);
+  padding: var(--fz-sp-4) var(--fz-sp-5);
+}
+.fz-nav a {
+  font-family: var(--fz-ff-rotulo);
+  font-weight: 700;
+  font-size: 0.8125rem;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--fz-petroleo);
+  text-decoration: none;
+}
+.fz-nav a:hover, .fz-nav a.ativo { color: var(--fz-laranja); }
+
+/* =============================================================
+   BOTOES (padrao Educacao: laranja solido, "Leia mais")
+   ============================================================= */
+.fz-btn {
+  display: inline-flex; align-items: center; gap: var(--fz-sp-2);
+  font-family: var(--fz-ff-rotulo);
+  font-weight: 500;          /* Educacao usa peso 500 */
+  font-size: 15px;           /* Educacao usa 15px */
+  text-transform: uppercase; letter-spacing: .04em;
+  padding: 5px 20px;         /* valor exato do tema Blocksy */
+  min-height: 40px;
+  border: none;              /* Educacao: sem borda */
+  border-radius: var(--fz-r-sm);  /* 3px */
+  cursor: pointer; text-decoration: none;
+  transition: background .15s, color .15s, border-color .15s;
+}
+.fz-btn-primario { background: var(--fz-laranja); color: var(--fz-branco); }
+.fz-btn-primario:hover { background: var(--fz-laranja-700); }
+.fz-btn-outline { background: transparent; color: var(--fz-verde); border-color: var(--fz-verde); }
+.fz-btn-outline:hover { background: var(--fz-verde); color: var(--fz-branco); }
+
+/* =============================================================
+   PILLS / TOGGLES (Distritos / Regionais, filtros de periodo)
+   ============================================================= */
+.fz-pill {
+  font-family: var(--fz-ff-rotulo);
+  font-weight: 700; font-size: var(--fz-fs-peq);
+  padding: var(--fz-sp-2) var(--fz-sp-3);
+  border: 1px solid var(--fz-cinza-linha);
+  border-radius: var(--fz-r-sm);
+  background: var(--fz-branco); color: var(--fz-petroleo);
+  cursor: pointer;
+}
+.fz-pill.ativo { background: var(--fz-petroleo); color: var(--fz-branco); border-color: var(--fz-petroleo); }
+
+/* =============================================================
+   CARDS DE NUMERO (Panorama do Parque)
+   ============================================================= */
+.fz-card {
+  background: var(--fz-branco);
+  border: 1px solid var(--fz-cinza-linha);
+  border-radius: var(--fz-r-md);
+  padding: var(--fz-sp-5);
+}
+.fz-card .fz-num {
+  font-family: var(--fz-ff-display);
+  font-weight: var(--fz-peso-display);
+  font-size: 2.5rem; line-height: 1;
+  color: var(--fz-petroleo);
+}
+.fz-card.borda-laranja { border-left: 4px solid var(--fz-laranja); }
+.fz-card.borda-verde   { border-left: 4px solid var(--fz-verde); }
+.fz-card.borda-azul    { border-left: 4px solid var(--fz-azul); }
+
+/* =============================================================
+   PAINEL DESTACADO (estilo "Servicos" / "Transparencia")
+   ============================================================= */
+.fz-painel {
+  background: var(--fz-verde);
+  color: var(--fz-branco);
+  border-radius: var(--fz-r-lg);
+  overflow: hidden;
+}
+.fz-painel .fz-painel-head {
+  background: var(--fz-verde-700);
+  font-family: var(--fz-ff-titulo);
+  font-weight: 700;
+  text-align: center;
+  padding: var(--fz-sp-4);
+}
+
+/* =============================================================
+   PILLS DE STATUS (tabela de unidades)
+   ============================================================= */
+.fz-status {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--fz-ff-rotulo);
+  font-size: var(--fz-fs-rotulo); font-weight: 700;
+  text-transform: uppercase; letter-spacing: .04em;
+  padding: 3px 10px; border-radius: 999px;
+}
+.fz-status::before { content:""; width:8px; height:8px; border-radius:50%; display:inline-block; }
+.fz-status.climatizada { background: rgba(0,152,137,.12);  color: var(--fz-verde-700); }
+.fz-status.climatizada::before { background: var(--fz-st-climatizada); }
+.fz-status.parcial     { background: rgba(95,185,142,.15); color: #2f7a57; }
+.fz-status.parcial::before { background: var(--fz-st-parcial); }
+.fz-status.execucao    { background: rgba(241,90,34,.12);  color: var(--fz-laranja-700); }
+.fz-status.execucao::before { background: var(--fz-st-execucao); }
+.fz-status.iniciar     { background: rgba(154,149,143,.15); color: #6b6660; }
+.fz-status.iniciar::before { background: var(--fz-st-iniciar); }
+
+/* =============================================================
+   RODAPE (faixa laranja, padrao Educacao)
+   ============================================================= */
+.fz-footer {
+  background: var(--fz-laranja);
+  color: var(--fz-branco);
+}
+.fz-footer .fz-inner {
+  max-width: var(--fz-container);
+  margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--fz-sp-5);
+  padding: var(--fz-sp-6) var(--fz-sp-5);
+}
+.fz-footer a { color: var(--fz-branco); text-decoration: none; }
+.fz-footer .fz-redes a {
+  display:inline-flex; width:38px; height:38px; align-items:center; justify-content:center;
+  border:2px solid var(--fz-branco); border-radius:50%; margin-right: var(--fz-sp-2);
+}

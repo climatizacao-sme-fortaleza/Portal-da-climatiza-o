@@ -12,11 +12,26 @@ const MAPA_SUB    = window.MAPA_SUB || {};   // SGE -> CATEGORIA (subestacao / e
 const LIMITE_DIAS_OS = 15;
 
 function bucket(status) {
+  // Regra de agrupamento (nova classificacao da gestao), pelo numero do status:
+  //   9 = Climatizada | 10 = Climatizada parcial | 5-8 = Em execucao | 0-4 = A iniciar
   const s = (status || "0. A INICIAR").trim();
-  if (s === "9. CLIMATIZADA") return "clim";
-  if (s === "10. CLIMATIZADA PARCIAL") return "parc";
-  if (s === "0. A INICIAR") return "iniciar";
-  return "pipeline";
+  const n = parseInt(s, 10);
+  if (n === 9) return "clim";
+  if (n === 10) return "parc";
+  if (n >= 5 && n <= 8) return "pipeline";   // pipeline = "Em execucao" (status 5-8)
+  return "iniciar";                          // status 0-4 (e qualquer fallback) = "A iniciar"
+}
+
+// Sala dos professores climatizada (status estrito): retorna o ANO (2025/2026) ou null.
+// INSTALADA 2026 -> 2026; CLIMATIZADA (exata) ou INSTALADA 2025 -> 2025. Variantes (insuficiente,
+// danificado, sem vida util) NAO contam. Fonte: window.SALAS_PROF (SGE -> "status1||status2").
+function salaProfAno(sge) {
+  const raw = (window.SALAS_PROF || {})[String(sge)];
+  if (!raw) return null;
+  const sts = raw.split("||");
+  if (sts.includes("INSTALADA 2026")) return "2026";
+  if (sts.includes("INSTALADA 2025") || sts.includes("CLIMATIZADA")) return "2025";
+  return null;
 }
 
 function moeda(v) {
@@ -547,9 +562,9 @@ function passaPeriodo(e) {
 // predicado compartilhado entre mapa e lista (geografico + status + periodo; a busca textual e so da lista)
 function passaFiltro(e) {
   if (!passaFiltroGeo(e)) return false;
-  // Status geral (dropdown) e funil controlam o MESMO filtro por grupo (funilBucket): A iniciar /
-  // Em processo (status 1-6) / Climatizada parcial / Climatizada. Os dois ficam sincronizados.
-  if (funilBucket && bucket(e.status) !== funilBucket) return false;   // grupo (dropdown ou funil)
+  // Status geral (dropdown) filtra por grupo (funilBucket): A iniciar (0-4) / Em execucao (5-8) /
+  // Climatizada parcial (10) / Climatizada (9). O funil NAO filtra mais (so abre a lista).
+  if (funilBucket && bucket(e.status) !== funilBucket) return false;   // grupo do dropdown Status geral
   if (!passaPeriodo(e)) return false;
   return true;
 }
@@ -746,12 +761,27 @@ function renderPainelContexto() {
   const strip = document.getElementById("cardstrip");
   if (strip) {
     const baseBalao = baseGeo.filter(atePeriodo);
-    // SECAO 1 (Salas climatizadas): numerador = salas climatizadas ACUMULADAS ate o periodo (bMaq,
-    // mesma acumulacao da rosca de Avanco); denominador = total de salas do TERRITORIO (baseGeo),
-    // FIXO para qualquer periodo. Assim a rosca e sempre cumulativa sobre o total geral do parque.
-    let salasTerritorio = 0;
-    for (const e of baseGeo) salasTerritorio += Number(e.salas) || 0;
-    let bMaq = 0, bInv = 0, bInv25 = 0, bInv26 = 0;
+    // SECAO 1 (Salas climatizadas): SALAS REAIS climatizadas, ACUMULADAS ate o periodo, sobre o total
+    // de salas do TERRITORIO (denominador FIXO, independe do periodo). Numerador (sem dupla contagem):
+    //   - salas das unidades clim/parc, pelo periodo da unidade (etapa: antes/2025/2026);
+    //   - + 1 sala por escola NAO climatizada com sala de professores climatizada (ano pelo status:
+    //     INSTALADA 2026 -> 2026; CLIMATIZADA/INSTALADA 2025 -> 2025).
+    // FANTASMA (previsto, so em 2026/Todos): salas da etapa 02 ainda nao climatizadas/parciais.
+    const E2 = window.ETAPA02 || {};
+    const mostraFantasma = (periodoAtivo === "all" || periodoAtivo === "2026");
+    let salasTerritorio = 0, salasClim = 0, fantasma = 0;
+    for (const e of baseGeo) {
+      salasTerritorio += Number(e.salas) || 0;
+      const b = bucket(e.status);
+      if (b === "clim" || b === "parc") {
+        if ((ordPer[PERIODO[e.sge]] ?? 99) <= cutoff) salasClim += Number(e.salas) || 0;
+      } else {
+        const ano = salaProfAno(e.sge);
+        if (ano && (ordPer[ano] ?? 99) <= cutoff) salasClim += 1;             // sala de professores
+        if (mostraFantasma && (String(e.sge) in E2)) fantasma += Number(e.salas) || 0;  // etapa 02 a fazer
+      }
+    }
+    let bInv = 0, bInv25 = 0, bInv26 = 0;
     let cobUni = 0; const cobBairros = new Set(), totBairros = new Set();
     let escClim = 0, escTot = 0, ceiClim = 0, ceiTot = 0;
     for (const e of baseBalao) {
@@ -760,10 +790,8 @@ function renderPainelContexto() {
       const ehCEI = e.tipo === "CEI";                                              // CEI vs Escolas (EMTP/EMTI/ANE)
       if (ehCEI) ceiTot++; else escTot++;
       if (String(e.status).startsWith("9.")) { if (ehCEI) ceiClim++; else escClim++; }  // so plenas (status 9)
-      // SALAS CLIMATIZADAS (numerador): maquinas instaladas (totalMaq), acumuladas ate o periodo.
       const arr = EXECUCAO[e.sge];
       if (arr) for (const x of arr) {
-        if (typeof x.totalMaq === "number") bMaq += x.totalMaq;
         if (typeof x.totalGasto === "number") {
           bInv += x.totalGasto;
           const et = String(x.etapa || "").toUpperCase();                          // ano pela aba/etapa
@@ -772,15 +800,24 @@ function renderPainelContexto() {
         }
       }
     }
-    // SECAO 1: rosca cumulativa = salas climatizadas (ate o periodo) / total de salas do territorio
-    const pctSalas = pctNum(bMaq, salasTerritorio);
-    const R = 16, W = 5, C = 2 * Math.PI * R, f = Math.max(0, Math.min(1, pctSalas / 100));
+    // SECAO 1: rosca cumulativa. Verde SOLIDO = executado real (salasClim/territorio); o % em destaque
+    // e sempre o real. Quando ha fantasma (2026/Todos), faixa verde TRANSPARENTE por cima = previsto.
+    const pctSalas = pctNum(salasClim, salasTerritorio);
+    const pctFant = pctNum(fantasma, salasTerritorio);
+    const R = 16, W = 5, C = 2 * Math.PI * R;
+    const fR = Math.max(0, Math.min(1, pctSalas / 100));
+    const fF = Math.max(0, Math.min(1 - fR, pctFant / 100));
+    const arcFant = fF > 0
+      ? `<circle cx="20" cy="20" r="${R}" fill="none" stroke="var(--verde)" stroke-opacity=".30" stroke-width="${W}"
+           stroke-dasharray="${(fF * C).toFixed(2)} ${C.toFixed(2)}" transform="rotate(${(fR * 360 - 90).toFixed(2)} 20 20)"/>`
+      : "";
     const donut =
-      `<svg class="mini-donut" viewBox="0 0 40 40" role="img" aria-label="${fmtPct(bMaq, salasTerritorio)}% das salas climatizadas">
+      `<svg class="mini-donut" viewBox="0 0 40 40" role="img" aria-label="${fmtPct(salasClim, salasTerritorio)}% das salas climatizadas">
          <circle cx="20" cy="20" r="${R}" fill="none" stroke="#EDEAE2" stroke-width="${W}"/>
+         ${arcFant}
          <circle cx="20" cy="20" r="${R}" fill="none" stroke="var(--verde)" stroke-width="${W}"
-           stroke-dasharray="${(f * C).toFixed(2)} ${C.toFixed(2)}" transform="rotate(-90 20 20)" stroke-linecap="round"/>
-         <text x="20" y="24" text-anchor="middle" class="mini-donut-num" font-size="11">${Math.round(pctSalas)}%</text>
+           stroke-dasharray="${(fR * C).toFixed(2)} ${C.toFixed(2)}" transform="rotate(-90 20 20)" stroke-linecap="round"/>
+         <text x="20" y="24" text-anchor="middle" class="mini-donut-num" font-size="10">${fmtPct(salasClim, salasTerritorio)}%</text>
        </svg>`;
     const pctVerba = pctNum(bInv, PARQUE_VERBA);
     strip.innerHTML =
@@ -788,7 +825,7 @@ function renderPainelContexto() {
       `<div class="metricard">
          <div class="mc-lab">Salas climatizadas</div>
          <div class="mc-donut-row">${donut}
-           <div class="mc-donut-sub">${bMaq.toLocaleString("pt-BR")} de ${salasTerritorio.toLocaleString("pt-BR")} salas</div>
+           <div class="mc-donut-sub">${salasClim.toLocaleString("pt-BR")} de ${salasTerritorio.toLocaleString("pt-BR")} salas${fantasma > 0 ? `<br><span class="mc-prev"><i></i>+ ${fantasma.toLocaleString("pt-BR")} previstas (etapa 02)</span>` : ""}</div>
          </div>
        </div>` +
       // 2) INVESTIMENTO (laranja): total + barra + quebra por ano
@@ -832,7 +869,7 @@ function renderPanorama() {
   const base = ESCOLAS.filter(e => passaFiltroGeo(e) && passaPeriodo(e));
   const total = base.length;
 
-  // contagem por bucket: a iniciar (0) / em processo (1-6) / parcial (10) / climatizada (9)
+  // contagem por bucket: a iniciar (0-4) / em execucao (5-8) / parcial (10) / climatizada (9)
   let nClim = 0, nParc = 0, nInic = 0, nAnd = 0, nSemSub = 0, invest = 0;
   for (const e of base) {
     const b = bucket(e.status);
@@ -848,7 +885,7 @@ function renderPanorama() {
   const kpis = [
     { lab: "Climatizadas", val: nClim, cls: "k-clim" },
     { lab: "Parciais", val: nParc, cls: "k-parc" },
-    { lab: "Em andamento", val: nAnd, cls: "k-and" },
+    { lab: "Em execução", val: nAnd, cls: "k-and" },
     { lab: "A iniciar", val: nInic, cls: "k-init" },
     { lab: "Investido · execução", val: moeda(invest), cls: "k-inv" },
     { lab: "Represa · sem subestação", val: nSemSub, cls: "k-sub" }
@@ -857,11 +894,11 @@ function renderPanorama() {
     `<div class="kpi ${k.cls}"><div class="kpi-val">${k.val}</div><div class="kpi-lab">${k.lab}</div></div>`
   ).join("");
 
-  // funil simplificado: 4 grupos por bucket (A iniciar / Em processo / Parcial / Climatizada).
+  // funil simplificado: 4 grupos por bucket (A iniciar / Em execução / Parcial / Climatizada).
   // Clicar numa faixa ABRE a lista das unidades daquela faixa (agrupada por distrito); NAO filtra o mapa.
   const GRUPOS = [
     ["iniciar",  "A iniciar",           nInic],
-    ["pipeline", "Em processo",         nAnd],
+    ["pipeline", "Em execução",         nAnd],
     ["parc",     "Climatizada parcial", nParc],
     ["clim",     "Climatizada",         nClim]
   ];
@@ -875,7 +912,9 @@ function renderPanorama() {
       <span class="fbar-num">${c}</span>
     </button>`;
     return bar + (aberta ? funilListaHTML(k, base) : "");
-  }).join("");
+  }).join("") +
+    // total do recorte (soma das 4 faixas) no rodape do funil
+    `<div class="funil-total"><span class="ft-lab">Total de unidades</span><span class="ft-num">${total}</span></div>`;
 
   // clique na faixa: abre/fecha a lista (toggle); clicar em outra fecha a anterior. NAO toca no mapa.
   document.querySelectorAll("#funil .fbar").forEach(btn => btn.onclick = () => {
@@ -1056,16 +1095,17 @@ function abreFicha(sge){
   st.textContent = statusLabel(e.status);   // so exibicao; e.status (com numero) fica intacto
   st.className = "st " + STCLS[b];
 
-  // selo de periodo de climatizacao em destaque no topo (usa PERIODO[sge] ja calculado).
+  // selo de periodo em destaque no topo (usa PERIODO[sge] + a faixa/bucket atual). Para o lote de
+  // 2025/2026 o texto segue a NOVA classificacao: climatizada / em execucao (5-8) / a iniciar (0-4).
   const per = PERIODO[e.sge];
+  const clima = (b === "clim" || b === "parc");
   let seloTxt, seloCls;
-  if (per === "antes")     { seloTxt = "Climatizada antes de 2025"; seloCls = "selo-antes"; }
-  else if (per === "2025") { seloTxt = "Climatizada em 2025";       seloCls = "selo-2025"; }
-  else if (per === "2026") {
-    const clima = (b === "clim" || b === "parc");   // climatizada/parcial vs em processo
-    seloTxt = clima ? "Climatizada em 2026" : "Em processo de climatização 2026";
-    seloCls = clima ? "selo-2026" : "selo-proc";
-  } else                   { seloTxt = "A iniciar"; seloCls = "selo-init"; }   // sem periodo: neutro discreto
+  if (per === "antes") { seloTxt = "Climatizada antes de 2025"; seloCls = "selo-antes"; }
+  else if (per === "2025" || per === "2026") {
+    if (clima)                { seloTxt = `Climatizada em ${per}`;               seloCls = (per === "2025") ? "selo-2025" : "selo-2026"; }
+    else if (b === "pipeline"){ seloTxt = `Em execução de climatização ${per}`;  seloCls = "selo-proc"; }
+    else                      { seloTxt = `A iniciar em ${per}`;                 seloCls = "selo-init"; }
+  } else { seloTxt = "A iniciar"; seloCls = "selo-init"; }   // sem periodo (2027/2028): neutro discreto
   const selo = document.getElementById("dr-selo");
   selo.textContent = seloTxt;
   selo.className = "dr-selo " + seloCls;
@@ -1222,7 +1262,7 @@ function init(){
   document.getElementById("sel-status").innerHTML =
     '<option value="">Todos</option>' +
     '<option value="iniciar">A iniciar</option>' +
-    '<option value="pipeline">Em processo</option>' +
+    '<option value="pipeline">Em execução</option>' +
     '<option value="parc">Climatizada parcial</option>' +
     '<option value="clim">Climatizada</option>';
   montaPeriodos();

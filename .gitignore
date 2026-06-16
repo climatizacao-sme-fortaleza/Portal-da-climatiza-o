@@ -1,5 +1,24 @@
-_data/
+# ===== Portal de Climatizacao - .gitignore =====
+# IMPORTANTE: NAO ignorar web/ nem web/data (o portal depende deles).
+
+# backups, temporarios e logs
+*.bak
+*.tmp
+*.log
+~$*
+.DS_Store
+
+# saidas do servidor de preview (serve.ps1)
+_serve_out
+_serve_err
 _serve_out.log
 _serve_err.log
-*.tmp
-~$*
+
+# dependencias / saidas de build
+node_modules/
+dist/
+.cache/
+
+# dados de origem: planilhas .xlsx (fonte externa, grandes; nao versionar)
+*.xlsx
+_data/
