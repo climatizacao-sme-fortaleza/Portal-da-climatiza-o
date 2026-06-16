@@ -128,3 +128,59 @@
 - A arte oficial do lockup **FORTALEZA / PREFEITURA** foi recebida (versão **colorida/positiva**, para fundo claro).
 - Para o rodapé (faixa **laranja**) o ideal é a **versão branca (flat)**, conforme o manual. Falta o arquivo vetorial branco.
 - **Ação:** colocar o arquivo em **`web/assets/brasao-branco.svg`** (ou `.png`) e, no `index.html`, trocar o placeholder pelo `<img>` já comentado. O CSS (`.fz-brasao-img`) e a estrutura já estão prontos — é só inserir o arquivo. (Regra de ouro: não recriar o escudo à mão; usar só o vetor oficial.)
+
+---
+
+# CORREÇÕES FUNCIONAIS (rodada 3) — 2026-06-16
+
+> Backups `.bak` (estado pré-rodada) de `app.js`, `index.html`, `styles.css`. Mapa Leaflet
+> não foi tocado/quebrado; nenhum id/classe-hook renomeado. Identidade PMF mantida.
+
+## 1) Roscas cortando o % central
+- `.ctx-donut` e `.mini-donut` → **`overflow:visible`** (texto central nunca é cortado).
+- Mini Salas: fonte do % **10 → 9** e `y 24 → 23.5` (folga no furo). Validado em Fortaleza e distrito.
+
+## 2) Cobertura e Climatizadas por tipo — cumulativas com denominador fixo
+- **Denominadores** (total de bairros, escolas, CEIs, unidades) agora vêm do **`baseGeo`** (território
+  inteiro, todos os períodos) → **fixos** no filtro de período; ao entrar em distrito/regional, viram
+  os totais daquele território.
+- **Numeradores** (cobertos, climatizados por tipo) vêm do **`baseBalao`** (acumulado até o período).
+- Fortaleza: denominadores sempre **103 bairros / 512 unid / 322 escolas / 190 CEIs**; numeradores
+  somam antes→2025→2026.
+
+## 3) Card Salas Climatizadas
+- Removida a nota **"+ N previstas (etapa 02)"** (`.mc-prev`) — informação interna. (A faixa
+  transparente da rosca foi mantida; remoção dela é trivial se quiserem.)
+
+## 4) Salas de 2025
+- **Sem alteração** (decisão adiada, conforme pedido).
+
+## 5) Funil — sub-lista com UX melhor
+- Tag de cada unidade mostra a **CATEGORIA do funil** (ex.: "A iniciar"), não o estágio detalhado
+  (`statusLabel` → `BUCKET_LABEL[k]`; novo mapa `BUCKET_LABEL`).
+- Cabeçalho **"FUNIL › Categoria"** + chip de contagem; botão **"← Fechar"** explícito; **linha de
+  ajuda** ("Você abriu a sub-lista da faixa X…"). Estilo PMF (faixa creme, acento laranja, petróleo).
+
+## 6) Panorama do Parque — 6 → 4 cards
+- Removidos **"Investido · execução"** e **"Represa · sem subestação"**. Sobram **Climatizadas,
+  Parciais, Em execução, A iniciar**, numa **única linha** (`.kpis` grid `repeat(3)` → `repeat(4)`).
+
+## 7) Buscar unidade — sempre 512
+- `renderLista`: `base = ESCOLAS` (não filtra mais por período/status/território); só a **busca
+  textual** filtra. Coluna **Status** passou a mostrar a **categoria do filtro** (`BUCKET_LABEL[b]`),
+  não o status cru. Validado: 512 fixo sob filtros; busca "CEI" → 190.
+
+## 8) Subestação — consolidada + renomeada + ícones
+- **Consolidação:** os 3 contadores (`.sub-counters`) + a legenda de baixo (`#sublegend`) viraram um
+  **único bloco no topo** (`#sub-cats`) com as **5 categorias** (ícone + contagem + rótulo), recalculado
+  com período/território.
+- **Renomeações** (só estas 3): Falta estudo elétrico → **Aguardando estudo elétrico**; Liberada →
+  **Apta, sem aumento ou implantação de Subestação**; Climatizada → **Concluída**.
+- **Ícones SVG distintos por categoria** (não bolinhas iguais): raio (nova), seta subindo (aumento),
+  relógio (aguardando), escudo-check (apta), círculo-check (concluída) — `currentColor` na cor da
+  categoria. Cores dos pontos do mapa **mantidas** (Leaflet não tocado).
+
+## Novos hooks/classes (presentacionais; nenhum renomeado)
+- `BUCKET_LABEL` (app.js); `#sub-cats` + `.sub-cat*` (bloco subestação); `.fl-bc*`, `.fl-ajuda`,
+  `.fl-close` reestilizado (sub-lista do funil). `.sub-counters`/`.sublegend`/`.fl-tot` ficam como
+  CSS legado não usado.
