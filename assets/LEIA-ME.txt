@@ -1,0 +1,5 @@
+Coloque aqui o brasao oficial da PMF em versao branca (flat) para fundo laranja:
+  brasao-branco.svg   (lockup horizontal FORTALEZA PREFEITURA + tag EDUCACAO/SME)
+
+Pedir o vetor oficial a Comunicacao da SME. Enquanto nao chega, o rodape usa um
+placeholder tipografico em Montserrat (ver index.html / footer .fz-brasao).

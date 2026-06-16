@@ -1,6 +1,6 @@
 :root{
-  --bg:#F4F1EA; --panel:#FBFAF6; --ink:#1C1B19; --ink2:#5C574E; --line:#E2DCCF;
-  --laranja:#E0612B; --azul:#1F6F9E; --verde:#3F9A52; --verde2:#6FB97C;
+  --bg:#FFFFFF; --panel:#FFFFFF; --ink:#1C1B19; --ink2:#5C574E; --line:#E2DCCF;
+  --laranja:#F15A22; --azul:#00A0DC; --verde:#009889; --verde2:#6FB97C;
   --cinza:#A9A296; --vermelho:#C0432E; --amarelo:#E2A030; --roxo:#7C5BA6;
 }
 
@@ -10,17 +10,17 @@
    ============================================================================ */
 :root{
   /* Tipografia */
-  --fonte-ui:'Inter', system-ui, -apple-system, sans-serif;   /* fonte padrao de interface */
-  --fonte-marca:'Fraunces', serif;                            /* serifada: so no titulo principal */
+  --fonte-ui:'Montserrat', system-ui, -apple-system, sans-serif;   /* fonte padrao de interface (PMF) */
+  --fonte-marca:'Montserrat', system-ui, -apple-system, sans-serif; /* titulo principal (institucional) */
 
   /* Cores de periodo (sequencia antes -> 2025 -> 2026 -> futuras) */
   --cor-antes-2025:#A9A296;   /* cinza neutro  */
-  --cor-2025:#3F9A52;         /* verde         */
-  --cor-2026:#1F6F9E;         /* azul          */
+  --cor-2025:#009889;         /* verde institucional */
+  --cor-2026:#00A0DC;         /* azul institucional  */
   --cor-futuras:#E9A06A;      /* laranja claro */
 
   /* Raios de canto */
-  --raio-botao:8px;           /* botoes e chips */
+  --raio-botao:3px;           /* botoes e chips (padrao Educacao) */
   --raio-card:14px;           /* cards (12-14px) */
 
   /* Sombra leve padrao */
@@ -47,17 +47,19 @@ body{
 .wrap{max-width:1280px;margin:0 auto;padding:28px 22px 48px}
 .mono{font-family:var(--fonte-ui)}
 
-/* header */
-header.top{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;
-  border-bottom:2px solid var(--ink);padding-bottom:16px;flex-wrap:wrap}
-.eyebrow{font-family:var(--fonte-ui);font-size:11px;letter-spacing:.14em;
-  text-transform:uppercase;color:var(--ink2)}
-h1{font-family:var(--fonte-marca);font-weight:700;font-size:clamp(28px,4vw,46px);line-height:.98;letter-spacing:-.01em}
-h1 .thin{font-weight:500;font-style:italic;color:var(--laranja)}
-.sub{color:var(--ink2);font-size:14px;margin-top:6px;max-width:560px}
-.badge{font-family:var(--fonte-ui);font-size:11px;border:1px solid var(--ink);
+/* header = faixa masthead institucional (laranja, full-bleed na largura do conteudo) */
+header.top{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;
+  background:var(--laranja);color:#fff;margin:-28px -22px 0;padding:30px 22px 22px}
+.eyebrow{font-family:var(--fonte-ui);font-size:11px;font-weight:600;letter-spacing:.14em;
+  text-transform:uppercase;color:rgba(255,255,255,.85)}
+h1{font-family:var(--fonte-marca);font-weight:800;font-size:clamp(28px,4vw,46px);line-height:.98;letter-spacing:-.01em;color:#fff}
+h1 .thin{font-weight:500;color:#fff}
+/* nota descritiva (movida pra fora da masthead): discreta, abaixo da regua tricolor */
+.sub{color:var(--ink2);font-size:13px;line-height:1.5;max-width:620px;margin:0 0 22px}
+.badge{font-family:var(--fonte-ui);font-size:11px;border:1px solid rgba(255,255,255,.7);color:#fff;
   padding:6px 10px;border-radius:2px;white-space:nowrap}
-.faixa{height:5px;display:flex;margin:14px 0 26px}
+/* regua tricolor: cola na masthead, full-bleed; cores oficiais via vars (laranja/azul/verde) */
+.faixa{height:6px;display:flex;margin:0 -22px 14px}
 .faixa i{flex:1}
 .faixa i:nth-child(1){background:var(--laranja)}
 .faixa i:nth-child(2){background:var(--azul)}
@@ -67,8 +69,9 @@ h1 .thin{font-weight:500;font-style:italic;color:var(--laranja)}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:6px;overflow:hidden}
 .maphead{display:flex;justify-content:space-between;align-items:center;
   padding:14px 16px 12px;flex-wrap:wrap;gap:10px}
-.maphead h2{font-size:13px;font-family:var(--fonte-ui);font-weight:600;letter-spacing:.07em;
-  text-transform:uppercase;color:var(--cinza)}
+/* titulo de secao institucional: caixa alta, peso 700, petroleo, com acento laranja a esquerda */
+.maphead h2{font-size:13px;font-family:var(--fonte-ui);font-weight:700;letter-spacing:.07em;
+  text-transform:uppercase;color:#325565;border-left:4px solid var(--laranja);padding-left:10px}
 .maphead .count{font-family:var(--fonte-ui);font-size:12px;color:var(--ink2)}
 .maphead .count b{color:var(--ink);font-size:14px}
 
@@ -167,7 +170,7 @@ h1 .thin{font-weight:500;font-style:italic;color:var(--laranja)}
 /* faixa de indicadores: card flutuante, fonte Inter (escopo SO da faixa), cantos 14px */
 .cardstrip{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:1fr;
   flex:1 1 auto;margin-top:12px;
-  font-family:'Inter',system-ui,-apple-system,sans-serif;
+  font-family:var(--fonte-ui);
   background:var(--panel);border:1px solid var(--line);border-radius:14px;
   box-shadow:0 1px 2px rgba(0,0,0,.04);overflow:hidden}
 .metricard{padding:11px 14px;border-top:3px solid var(--azul);   /* listra de cor no topo */
@@ -180,12 +183,12 @@ h1 .thin{font-weight:500;font-style:italic;color:var(--laranja)}
 .metricard:nth-child(4){border-top-color:var(--roxo);animation-delay:.24s}
 @keyframes mc-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 /* titulos das secoes: caixa alta, recuados (cinza suave) pra destacar os numeros */
-.metricard .mc-lab{font-family:'Inter',sans-serif;font-size:11px;font-weight:600;letter-spacing:.07em;
+.metricard .mc-lab{font-family:var(--fonte-ui);font-size:11px;font-weight:600;letter-spacing:.07em;
   text-transform:uppercase;color:var(--cinza)}
 /* numeros: Inter, digitos tabulares e levemente apertados */
-.metricard .mc-num{font-family:'Inter',sans-serif;font-weight:700;font-size:23px;line-height:1.05;
+.metricard .mc-num{font-family:var(--fonte-ui);font-weight:700;font-size:23px;line-height:1.05;
   color:var(--ink);margin-top:4px;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
-.metricard .mc-sub{font-family:'Inter',sans-serif;font-size:11px;color:var(--ink2);margin-top:5px;line-height:1.3}
+.metricard .mc-sub{font-family:var(--fonte-ui);font-size:11px;color:var(--ink2);margin-top:5px;line-height:1.3}
 /* barras de progresso da faixa: 6px, cantos 4px, trilho clarinho da cor + preenchimento cheio
    que cresce da esquerda (scaleX) ao montar/trocar periodo */
 .mc-bar,.mc-bar2{height:6px;border-radius:4px;overflow:hidden;margin-top:6px}
@@ -201,19 +204,22 @@ h1 .thin{font-weight:500;font-style:italic;color:var(--laranja)}
 /* secao Salas climatizadas: rosca pequena + texto ao lado */
 .mc-donut-row{display:flex;align-items:center;gap:10px;margin-top:5px}
 .mini-donut{width:50px;height:50px;flex:0 0 auto}
-.mini-donut-num{font-family:'Inter',sans-serif;font-weight:700;fill:var(--ink);letter-spacing:-.02em}
-.mc-donut-sub{font-family:'Inter',sans-serif;font-size:10.5px;color:var(--ink2);line-height:1.3}
+.mini-donut-num{font-family:var(--fonte-ui);font-weight:700;fill:var(--ink);letter-spacing:-.02em}
+.mc-donut-sub{font-family:var(--fonte-ui);font-size:10.5px;color:var(--ink2);line-height:1.3}
+/* nota do previsto (fantasma etapa 02): swatch verde translucido + texto discreto */
+.mc-prev{display:inline-flex;align-items:center;gap:4px;margin-top:2px;color:var(--ink2)}
+.mc-prev i{width:8px;height:8px;border-radius:2px;background:var(--verde);opacity:.30;flex:0 0 auto}
 /* secao Investimento: quebra por ano sob a barra (dois numeros menores) */
 .mc-anos{display:flex;gap:14px;margin-top:6px;font-size:11px;color:var(--ink2)}
-.mc-anos b{font-family:'Inter',sans-serif;font-size:9px;font-weight:600;letter-spacing:.04em;
+.mc-anos b{font-family:var(--fonte-ui);font-size:9px;font-weight:600;letter-spacing:.04em;
   color:var(--cinza);margin-right:3px}
 /* secao Cobertura: unidade do numero grande (de X bairros) menor ao lado */
-.mc-unit{font-family:'Inter',sans-serif;font-weight:500;font-size:12px;color:var(--ink2)}
+.mc-unit{font-family:var(--fonte-ui);font-weight:500;font-size:12px;color:var(--ink2)}
 /* secao Climatizadas por tipo: duas barras de progresso empilhadas */
 .mc-tipos{display:flex;flex-direction:column;gap:8px;margin-top:6px}
 .mc-tipo-top{display:flex;align-items:baseline;justify-content:space-between;gap:6px}
 .mc-tipo-top span{font-size:11px;color:var(--ink2)}
-.mc-tipo-top b{font-family:'Inter',sans-serif;font-weight:700;font-size:14px;color:var(--ink);
+.mc-tipo-top b{font-family:var(--fonte-ui);font-weight:700;font-size:14px;color:var(--ink);
   font-variant-numeric:tabular-nums;letter-spacing:-.02em}
 /* responsivo do balao: 2 colunas e depois 1; ajusta as divisorias verticais */
 @media(max-width:960px){.cardstrip{grid-template-columns:repeat(2,1fr)}
@@ -336,16 +342,16 @@ h1 .thin{font-weight:500;font-style:italic;color:var(--laranja)}
    fica um divisor fino embaixo separando da linha do Status. Mesma altura de antes. */
 /* navegacao do mapa: 3 linhas (controles / breadcrumb / atalhos), fonte Inter */
 .mapnav{background:var(--panel);border:0;border-bottom:1px solid var(--line);
-  padding:8px 16px;font-family:'Inter',system-ui,sans-serif}
+  padding:8px 16px;font-family:var(--fonte-ui)}
 /* LINHA 1: 'Ver por' + toggle (esq) | botao Voltar (dir) */
 .mapnav-ctrl{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .drill-modo{display:flex;align-items:center;gap:9px}
-.drill-lab{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:.07em;
+.drill-lab{font-family:var(--fonte-ui);font-size:10px;font-weight:600;letter-spacing:.07em;
   text-transform:uppercase;color:var(--cinza)}
 /* toggle deslizante: dois botoes colados num trilho arredondado */
 .modo-toggle{display:inline-flex;background:#EFEADF;border:1px solid var(--line);
   border-radius:8px;padding:2px;gap:2px}
-.dm{font-family:'Inter',sans-serif;font-size:12px;font-weight:500;border:0;background:transparent;
+.dm{font-family:var(--fonte-ui);font-size:12px;font-weight:500;border:0;background:transparent;
   color:var(--ink2);padding:4px 13px;border-radius:6px;cursor:pointer;
   transition:background .18s ease,color .18s ease}
 .dm:hover:not(.on){color:var(--ink)}
@@ -354,7 +360,7 @@ h1 .thin{font-weight:500;font-style:italic;color:var(--laranja)}
 /* 'Regionais' com leve prioridade visual (caminho mais conhecido) */
 .dm-reg{font-weight:600}
 /* botao Voltar explicito (seta + palavra); some no nivel raiz (Fortaleza) */
-.drill-voltar{font-family:'Inter',sans-serif;font-size:12px;font-weight:500;line-height:1;
+.drill-voltar{font-family:var(--fonte-ui);font-size:12px;font-weight:500;line-height:1;
   border:1px solid var(--line);background:#fff;color:var(--ink);padding:6px 12px 6px 10px;
   border-radius:8px;cursor:pointer;display:inline-flex;align-items:center;gap:5px;flex:0 0 auto;
   transition:background .15s ease,border-color .15s ease}
@@ -362,7 +368,7 @@ h1 .thin{font-weight:500;font-style:italic;color:var(--laranja)}
 .drill-voltar:hover:not(:disabled){background:#F1ECE0;border-color:var(--cinza)}
 .drill-voltar:disabled{display:none}
 /* LINHA 2: breadcrumb do caminho percorrido */
-.drill-trilha{font-family:'Inter',sans-serif;font-size:12.5px;color:var(--ink);
+.drill-trilha{font-family:var(--fonte-ui);font-size:12.5px;color:var(--ink);
   display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-top:8px}
 .drill-trilha .crumb{display:inline-flex;align-items:center;gap:4px}
 .drill-trilha .crumb-casa{width:13px;height:13px;flex:0 0 auto}
@@ -375,7 +381,7 @@ h1 .thin{font-weight:500;font-style:italic;color:var(--laranja)}
 .drill-botoes{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;padding-top:8px;
   border-top:1px dotted var(--line)}
 .drill-botoes:empty{display:none}
-.db{font-family:'Inter',sans-serif;font-size:11.5px;font-weight:500;border:1px solid var(--line);
+.db{font-family:var(--fonte-ui);font-size:11.5px;font-weight:500;border:1px solid var(--line);
   background:#fff;color:var(--ink2);padding:3px 10px;border-radius:7px;cursor:pointer;white-space:nowrap;
   transition:background .15s ease,color .15s ease}
 .db:hover{background:#F1ECE0;color:var(--ink)}
@@ -479,11 +485,15 @@ h1 .thin{font-weight:500;font-style:italic;color:var(--laranja)}
   width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center}
 .fl-close:hover{background:#EAE3D4;color:var(--ink)}
 .fl-scroll{max-height:320px;overflow-y:auto;padding:6px}
-.fl-grupo{margin-bottom:4px}
-.fl-dist{display:flex;align-items:center;gap:8px;padding:7px 8px 4px;
-  font-family:var(--fonte-ui);font-size:10.5px;font-weight:600;letter-spacing:.07em;
-  text-transform:uppercase;color:var(--cinza)}
-.fl-dist-n{font-weight:700;color:var(--ink2)}
+.fl-grupo{margin-bottom:10px}
+.fl-grupo:last-child{margin-bottom:2px}
+/* cabecalho do distrito: mais destaque (barra suave + texto escuro) e mais respiro */
+.fl-dist{display:flex;align-items:center;gap:8px;margin:6px 2px 6px;padding:6px 10px;
+  background:#F1ECE0;border-radius:7px;
+  font-family:var(--fonte-ui);font-size:11px;font-weight:700;letter-spacing:.05em;
+  text-transform:uppercase;color:var(--ink2)}
+.fl-dist-n{margin-left:auto;font-weight:700;color:var(--ink);background:#fff;
+  border:1px solid var(--line);border-radius:20px;padding:1px 9px;font-size:11px}
 .fl-item{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;
   text-align:left;cursor:pointer;border:0;background:0;padding:7px 8px;border-radius:8px;
   font-family:var(--fonte-ui)}
@@ -491,6 +501,12 @@ h1 .thin{font-weight:500;font-style:italic;color:var(--laranja)}
 .fl-nome{font-size:12.5px;color:var(--ink);line-height:1.2}
 .fl-item .pill{flex:0 0 auto}
 .fl-vazia{padding:14px;text-align:center;color:var(--ink2);font-size:12.5px}
+/* total do recorte (soma das faixas) no rodape do funil */
+.funil-total{display:flex;align-items:center;justify-content:space-between;
+  padding-top:9px;border-top:1px solid var(--line)}
+.funil-total .ft-lab{font-family:var(--fonte-ui);font-size:11px;font-weight:600;
+  letter-spacing:.07em;text-transform:uppercase;color:var(--cinza)}
+.funil-total .ft-num{font-family:var(--fonte-ui);font-weight:700;font-size:16px;color:var(--ink)}
 @media(max-width:680px){
   .kpis{grid-template-columns:repeat(2,1fr)}
   .fbar{grid-template-columns:120px 1fr 40px;gap:8px}
@@ -501,8 +517,8 @@ h1 .thin{font-weight:500;font-style:italic;color:var(--laranja)}
 .tablecard{margin-top:18px}
 .tabhead{display:flex;justify-content:space-between;align-items:center;
   padding:14px 16px 12px;flex-wrap:wrap;gap:10px}
-.tabhead h2{font-size:13px;font-family:var(--fonte-ui);letter-spacing:.1em;
-  text-transform:uppercase;color:var(--ink2)}
+.tabhead h2{font-size:13px;font-family:var(--fonte-ui);font-weight:700;letter-spacing:.07em;
+  text-transform:uppercase;color:#325565;border-left:4px solid var(--laranja);padding-left:10px}
 .search{padding:0 16px 12px}
 .search input{width:100%;font-family:var(--fonte-ui);font-size:15px;border:1px solid var(--line);
   background:#fff;color:var(--ink);padding:11px 14px;border-radius:6px}
@@ -519,10 +535,11 @@ h1 .thin{font-weight:500;font-style:italic;color:var(--laranja)}
 .tablecard td.sge,.tablecard td.bairro{font-family:var(--fonte-ui);font-size:12px;color:var(--ink2)}
 .pill{font-family:var(--fonte-ui);font-size:10px;padding:3px 8px;border-radius:20px;
   display:inline-block;border:1px solid transparent;white-space:nowrap}
-.p-clim{background:#E4F1E5;color:#2C6B39;border-color:#BFE0C3}
-.p-parc{background:#EAF3EB;color:#3F7A4A;border-color:#CFE6D2}
-.p-pipe{background:#FBF0D9;color:#9A6B12;border-color:#F0DCAE}
-.p-init{background:#EDEAE2;color:#6B655A;border-color:#DDD7C9}
+/* status (institucional): climatizada=verde #009889, parcial=#6FB97C, em execucao=laranja #F15A22, a iniciar=cinza */
+.p-clim{background:rgba(0,152,137,.12);color:#00766A;border-color:rgba(0,152,137,.28)}
+.p-parc{background:rgba(111,185,124,.16);color:#2F7A57;border-color:rgba(111,185,124,.30)}
+.p-pipe{background:rgba(241,90,34,.12);color:#C8430F;border-color:rgba(241,90,34,.28)}
+.p-init{background:rgba(154,149,143,.15);color:#6B6660;border-color:rgba(154,149,143,.30)}
 .lista-vazia{padding:22px 16px;text-align:center;color:var(--ink2);font-size:13px}
 
 /* ===== drawer / ficha (Camada 2) ===== */
@@ -605,3 +622,28 @@ h1 .thin{font-weight:500;font-style:italic;color:var(--laranja)}
   border-radius:14px;padding:3px 9px;color:var(--ink2)}
 .btu .chip b{color:var(--ink)}
 .exec-custos{padding:4px 14px 12px}
+
+/* ============================================================================
+   IDENTIDADE INSTITUCIONAL PMF/SME (overrides de aparencia, no fim pra vencer
+   por ordem). Nao renomeia classes; so recolore/troca aparencia.
+   ============================================================================ */
+/* titulos e numeros grandes em PETROLEO #325565 (corpo de texto mantem o tom atual) */
+.kpi-val,.mc-num,.ctx-mval,.fbar-num,.smf-n,.subc b,.mc-tipo-top b,.fl-dist-n,.ft-num{color:#325565}
+.ctx-donut-num,.mini-donut-num{fill:#325565}
+/* toggles/pills ATIVOS em petroleo solido (Distritos/Regionais, 'Todos', atalhos, 'Todas as situacoes').
+   Os chips de periodo 2025/2026 mantem a cor do periodo (verde/azul institucionais via vars). */
+.chiprow button.on,
+#f-periodo button.on[data-p="all"],
+.dm.on,
+.db.on,
+.smf-todas-chip.sel{background:#325565;border-color:#325565;color:#fff}
+/* rodape institucional minimalista: brasao (placeholder tipografico, sem caixa) + linha da fonte */
+.fz-brasao{display:flex;flex-direction:column;gap:7px}
+.fz-brasao-ph{display:flex;flex-direction:column;line-height:.95;color:#fff}
+.fz-brasao-cidade{font-family:var(--fonte-ui);font-weight:800;font-size:26px;letter-spacing:.01em}
+.fz-brasao-pref{font-family:var(--fonte-ui);font-weight:600;font-size:11px;letter-spacing:.34em;
+  text-transform:uppercase;margin-top:2px}
+.fz-brasao-img{height:46px;width:auto;display:block}   /* usado quando o SVG oficial do brasao entrar */
+.fz-brasao-tag{font-family:var(--fonte-ui);font-size:11px;font-weight:600;letter-spacing:.04em;
+  text-transform:uppercase;color:rgba(255,255,255,.9)}
+.fz-fonte{font-family:var(--fonte-ui);font-size:11.5px;color:rgba(255,255,255,.85);text-align:right}
