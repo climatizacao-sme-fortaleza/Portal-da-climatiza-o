@@ -29,8 +29,10 @@ function salaProfAno(sge) {
   const raw = (window.SALAS_PROF || {})[String(sge)];
   if (!raw) return null;
   const sts = raw.split("||");
-  if (sts.includes("INSTALADA 2026")) return "2026";
-  if (sts.includes("INSTALADA 2025") || sts.includes("CLIMATIZADA")) return "2025";
+  if (sts.includes("INSTALADA 2025")) return "2025";   // instalada em 2025 -> conta em 2025
+  // INSTALADA 2026 e CLIMATIZADA (sem ano: descobertas/diagnosticadas em 2026, sem registro
+  // anterior) -> contam em 2026.
+  if (sts.includes("INSTALADA 2026") || sts.includes("CLIMATIZADA")) return "2026";
   return null;
 }
 
@@ -770,8 +772,13 @@ function renderPainelContexto() {
     const E2 = window.ETAPA02 || {};
     const mostraFantasma = (periodoAtivo === "all" || periodoAtivo === "2026");
     let salasTerritorio = 0, salasClim = 0, fantasma = 0;
+    // DENOMINADORES (territorio inteiro, TODOS os periodos -> FIXOS no filtro de periodo):
+    // total de bairros, escolas, CEIs e unidades. Os numeradores (acumulados) vem do baseBalao.
+    const totBairros = new Set(); let escTot = 0, ceiTot = 0;
     for (const e of baseGeo) {
       salasTerritorio += Number(e.salas) || 0;
+      totBairros.add(e.bairro);
+      if (e.tipo === "CEI") ceiTot++; else escTot++;
       const b = bucket(e.status);
       if (b === "clim" || b === "parc") {
         if ((ordPer[PERIODO[e.sge]] ?? 99) <= cutoff) salasClim += Number(e.salas) || 0;
@@ -781,15 +788,14 @@ function renderPainelContexto() {
         if (mostraFantasma && (String(e.sge) in E2)) fantasma += Number(e.salas) || 0;  // etapa 02 a fazer
       }
     }
+    const totUnidades = baseGeo.length;
+    // NUMERADORES (acumulados ate o periodo, via baseBalao): cobertura e climatizadas por tipo
     let bInv = 0, bInv25 = 0, bInv26 = 0;
-    let cobUni = 0; const cobBairros = new Set(), totBairros = new Set();
-    let escClim = 0, escTot = 0, ceiClim = 0, ceiTot = 0;
+    let cobUni = 0; const cobBairros = new Set();
+    let escClim = 0, ceiClim = 0;
     for (const e of baseBalao) {
-      totBairros.add(e.bairro);
       if (bucket(e.status) !== "iniciar") { cobUni++; cobBairros.add(e.bairro); }  // cobertura = nao "A iniciar"
-      const ehCEI = e.tipo === "CEI";                                              // CEI vs Escolas (EMTP/EMTI/ANE)
-      if (ehCEI) ceiTot++; else escTot++;
-      if (String(e.status).startsWith("9.")) { if (ehCEI) ceiClim++; else escClim++; }  // so plenas (status 9)
+      if (String(e.status).startsWith("9.")) { if (e.tipo === "CEI") ceiClim++; else escClim++; }  // so plenas (status 9)
       const arr = EXECUCAO[e.sge];
       if (arr) for (const x of arr) {
         if (typeof x.totalGasto === "number") {
@@ -817,7 +823,7 @@ function renderPainelContexto() {
          ${arcFant}
          <circle cx="20" cy="20" r="${R}" fill="none" stroke="var(--verde)" stroke-width="${W}"
            stroke-dasharray="${(fR * C).toFixed(2)} ${C.toFixed(2)}" transform="rotate(-90 20 20)" stroke-linecap="round"/>
-         <text x="20" y="24" text-anchor="middle" class="mini-donut-num" font-size="10">${fmtPct(salasClim, salasTerritorio)}%</text>
+         <text x="20" y="23.5" text-anchor="middle" class="mini-donut-num" font-size="9">${fmtPct(salasClim, salasTerritorio)}%</text>
        </svg>`;
     const pctVerba = pctNum(bInv, PARQUE_VERBA);
     strip.innerHTML =
@@ -825,7 +831,7 @@ function renderPainelContexto() {
       `<div class="metricard">
          <div class="mc-lab">Salas climatizadas</div>
          <div class="mc-donut-row">${donut}
-           <div class="mc-donut-sub">${salasClim.toLocaleString("pt-BR")} de ${salasTerritorio.toLocaleString("pt-BR")} salas${fantasma > 0 ? `<br><span class="mc-prev"><i></i>+ ${fantasma.toLocaleString("pt-BR")} previstas (etapa 02)</span>` : ""}</div>
+           <div class="mc-donut-sub">${salasClim.toLocaleString("pt-BR")} de ${salasTerritorio.toLocaleString("pt-BR")} salas</div>
          </div>
        </div>` +
       // 2) INVESTIMENTO (laranja): total + barra + quebra por ano
@@ -843,7 +849,7 @@ function renderPainelContexto() {
          <div class="mc-lab">Cobertura</div>
          <div class="mc-num">${cobBairros.size}<span class="mc-unit"> de ${totBairros.size} bairros</span></div>
          <div class="mc-bar mc-bar-cob"><span style="width:${pctNum(cobBairros.size, totBairros.size).toFixed(1)}%"></span></div>
-         <div class="mc-sub">${cobUni.toLocaleString("pt-BR")} de ${baseBalao.length.toLocaleString("pt-BR")} unidades</div>
+         <div class="mc-sub">${cobUni.toLocaleString("pt-BR")} de ${totUnidades.toLocaleString("pt-BR")} unidades</div>
        </div>` +
       // 4) CLIMATIZADAS POR TIPO (roxo): duas barras (Escolas / CEI), so plenas
       `<div class="metricard">
@@ -886,9 +892,7 @@ function renderPanorama() {
     { lab: "Climatizadas", val: nClim, cls: "k-clim" },
     { lab: "Parciais", val: nParc, cls: "k-parc" },
     { lab: "Em execução", val: nAnd, cls: "k-and" },
-    { lab: "A iniciar", val: nInic, cls: "k-init" },
-    { lab: "Investido · execução", val: moeda(invest), cls: "k-inv" },
-    { lab: "Represa · sem subestação", val: nSemSub, cls: "k-sub" }
+    { lab: "A iniciar", val: nInic, cls: "k-init" }
   ];
   document.getElementById("kpis").innerHTML = kpis.map(k =>
     `<div class="kpi ${k.cls}"><div class="kpi-val">${k.val}</div><div class="kpi-lab">${k.lab}</div></div>`
@@ -941,24 +945,32 @@ function funilListaHTML(k, base) {
     const ib = ordem.indexOf(b) < 0 ? 99 : ordem.indexOf(b);
     return ia - ib || String(a).localeCompare(String(b), "pt-BR");
   });
+  const cat = BUCKET_LABEL[k] || k;   // CATEGORIA do funil (tag de cada unidade mostra isso)
   const grupos = dists.map(d => {
     const lista = porDist[d].slice().sort((a, b) => String(a.nome).localeCompare(String(b.nome), "pt-BR"));
-    const itens = lista.map(e => {
-      const b = bucket(e.status);
-      return `<button class="fl-item" type="button" data-sge="${e.sge}">` +
+    const itens = lista.map(e =>
+      `<button class="fl-item" type="button" data-sge="${e.sge}">` +
         `<span class="fl-nome">${e.nome}</span>` +
-        `<span class="pill ${PILL[b]}">${statusLabel(e.status)}</span></button>`;
-    }).join("");
+        `<span class="pill ${PILL[k]}">${cat}</span></button>`   // tag = categoria do funil, nao o estagio detalhado
+    ).join("");
     return `<div class="fl-grupo"><div class="fl-dist">Distrito ${d}<span class="fl-dist-n">${lista.length}</span></div>${itens}</div>`;
   }).join("");
+  const n = us.length;
   return `<div class="funil-lista">` +
-    `<div class="fl-head"><span class="fl-tot">${us.length} unidade${us.length === 1 ? "" : "s"}</span>` +
-    `<button class="fl-close" type="button" aria-label="Fechar lista">&times;</button></div>` +
+    `<div class="fl-head">` +
+      `<div class="fl-bc"><span class="fl-bc-raiz">Funil</span><span class="fl-bc-sep">&rsaquo;</span>` +
+        `<span class="fl-bc-cat">${cat}</span>` +
+        `<span class="fl-bc-n">${n} unidade${n === 1 ? "" : "s"}</span></div>` +
+      `<button class="fl-close" type="button" aria-label="Fechar sub-lista"><span class="fl-close-ico">&larr;</span>Fechar</button>` +
+    `</div>` +
+    `<div class="fl-ajuda">Você abriu a sub-lista da faixa <b>${cat}</b>, agrupada por distrito. Clique numa unidade para abrir a ficha.</div>` +
     `<div class="fl-scroll">${grupos || '<div class="fl-vazia">Nenhuma unidade neste recorte.</div>'}</div></div>`;
 }
 
 // ---------- lista / busca ----------
 const PILL = { clim:"p-clim", parc:"p-parc", pipeline:"p-pipe", iniciar:"p-init" };
+// rotulo da CATEGORIA do funil por bucket (usado na tag da sub-lista do funil)
+const BUCKET_LABEL = { iniciar:"A iniciar", pipeline:"Em execução", parc:"Climatizada parcial", clim:"Climatizada" };
 
 const RE_DIACRITICOS = new RegExp("[\\u0300-\\u036f]", "g");
 function normaliza(s) {
@@ -979,8 +991,9 @@ function aliasBairro(nk) {
 
 function renderLista() {
   const termo = normaliza(document.getElementById("q").value.trim());
-  // a lista considera todas as escolas (inclusive sem coordenada), respeitando os filtros estruturais
-  const base = ESCOLAS.filter(passaFiltro);
+  // BUSCAR UNIDADE: a lista mostra SEMPRE as 512 unidades (nao reage a periodo/status/territorio);
+  // somente a busca textual filtra.
+  const base = ESCOLAS;
   const filtradas = termo
     ? base.filter(e =>
         normaliza(e.nome).includes(termo) ||
@@ -992,7 +1005,7 @@ function renderLista() {
   const tbody = document.getElementById("tbody");
   document.getElementById("lista-contagem").textContent = filtradas.length;
   if (!filtradas.length) {
-    tbody.innerHTML = `<tr><td colspan="4" class="lista-vazia">Nenhuma unidade encontrada para esse filtro.</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="4" class="lista-vazia">Nenhuma unidade encontrada para essa busca.</td></tr>`;
     return;
   }
   const frag = document.createDocumentFragment();
@@ -1003,7 +1016,7 @@ function renderLista() {
       `<td class="nome">${e.nome || "—"}</td>` +
       `<td class="sge">${txt(e.sge)}</td>` +
       `<td class="bairro">${txt(e.bairro)}</td>` +
-      `<td><span class="pill ${PILL[b]}">${e.status || "0. A INICIAR"}</span></td>`;
+      `<td><span class="pill ${PILL[b]}">${BUCKET_LABEL[b]}</span></td>`;
     tr.addEventListener("click", () => abreFicha(e.sge));
     frag.appendChild(tr);
   }
@@ -1147,12 +1160,19 @@ function fechaFicha(){
 // Hierarquia visual: acoes (nova/aumento/falta_estudo) maiores e opacas (saltam);
 // climatizada/liberada menores e esmaecidas (recuam). Ordem listada = ordem de desenho
 // (concluidas primeiro, acoes por cima).
+// Categorias da subestacao. cor/r/op/w = pontos do mapa (mantidos). lab = rotulo exibido.
+// ico = simbolo SVG distinto por categoria (inner paths; usa currentColor = cor da categoria).
 const SUBCAT = {
-  climatizada:  { cor: "#7FBE9B", r: 3.6, op: .58, w: .8, lab: "Climatizada", desc: "Já climatizada (concluída)" },
-  liberada:     { cor: "#C9B68C", r: 4.2, op: .72, w: 1,  lab: "Liberada", desc: "Estudada — não precisa de subestação" },
-  falta_estudo: { cor: "#1F6F9E", r: 5.6, op: .92, w: 1.4, lab: "Falta estudo elétrico", desc: "Ainda sem estudo elétrico" },
-  aumento:      { cor: "#E0612B", r: 6,   op: .95, w: 1.5, lab: "Aumento de carga", desc: "Subestação existente precisa de mais potência" },
-  nova:         { cor: "#C0432E", r: 6,   op: .95, w: 1.5, lab: "Nova subestação", desc: "Precisa instalar uma subestação nova" }
+  climatizada:  { cor: "#7FBE9B", r: 3.6, op: .58, w: .8, lab: "Concluída",
+                  ico: '<circle cx="12" cy="12" r="9"/><path d="M8.5 12.5l2.5 2.5 4.5-5.5"/>' },                 // check em circulo = concluida
+  liberada:     { cor: "#C9B68C", r: 4.2, op: .72, w: 1,  lab: "Apta, sem aumento ou implantação de Subestação",
+                  ico: '<path d="M12 3l7 3v5c0 4.5-3.1 7.6-7 9-3.9-1.4-7-4.5-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/>' }, // escudo com check = apta
+  falta_estudo: { cor: "#1F6F9E", r: 5.6, op: .92, w: 1.4, lab: "Aguardando estudo elétrico",
+                  ico: '<circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 1.6"/>' },                              // relogio = aguardando
+  aumento:      { cor: "#E0612B", r: 6,   op: .95, w: 1.5, lab: "Aumento de carga",
+                  ico: '<path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/>' },                                    // seta subindo = aumento de carga
+  nova:         { cor: "#C0432E", r: 6,   op: .95, w: 1.5, lab: "Nova subestação",
+                  ico: '<path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/>' }                                             // raio = nova subestacao
 };
 const ORDEM_SUB = ["climatizada", "liberada", "falta_estudo", "aumento", "nova"]; // desenho: discretas -> acoes
 let mapSub = null, subLayer = null;
@@ -1208,18 +1228,16 @@ function renderMapaSub(){
   const total = ORDEM_SUB.reduce((s, k) => s + cont[k], 0);
   const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
   set("sub-total", total);
-  set("sub-c-nova", cont.nova);
-  set("sub-c-aumento", cont.aumento);
-  set("sub-c-falta", cont.falta_estudo);
-  // legenda explicativa: acoes primeiro (em destaque), depois concluidas; cada uma com descricao
+  // BLOCO CONSOLIDADO das 5 categorias no topo (icone distinto + contagem + rotulo). Recalcula
+  // com o filtro de periodo/territorio. Mesma ordem dos chips (acoes primeiro, concluidas depois).
   const legOrder = ["nova", "aumento", "falta_estudo", "liberada", "climatizada"];
-  const leg = document.getElementById("sublegend");
-  if (leg) leg.innerHTML = legOrder.map(k => {
+  const cats = document.getElementById("sub-cats");
+  if (cats) cats.innerHTML = legOrder.map(k => {
     const c = SUBCAT[k];
-    const acaoCls = (k === "nova" || k === "aumento" || k === "falta_estudo") ? " acao" : " calmo";
-    return `<div class="subleg-it${acaoCls}"><i style="background:${c.cor}"></i>` +
-      `<div class="subleg-body"><span class="subleg-nome">${c.lab}<b>${cont[k]}</b></span>` +
-      `<span class="subleg-desc">${c.desc}</span></div></div>`;
+    return `<div class="sub-cat" style="--cat:${c.cor}">` +
+      `<span class="sub-cat-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${c.ico}</svg></span>` +
+      `<span class="sub-cat-body"><b class="sub-cat-n">${cont[k]}</b><span class="sub-cat-lab">${c.lab}</span></span>` +
+      `</div>`;
   }).join("");
   // chips de filtro por situacao (coluna direita), SELECAO UNICA: clicar isola so aquela
   // categoria no mapa (apaga o resto); "Todas" volta a mostrar tudo. Clicar na ja selecionada

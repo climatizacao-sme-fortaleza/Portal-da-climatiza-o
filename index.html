@@ -134,12 +134,9 @@
         <h2>Mapa da subestação e estudo elétrico</h2>
         <div class="count"><b id="sub-total">512</b> unidades no recorte</div>
       </div>
-      <!-- contadores das situacoes que exigem acao; recalculam com periodo/territorio -->
-      <div class="sub-counters">
-        <div class="subc subc-nova"><b id="sub-c-nova">72</b><span>precisam de subestação nova</span></div>
-        <div class="subc subc-aumento"><b id="sub-c-aumento">25</b><span>precisam de aumento</span></div>
-        <div class="subc subc-falta"><b id="sub-c-falta">177</b><span>falta estudo elétrico</span></div>
-      </div>
+      <!-- 5 categorias da subestacao consolidadas no topo (icone + contagem + rotulo);
+           preenchido por renderMapaSub e recalcula com periodo/territorio -->
+      <div class="sub-cats" id="sub-cats"></div>
       <!-- mapa + coluna de filtros por situacao (a direita). Os chips ligam/desligam cada
            categoria no mapa; os contadores das chips refletem o recorte (periodo/territorio). -->
       <div class="submap-row">
@@ -149,7 +146,6 @@
           <div class="smf-list" id="smf-list"></div>
         </aside>
       </div>
-      <div class="sublegend" id="sublegend"></div>
     </div>
 
     <!-- Panorama do parque (KPIs). O Funil saiu daqui e virou bloco proprio, acima do mapa de subestacao. -->
