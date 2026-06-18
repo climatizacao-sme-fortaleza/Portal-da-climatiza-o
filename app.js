@@ -2,8 +2,8 @@
 // Camada 1 (mapa) + Camada 2 (ficha da escola)
 
 const DOTCOL = { clim:"#3F9A52", parc:"#6FB97C", pipeline:"#E2A030", iniciar:"#A9A296" };
-// cores da rosca de avanco (sinal de transito): verde / amarelo / vermelho. So a rosca — mapa intacto.
-const ROSCA_COR = { clim:"#4CAF50", parc:"#FFC107", iniciar:"#E53935" };
+// cores da rosca de avanco (sinal de transito em tons pastel): sage / mel / goiaba. So a rosca — mapa intacto.
+const ROSCA_COR = { clim:"#7DBF81", parc:"#F0C060", iniciar:"#D4726A" };
 const STCLS  = { clim:"st-clim", parc:"st-parc", pipeline:"st-pipe", iniciar:"st-init" };
 
 const ESCOLAS     = window.ESCOLAS || [];
