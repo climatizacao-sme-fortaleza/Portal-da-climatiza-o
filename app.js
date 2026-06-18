@@ -1160,6 +1160,13 @@ function fechaDrawerSub(){
   subCatSel = "all";
   renderMapaSub();
 }
+// fecha o drawer-sub sem resetar o filtro do mapa (usado ao abrir ficha de escola a partir da lista)
+function fechaDrawerSubSilent(){
+  const d = document.getElementById("drawer-sub");
+  if (!d) return;
+  d.classList.remove("on");
+  d.setAttribute("aria-hidden", "true");
+}
 
 function abreDrawerSub(cat){
   const drawerSub = document.getElementById("drawer-sub");
@@ -1181,14 +1188,22 @@ function abreDrawerSub(cat){
     `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${c.ico}</svg></div>` +
     `<div class="dr-sub-tit">${c.lab}</div>` +
     `<div class="dr-sub-count">${escolas.length} unidade${escolas.length !== 1 ? "s" : ""} no recorte</div>`;
-  document.getElementById("dr-sub-body").innerHTML = distritos.map(d => {
+  const body = document.getElementById("dr-sub-body");
+  body.innerHTML = distritos.map(d => {
     const items = byDist[d];
     return `<div class="dr-sub-dist">` +
       `<div class="dr-sub-dist-lab">Distrito ${d}</div>` +
       `<ul class="dr-sub-list">` +
-      items.map(e => `<li class="dr-sub-item"><span class="dr-sub-tipo">${e.tipo}</span>${e.nome}</li>`).join("") +
+      items.map(e =>
+        `<li class="dr-sub-item dr-sub-clicavel" data-sge="${e.sge}">` +
+        `<span class="dr-sub-tipo">${e.tipo}</span><span>${e.nome}</span>` +
+        `<span class="dr-sub-seta">›</span></li>`
+      ).join("") +
       `</ul></div>`;
   }).join("");
+  body.querySelectorAll(".dr-sub-clicavel").forEach(li => {
+    li.onclick = () => { fechaDrawerSubSilent(); abreFicha(li.dataset.sge); };
+  });
   scrim.classList.add("on");
   drawerSub.classList.add("on");
   drawerSub.setAttribute("aria-hidden", "false");
@@ -1303,9 +1318,13 @@ function renderMapaSub(){
     cats.querySelectorAll(".sub-cat").forEach(el => {
       el.onclick = () => {
         const k = el.dataset.cat;
-        subCatSel = (subCatSel === k ? "all" : k);
-        renderMapaSub();
-        abreDrawerSub(subCatSel);
+        if (subCatSel === k) {
+          abreDrawerSub(k);          // 2o clique: ja selecionado -> abre lista
+        } else {
+          subCatSel = k;
+          renderMapaSub();           // 1o clique: seleciona e filtra mapa
+          fechaDrawerSub();          // fecha lista se estava aberta de outra categoria
+        }
       };
     });
   }
@@ -1332,9 +1351,13 @@ function renderMapaSub(){
     fl.querySelectorAll(".smf-chip").forEach(btn => btn.onclick = () => {
       const k = btn.dataset.cat;
       // single-select com toggle: clicar na categoria ja ativa volta pra "all"
-      subCatSel = (k === "all") ? "all" : (subCatSel === k ? "all" : k);
-      renderMapaSub();
-      abreDrawerSub(subCatSel);
+      if (k === "all") {
+        subCatSel = "all"; renderMapaSub(); fechaDrawerSub();
+      } else if (subCatSel === k) {
+        abreDrawerSub(k);            // 2o clique: abre lista
+      } else {
+        subCatSel = k; renderMapaSub(); fechaDrawerSub();  // 1o clique: filtra
+      }
     });
   }
 }
