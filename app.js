@@ -720,7 +720,7 @@ function renderPainelContexto() {
   }).join("");
   // centro da rosca: soma de climatizadas (status 9) + parciais (status 10) = total onde
   // houve intervencao, recalculado por territorio (Fortaleza = 32,4% = 29,3 + 3,1).
-  const centro = nEscGeo ? `${fmtPct(nClim + nParc, nEscGeo)}%` : "—";
+  const centro = nEscGeo ? `${fmtPct(nClim + nParc + nPipe, nEscGeo)}%` : "—";
   const donut =
     `<svg class="ctx-donut" viewBox="0 0 100 100" role="img" aria-label="Avanço da climatização">
        <circle cx="50" cy="50" r="${R}" fill="none" stroke="#EDEAE2" stroke-width="${W}"/>
