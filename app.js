@@ -668,7 +668,9 @@ function renderPainelContexto() {
     if ((ordPer[PERIODO[e.sge]] ?? Infinity) <= cutoff) { if (bk === "clim") nClim++; else nParc++; }
   }
   const nEscGeo = baseGeo.length;
-  const nPipe = baseGeo.filter(e => bucket(e.status) === "pipeline").length;
+  const nPipe = baseGeo.filter(e =>
+    bucket(e.status) === "pipeline" && (ordPer[PERIODO[e.sge]] ?? Infinity) <= cutoff
+  ).length;
   const nInic = nEscGeo - nClim - nParc - nPipe;
 
   // LINHA DO TEMPO: composicao por periodo do territorio (so geo, pra nao degenerar a 1 barra
