@@ -16,7 +16,8 @@
   <div class="wrap">
     <header class="top">
       <div>
-        <div class="eyebrow">Secretaria Municipal da Educação · COINF</div>
+        <div class="eyebrow">Secretaria Municipal da Educação</div>
+        <div class="eyebrow eyebrow-2">Coordenadoria de Infraestrutura</div>
         <h1>Climatização Escolar<br><span class="thin">Fortaleza</span></h1>
       </div>
       <div class="badge" id="badge">512 UNIDADES · DADOS REAIS</div>
@@ -187,15 +188,9 @@
   <footer class="fz-footer">
     <div class="fz-inner">
       <div class="fz-brasao" aria-label="Prefeitura de Fortaleza · Secretaria Municipal da Educação">
-        <!-- Brasao oficial: quando a SME enviar o vetor branco, trocar o placeholder abaixo por
-             <img src="assets/brasao-branco.svg" alt="Prefeitura de Fortaleza" class="fz-brasao-img"> -->
-        <span class="fz-brasao-ph">
-          <span class="fz-brasao-cidade">FORTALEZA</span>
-          <span class="fz-brasao-pref">Prefeitura</span>
-        </span>
-        <span class="fz-brasao-tag">Secretaria Municipal da Educação · SME</span>
+        <img src="assets/brasao-horizontal.png" alt="Prefeitura de Fortaleza · Educação" class="fz-brasao-img">
       </div>
-      <span class="fz-fonte">Fonte dos dados: COINF · Secretaria Municipal da Educação</span>
+      <span class="fz-fonte">Fonte dos dados: Coordenadoria de Infraestrutura · SME</span>
     </div>
   </footer>
 
@@ -210,6 +205,15 @@
       <span class="st" id="dr-status"></span>
     </div>
     <div class="dr-body" id="dr-body"></div>
+  </aside>
+
+  <!-- Camada 3: relacao de unidades por categoria de subestacao -->
+  <aside class="drawer drawer-sub" id="drawer-sub" aria-hidden="true">
+    <div class="dr-head">
+      <button class="close" id="dr-sub-close" aria-label="Fechar">&times;</button>
+      <div id="dr-sub-head"></div>
+    </div>
+    <div class="dr-body" id="dr-sub-body"></div>
   </aside>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
