@@ -447,7 +447,7 @@ h1 .thin{font-weight:400;color:rgba(255,255,255,.86)}
 .legend span{display:flex;align-items:center;gap:5px}
 .dot{width:9px;height:9px;border-radius:50%;display:inline-block;border:1.5px solid rgba(0,0,0,.25)}
 .d-clim{background:var(--verde)} .d-parc{background:var(--verde2)}
-.d-pipe{background:var(--amarelo)} .d-init{background:var(--cinza)}
+.d-pipe{background:var(--amarelo)} .d-init{background:#C45C42}
 
 /* popup */
 .leaflet-popup-content-wrapper{border-radius:6px}
@@ -459,7 +459,7 @@ h1 .thin{font-weight:400;color:rgba(255,255,255,.86)}
 .st-clim{background:#E4F1E5;color:#2C6B39;border-color:#BFE0C3}
 .st-parc{background:#EAF3EB;color:#3F7A4A;border-color:#CFE6D2}
 .st-pipe{background:#FBF0D9;color:#9A6B12;border-color:#F0DCAE}
-.st-init{background:#EDEAE2;color:#6B655A;border-color:#DDD7C9}
+.st-init{background:rgba(196,92,66,.1);color:#9E3A24;border-color:rgba(196,92,66,.25)}
 .popup-escola dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:3px 12px;font-size:12.5px}
 .popup-escola dt{color:var(--ink2)}
 .popup-escola dd{margin:0;text-align:right;font-weight:600}
@@ -501,7 +501,7 @@ h1 .thin{font-weight:400;color:rgba(255,255,255,.86)}
 .fbar-fill{display:block;height:100%;border-radius:4px;min-width:2px;
   transform-origin:left center;animation:mc-grow .9s cubic-bezier(.22,.61,.36,1) both;animation-delay:.1s}
 .bk-clim{background:var(--verde)} .bk-parc{background:var(--verde2)}
-.bk-pipeline{background:var(--amarelo)} .bk-iniciar{background:var(--cinza)}
+.bk-pipeline{background:var(--amarelo)} .bk-iniciar{background:#C45C42}
 .fbar-num{font-family:var(--fonte-ui);font-size:13px;font-weight:600;
   color:var(--ink);text-align:right}
 /* lista de unidades aberta sob a faixa do funil (agrupada por distrito, rolavel) */
@@ -583,7 +583,7 @@ h1 .thin{font-weight:400;color:rgba(255,255,255,.86)}
 .p-clim{background:rgba(0,152,137,.12);color:#00766A;border-color:rgba(0,152,137,.28)}
 .p-parc{background:rgba(111,185,124,.16);color:#2F7A57;border-color:rgba(111,185,124,.30)}
 .p-pipe{background:rgba(241,90,34,.12);color:#C8430F;border-color:rgba(241,90,34,.28)}
-.p-init{background:rgba(154,149,143,.15);color:#6B6660;border-color:rgba(154,149,143,.30)}
+.p-init{background:rgba(196,92,66,.12);color:#9E3A24;border-color:rgba(196,92,66,.28)}
 .lista-vazia{padding:22px 16px;text-align:center;color:var(--ink2);font-size:13px}
 
 /* ===== drawer / ficha (Camada 2) ===== */
@@ -592,8 +592,9 @@ h1 .thin{font-weight:400;color:rgba(255,255,255,.86)}
 .scrim.on{opacity:1;pointer-events:auto}
 .drawer{position:fixed;top:0;right:0;height:100%;width:min(480px,94vw);background:var(--panel);
   border-left:1px solid var(--line);transform:translateX(100%);opacity:0;
-  transition:transform .28s cubic-bezier(.4,0,.2,1),opacity .28s ease;z-index:1001;overflow-y:auto;
+  transition:transform .28s cubic-bezier(.4,0,.2,1),opacity .28s ease;z-index:1100;overflow-y:auto;
   box-shadow:-20px 0 50px rgba(0,0,0,.12)}
+.drawer.drawer-sub{z-index:1050;width:min(420px,92vw)}
 .drawer.on{transform:translateX(0);opacity:1}
 /* entrada: alem do slide do painel, o conteudo entra com fade + leve deslize sutil pra cima */
 @keyframes fichaIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
