@@ -48,18 +48,18 @@ body{
 .mono{font-family:var(--fonte-ui)}
 
 /* header = faixa masthead institucional (laranja, full-bleed na largura do conteudo) */
-header.top{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;
-  background:var(--laranja);color:#fff;margin:-28px -22px 0;padding:16px 22px 16px}
-.top-content{display:flex;align-items:center;gap:20px;min-width:0}
-.top-sep{width:1px;height:50px;background:rgba(255,255,255,.35);flex-shrink:0}
-.top-texto{display:flex;flex-direction:column;gap:4px;min-width:0}
-.header-brasao{height:58px;width:auto;flex-shrink:0;opacity:.97}
-.eyebrow{font-family:var(--fonte-ui);font-size:10.5px;font-weight:600;letter-spacing:.13em;
-  text-transform:uppercase;color:rgba(255,255,255,.82);white-space:nowrap}
-.eyebrow-2{margin-top:2px;font-weight:500;opacity:.75}
-h1{font-family:var(--fonte-marca);font-weight:800;font-size:clamp(20px,2.6vw,30px);
-  line-height:1.05;letter-spacing:-.01em;color:#fff;white-space:nowrap}
-h1 .thin{font-weight:400;color:rgba(255,255,255,.88)}
+header.top{display:flex;justify-content:flex-start;align-items:center;gap:20px;flex-wrap:wrap;
+  background:var(--laranja);color:#fff;margin:-28px -22px 0;padding:18px 22px 18px}
+.top-content{display:flex;align-items:center;gap:22px;min-width:0}
+.top-sep{width:1px;height:62px;background:rgba(255,255,255,.32);flex-shrink:0}
+.top-texto{display:flex;flex-direction:column;gap:2px;min-width:0}
+.header-brasao{height:68px;width:auto;flex-shrink:0;opacity:.97}
+.eyebrow{font-family:var(--fonte-ui);font-size:10px;font-weight:600;letter-spacing:.13em;
+  text-transform:uppercase;color:rgba(255,255,255,.8);white-space:nowrap}
+.eyebrow-2{font-weight:500;letter-spacing:.1em;opacity:.7;margin-top:1px}
+h1{font-family:var(--fonte-marca);font-weight:800;font-size:clamp(20px,2.5vw,28px);
+  line-height:1.08;letter-spacing:-.01em;color:#fff;white-space:nowrap;margin-top:5px}
+h1 .thin{font-weight:400;color:rgba(255,255,255,.86)}
 /* nota descritiva (movida pra fora da masthead): discreta, abaixo da regua tricolor */
 .sub{color:var(--ink2);font-size:13px;line-height:1.5;max-width:620px;margin:0 0 22px}
 .badge{font-family:var(--fonte-ui);font-size:11px;border:1px solid rgba(255,255,255,.7);color:#fff;
@@ -681,16 +681,12 @@ h1 .thin{font-weight:400;color:rgba(255,255,255,.88)}
 .dm.on,
 .db.on,
 .smf-todas-chip.sel{background:#325565;border-color:#325565;color:#fff}
-/* rodape institucional minimalista: brasao (placeholder tipografico, sem caixa) + linha da fonte */
-.fz-brasao{display:flex;flex-direction:column;gap:7px}
-.fz-brasao-ph{display:flex;flex-direction:column;line-height:.95;color:#fff}
-.fz-brasao-cidade{font-family:var(--fonte-ui);font-weight:800;font-size:26px;letter-spacing:.01em}
-.fz-brasao-pref{font-family:var(--fonte-ui);font-weight:600;font-size:11px;letter-spacing:.34em;
-  text-transform:uppercase;margin-top:2px}
-.fz-brasao-img{height:46px;width:auto;display:block}
-.fz-brasao-tag{font-family:var(--fonte-ui);font-size:11px;font-weight:600;letter-spacing:.04em;
-  text-transform:uppercase;color:rgba(255,255,255,.9)}
-.fz-fonte{font-family:var(--fonte-ui);font-size:11.5px;color:rgba(255,255,255,.85);text-align:right}
+/* rodape institucional minimalista */
+.fz-footer .fz-inner{padding:12px 22px !important}
+.fz-brasao{display:flex;align-items:center}
+.fz-brasao-img{height:34px;width:auto;display:block;opacity:.92}
+.fz-fonte{font-family:var(--fonte-ui);font-size:10.5px;letter-spacing:.04em;
+  color:rgba(255,255,255,.72);text-align:right;text-transform:uppercase}
 
 /* sub-cat clicavel */
 .sub-cat{cursor:pointer;transition:box-shadow .15s,transform .1s}
@@ -710,6 +706,13 @@ h1 .thin{font-weight:400;color:rgba(255,255,255,.88)}
   text-transform:uppercase;color:var(--laranja);border-bottom:1px solid var(--line);
   padding-bottom:4px;margin-bottom:6px}
 .dr-sub-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:3px}
-.dr-sub-item{font-size:12.5px;color:var(--ink);line-height:1.35;display:flex;align-items:baseline;gap:6px}
+.dr-sub-item{font-size:12.5px;color:var(--ink);line-height:1.35;display:flex;align-items:center;gap:6px}
+.dr-sub-clicavel{cursor:pointer;border-radius:4px;padding:3px 4px;margin:-3px -4px;transition:background .12s}
+.dr-sub-clicavel:hover{background:rgba(50,85,101,.07)}
+.dr-sub-clicavel:hover .dr-sub-seta{opacity:1}
+.dr-sub-seta{margin-left:auto;font-size:14px;color:var(--laranja);opacity:0;transition:opacity .12s;flex-shrink:0}
 .dr-sub-tipo{font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
   color:#fff;background:#325565;border-radius:3px;padding:1px 5px;white-space:nowrap;flex-shrink:0}
+/* hint no card selecionado: indica que 2o clique abre lista */
+.sub-cat-sel::after{content:"Ver lista →";display:block;font-size:9px;font-weight:600;
+  letter-spacing:.06em;text-transform:uppercase;color:var(--cat);opacity:.85;margin-top:3px}
