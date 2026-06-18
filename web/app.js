@@ -1,9 +1,9 @@
 // Portal da Climatizacao Escolar - Fortaleza
 // Camada 1 (mapa) + Camada 2 (ficha da escola)
 
-const DOTCOL = { clim:"#3F9A52", parc:"#6FB97C", pipeline:"#E2A030", iniciar:"#A9A296" };
-// cores da rosca de avanco (sinal de transito em tons pastel): sage / mel / goiaba. So a rosca — mapa intacto.
-const ROSCA_COR = { clim:"#7DBF81", parc:"#F0C060", iniciar:"#D4726A" };
+const DOTCOL = { clim:"#3F9A52", parc:"#6FB97C", pipeline:"#E2A030", iniciar:"#C45C42" };
+// cores da rosca: verde/verde-claro institucional; iniciar = terracota (conza -> vermelho)
+const ROSCA_COR = { clim:"#3F9A52", parc:"#6FB97C", iniciar:"#C45C42" };
 const STCLS  = { clim:"st-clim", parc:"st-parc", pipeline:"st-pipe", iniciar:"st-init" };
 
 const ESCOLAS     = window.ESCOLAS || [];
@@ -1202,7 +1202,7 @@ function abreDrawerSub(cat){
       `</ul></div>`;
   }).join("");
   body.querySelectorAll(".dr-sub-clicavel").forEach(li => {
-    li.onclick = () => { fechaDrawerSubSilent(); abreFicha(li.dataset.sge); };
+    li.onclick = () => { abreFicha(li.dataset.sge); };  // abre ficha por cima; lista permanece abaixo
   });
   scrim.classList.add("on");
   drawerSub.classList.add("on");
@@ -1211,8 +1211,12 @@ function abreDrawerSub(cat){
 
 function fechaFicha(){
   document.getElementById("drawer").classList.remove("on");
-  document.getElementById("scrim").classList.remove("on");
   document.getElementById("drawer").setAttribute("aria-hidden", "true");
+  // mantem scrim se o drawer-sub ainda estiver aberto (usuario volta para a lista)
+  const drawerSub = document.getElementById("drawer-sub");
+  if (!drawerSub || !drawerSub.classList.contains("on")) {
+    document.getElementById("scrim").classList.remove("on");
+  }
 }
 
 // ---------- 2o mapa: subestacao / estudo eletrico ----------
