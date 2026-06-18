@@ -3,7 +3,7 @@
 
 const DOTCOL = { clim:"#3F9A52", parc:"#6FB97C", pipeline:"#E2A030", iniciar:"#C45C42" };
 // cores da rosca: verde/verde-claro institucional; iniciar = terracota (conza -> vermelho)
-const ROSCA_COR = { clim:"#3F9A52", parc:"#6FB97C", iniciar:"#C45C42" };
+const ROSCA_COR = { clim:"#3F9A52", parc:"#6FB97C", pipeline:"#E2A030", iniciar:"#C45C42" };
 const STCLS  = { clim:"st-clim", parc:"st-parc", pipeline:"st-pipe", iniciar:"st-init" };
 
 const ESCOLAS     = window.ESCOLAS || [];
@@ -664,11 +664,12 @@ function renderPainelContexto() {
   let nClim = 0, nParc = 0;
   for (const e of baseGeo) {
     const bk = bucket(e.status);
-    if (bk !== "clim" && bk !== "parc") continue;        // so climatizada/parcial entram no acumulado
+    if (bk !== "clim" && bk !== "parc") continue;
     if ((ordPer[PERIODO[e.sge]] ?? Infinity) <= cutoff) { if (bk === "clim") nClim++; else nParc++; }
   }
-  const nEscGeo = baseGeo.length;                          // total do territorio (denominador)
-  const nInic = nEscGeo - nClim - nParc;                   // resto = ainda nao climatizado ate o periodo
+  const nEscGeo = baseGeo.length;
+  const nPipe = baseGeo.filter(e => bucket(e.status) === "pipeline").length;
+  const nInic = nEscGeo - nClim - nParc - nPipe;
 
   // LINHA DO TEMPO: composicao por periodo do territorio (so geo, pra nao degenerar a 1 barra
   // quando o periodo esta filtrado).
@@ -703,9 +704,10 @@ function renderPainelContexto() {
 
   // bloco AVANCO: rosca de 3 status + legenda; e a EQUIDADE logo abaixo da rosca
   const segs = [
-    { lab: "Climatizada", v: nClim, cor: ROSCA_COR.clim },
-    { lab: "Parcial",     v: nParc, cor: ROSCA_COR.parc },
-    { lab: "A iniciar",   v: nInic, cor: ROSCA_COR.iniciar }
+    { lab: "Climatizada",  v: nClim, cor: ROSCA_COR.clim },
+    { lab: "Parcial",      v: nParc, cor: ROSCA_COR.parc },
+    { lab: "Em execução",  v: nPipe, cor: ROSCA_COR.pipeline },
+    { lab: "A iniciar",    v: nInic, cor: ROSCA_COR.iniciar }
   ];
   const R = 40, W = 15, C = 2 * Math.PI * R;
   let acc = 0;
