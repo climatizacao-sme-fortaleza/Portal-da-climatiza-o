@@ -184,3 +184,79 @@
 - `BUCKET_LABEL` (app.js); `#sub-cats` + `.sub-cat*` (bloco subestação); `.fl-bc*`, `.fl-ajuda`,
   `.fl-close` reestilizado (sub-lista do funil). `.sub-counters`/`.sublegend`/`.fl-tot` ficam como
   CSS legado não usado.
+
+---
+
+# Rodada de ajuste — legenda da rosca + ícones de subestação (2026-06-16)
+
+> Só aparência. Backups: `web/app.js.bak`, `web/styles.css.bak`, `web/index.html.bak`.
+> Validado: console limpo, sem scroll horizontal, mapas Leaflet intactos.
+
+## A) Legenda da rosca "Avanço" — % não corta mais
+- **Sintoma:** a coluna de porcentagem à direita de cada categoria (ex.: "Climatizada 150 29,3%")
+  era cortada na borda do painel (`.ctxpanel{overflow:hidden}`) — aparecia "29," e sumia o resto.
+- **Causa:** a linha (dot + rótulo "Climatizada" + contagem + %) estourava os ~258px úteis do painel
+  de 290px, e o `.lp` (último item, com `min-width:42px`) era o que ficava para fora e era clipado.
+- **Correção (CSS, `.ctx-leg`):** cada linha virou **grid de 4 colunas**
+  `11px minmax(0,1fr) auto auto` = `dot | rótulo | contagem | %`. Contagem e % são colunas `auto`
+  com `white-space:nowrap` → **nunca cortam**; se faltar espaço quem cede é o **rótulo**
+  (`minmax(0,1fr)` + ellipsis). Removido o `min-width:42px` do `.lp`.
+- **Espaço extra:** rosca `.ctx-donut` 104→**94px** e `gap` do wrap 14→**11px**; fontes da legenda
+  12,5→**11,5px** e do `.lp` 10,5→**10px**. Com isso os rótulos cabem inteiros (sem ellipsis).
+- **app.js:** o rótulo da legenda passou a vir embrulhado em `<span class="ll">…</span>`
+  (única mudança no JS; valores/cálculo idênticos).
+- **Validado (Fortaleza):** "Climatizada 150 29,3%", "Parcial 16 3,1%", "A iniciar 346 67,6%" —
+  as três % inteiras, nenhuma linha clipada (`lpRight 332 < panelRight 333`).
+
+## B) Ícones das 5 categorias de subestação — silhuetas elétricas (sem bolinhas)
+- **Proibido círculo/bolinha como ícone.** Saíram os dois ícones que usavam `<circle>`
+  (relógio e círculo-check). Cada categoria ganhou pictograma de silhueta distinto, metáfora de
+  energia, `currentColor` na cor da categoria. Cores dos pontos do mapa **mantidas** (Leaflet intacto).
+
+| Categoria | Antes | Depois |
+|---|---|---|
+| Nova subestação | raio | **torre de energia** (poste/torre) |
+| Aumento de carga | seta subindo | **medidor subindo** (mostrador + agulha pra cima) |
+| Aguardando estudo elétrico | relógio (círculo) | **prancheta com raio** |
+| Apta, sem aumento… | escudo-check | **tomada / plug** |
+| Concluída | círculo-check | **selo com check** (selo octogonal) |
+
+- **Validado:** `#sub-cats` sem nenhum `<circle>`; 5 ícones renderizando na cor da categoria
+  (72 / 25 / 177 / 90 / 148).
+
+## B.1) Container do ícone — chip quadrado arredondado (acabamento)
+- Os 5 pictogramas (torre, medidor, prancheta com raio, tomada, selo com check) ficam **iguais**;
+  só ganharam um **container de fundo** para dar unidade.
+- **CSS (`.sub-cat-ico`, só estilo):** virou um quadrado de **34×34px**, `border-radius:8px`,
+  fundo = **cor da categoria a ~13%** (`color-mix(in srgb, var(--cat) 13%, #fff)`), pictograma
+  centralizado e reduzido **24→21px**, na **cor cheia** da categoria (`currentColor=var(--cat)`).
+- Fundo propositalmente **discreto** (o símbolo é o protagonista; não vira "bolinha colorida").
+  Containers do mesmo tamanho, alinhados, com o mesmo `gap` para o rótulo. Cores das categorias
+  e pontos do mapa **inalteradas**.
+- **Validado:** 5 chips uniformes 34×34, `radius 8px`, sem `<circle>`, sem scroll horizontal,
+  console limpo, mapas Leaflet intactos.
+
+---
+
+# Rodada — restaurar icones antigos + pontos do mapa de subestacao (2026-06-17)
+
+> Backups: `web/app.js.bak2`, `web/styles.css.bak2`, `web/index.html.bak2` (o `.bak` antigo
+> foi mantido como referencia dos icones). Validado: mapa renderiza, 512 pontos, clique abre
+> ficha, console limpo, sem scroll horizontal, Leaflet intacto.
+
+## Frente 1 — icones do SUBCAT voltaram aos ANTIGOS (commit 8e4c997)
+Revertidos os 5 `ico:` para a versao anterior (byte-identica ao `app.js.bak`): **raio** (nova),
+**seta subindo** (aumento), **relogio** (aguardando), **escudo com check** (apta), **check em
+circulo** (concluida). So o campo `ico` mudou; `cor/r/op/w/lab` e o container-chip (B.1) ficaram
+iguais.
+
+## Frente 2 — pontos do 2o mapa (subestacao) mais limpos e legiveis
+Continuam **redondos** (nao viraram simbolo). Em `renderMapaSub` o `L.circleMarker` passou a ter:
+- **Aro branco fino**: `color:#fff`, `weight:1.5` (antes borda escura `rgba(0,0,0,.32)`).
+- **Preenchimento ~85%**: `fillOpacity:.85` fixo (da nocao de densidade na sobreposicao).
+- **Sombra leve**: classe `.sub-pt` com `filter:drop-shadow(0 .5px 1px rgba(0,0,0,.28))` — separa
+  pontos colados, estilo mapa profissional.
+- **Raio menor + cresce com o zoom**: `radius = cfg.r * subScale()`, com `subScale()` de ~0,62
+  (afastado) a ~1,12 (aproximado); `mapSub.on("zoomend", ajustaRaioSub)` reescala os pontos
+  (guardados em `subMarkers`). Diametro renderizado caiu para ~6-8px (antes ate ~12px), reduzindo
+  a "sopa" em zoom afastado. Cores de cada categoria **mantidas**.

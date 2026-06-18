@@ -2,6 +2,8 @@
 // Camada 1 (mapa) + Camada 2 (ficha da escola)
 
 const DOTCOL = { clim:"#3F9A52", parc:"#6FB97C", pipeline:"#E2A030", iniciar:"#A9A296" };
+// cores da rosca de avanco (sinal de transito): verde / amarelo / vermelho. So a rosca — mapa intacto.
+const ROSCA_COR = { clim:"#4CAF50", parc:"#FFC107", iniciar:"#E53935" };
 const STCLS  = { clim:"st-clim", parc:"st-parc", pipeline:"st-pipe", iniciar:"st-init" };
 
 const ESCOLAS     = window.ESCOLAS || [];
@@ -701,9 +703,9 @@ function renderPainelContexto() {
 
   // bloco AVANCO: rosca de 3 status + legenda; e a EQUIDADE logo abaixo da rosca
   const segs = [
-    { lab: "Climatizada", v: nClim, cor: DOTCOL.clim },
-    { lab: "Parcial",     v: nParc, cor: DOTCOL.parc },
-    { lab: "A iniciar",   v: nInic, cor: DOTCOL.iniciar }
+    { lab: "Climatizada", v: nClim, cor: ROSCA_COR.clim },
+    { lab: "Parcial",     v: nParc, cor: ROSCA_COR.parc },
+    { lab: "A iniciar",   v: nInic, cor: ROSCA_COR.iniciar }
   ];
   const R = 40, W = 15, C = 2 * Math.PI * R;
   let acc = 0;
@@ -724,7 +726,7 @@ function renderPainelContexto() {
        <text x="50" y="55" text-anchor="middle" class="ctx-donut-num${numAnim("avanco-centro", centro)}" font-size="16">${centro}</text>
      </svg>`;
   const legenda = segs.map(s =>
-    `<li><i style="background:${s.cor}"></i>${s.lab}<b>${s.v}</b>` +
+    `<li><i style="background:${s.cor}"></i><span class="ll">${s.lab}</span><b>${s.v}</b>` +
     `<span class="lp">${fmtPct(s.v, nEscGeo)}%</span></li>`).join("");
 
   const avanco =
@@ -1149,6 +1151,49 @@ function abreFicha(sge){
   document.getElementById("drawer").setAttribute("aria-hidden", "false");
 }
 
+function fechaDrawerSub(){
+  const d = document.getElementById("drawer-sub");
+  if (!d || !d.classList.contains("on")) return;
+  d.classList.remove("on");
+  d.setAttribute("aria-hidden", "true");
+  document.getElementById("scrim").classList.remove("on");
+  subCatSel = "all";
+  renderMapaSub();
+}
+
+function abreDrawerSub(cat){
+  const drawerSub = document.getElementById("drawer-sub");
+  const scrim = document.getElementById("scrim");
+  if (!drawerSub) return;
+  if (cat === "all") { fechaDrawerSub(); return; }
+  const c = SUBCAT[cat];
+  if (!c) return;
+  const escolas = (subPorCat[cat] || []).slice().sort((a, b) => a.nome.localeCompare(b.nome, "pt-BR"));
+  const byDist = {};
+  for (const e of escolas) {
+    const d = e.distrito || "—";
+    if (!byDist[d]) byDist[d] = [];
+    byDist[d].push(e);
+  }
+  const distritos = Object.keys(byDist).sort();
+  document.getElementById("dr-sub-head").innerHTML =
+    `<div class="dr-sub-ico" style="--cat:${c.cor}">` +
+    `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${c.ico}</svg></div>` +
+    `<div class="dr-sub-tit">${c.lab}</div>` +
+    `<div class="dr-sub-count">${escolas.length} unidade${escolas.length !== 1 ? "s" : ""} no recorte</div>`;
+  document.getElementById("dr-sub-body").innerHTML = distritos.map(d => {
+    const items = byDist[d];
+    return `<div class="dr-sub-dist">` +
+      `<div class="dr-sub-dist-lab">Distrito ${d}</div>` +
+      `<ul class="dr-sub-list">` +
+      items.map(e => `<li class="dr-sub-item"><span class="dr-sub-tipo">${e.tipo}</span>${e.nome}</li>`).join("") +
+      `</ul></div>`;
+  }).join("");
+  scrim.classList.add("on");
+  drawerSub.classList.add("on");
+  drawerSub.setAttribute("aria-hidden", "false");
+}
+
 function fechaFicha(){
   document.getElementById("drawer").classList.remove("on");
   document.getElementById("scrim").classList.remove("on");
@@ -1177,6 +1222,15 @@ const SUBCAT = {
 const ORDEM_SUB = ["climatizada", "liberada", "falta_estudo", "aumento", "nova"]; // desenho: discretas -> acoes
 let mapSub = null, subLayer = null;
 let subCatSel = "all";   // filtro por situacao (selecao unica): "all" = todas, ou uma categoria isolada
+let subPorCat = {};      // cache do ultimo renderMapaSub para o drawer de listagem
+let subMarkers = [];     // {m, base} para reescalar o raio dos pontos quando o zoom muda
+// raio dos pontos cresce suavemente com o zoom: menor afastado (reduz a "sopa"), maior aproximado.
+function subScale(){
+  if (!mapSub) return .75;
+  const z = mapSub.getZoom();
+  return Math.max(.62, Math.min(1.12, .75 + (z - 11.4) * 0.16));
+}
+function ajustaRaioSub(){ const s = subScale(); for (const o of subMarkers) o.m.setRadius(o.base * s); }
 // recorte do 2o mapa = territorio (drill) + periodo, mesma logica do mapa principal (SEM status).
 // Assim os contadores/pontos recalculam quando ha filtro de periodo ou territorio ativo.
 function passaSubmapa(e){ return passaFiltroGeo(e) && passaPeriodo(e); }
@@ -1197,12 +1251,14 @@ function initMapaSub(){
     style: f => ({ color: "#2A2A2A", weight: 2.7, opacity: .9, fillColor: f.properties.cor, fillOpacity: .18 })
   }).addTo(mapSub);
   subLayer = L.layerGroup().addTo(mapSub);
+  mapSub.on("zoomend", ajustaRaioSub);   // reescala o raio dos pontos conforme o zoom
   renderMapaSub();
 }
 // re-desenha pontos + recalcula contadores e legenda para o recorte atual (territorio + periodo)
 function renderMapaSub(){
   if (!subLayer) return;
   subLayer.clearLayers();
+  subMarkers = [];
   const cont = {}, porCat = {};
   for (const k of ORDEM_SUB) { cont[k] = 0; porCat[k] = []; }
   for (const e of TODAS) {
@@ -1210,18 +1266,22 @@ function renderMapaSub(){
     const cat = MAPA_SUB[String(e.sge)];
     if (cat && porCat[cat]) { porCat[cat].push(e); cont[cat]++; }
   }
+  subPorCat = porCat;
   // desenha discretas primeiro, acoes por cima. Selecao unica: "all" mostra tudo; senao isola 1.
   for (const cat of ORDEM_SUB) {
     if (subCatSel !== "all" && cat !== subCatSel) continue;
     const cfg = SUBCAT[cat];
     for (const e of porCat[cat]) {
+      // ponto redondo com aro branco fino + leve sombra (.sub-pt); preenchimento ~85% deixa
+      // ver densidade quando se sobrepoem. Raio = base da categoria * escala do zoom.
       const m = L.circleMarker(e._latlng, {
-        radius: cfg.r, weight: cfg.w, color: "rgba(0,0,0,.32)",
-        fillColor: cfg.cor, fillOpacity: cfg.op
+        radius: cfg.r * subScale(), weight: 1.5, color: "#fff", opacity: .95,
+        fillColor: cfg.cor, fillOpacity: .85, className: "sub-pt"
       });
       m.on("click", () => abreFicha(e.sge));
       m.bindTooltip(`${e.nome} — ${cfg.lab}`, { direction: "top", offset: [0, -4] });
       subLayer.addLayer(m);
+      subMarkers.push({ m, base: cfg.r });
     }
   }
   // contadores do topo (recalculam com filtro) + total do recorte
@@ -1232,13 +1292,23 @@ function renderMapaSub(){
   // com o filtro de periodo/territorio. Mesma ordem dos chips (acoes primeiro, concluidas depois).
   const legOrder = ["nova", "aumento", "falta_estudo", "liberada", "climatizada"];
   const cats = document.getElementById("sub-cats");
-  if (cats) cats.innerHTML = legOrder.map(k => {
-    const c = SUBCAT[k];
-    return `<div class="sub-cat" style="--cat:${c.cor}">` +
-      `<span class="sub-cat-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${c.ico}</svg></span>` +
-      `<span class="sub-cat-body"><b class="sub-cat-n">${cont[k]}</b><span class="sub-cat-lab">${c.lab}</span></span>` +
-      `</div>`;
-  }).join("");
+  if (cats) {
+    cats.innerHTML = legOrder.map(k => {
+      const c = SUBCAT[k], sel = subCatSel === k;
+      return `<div class="sub-cat${sel ? " sub-cat-sel" : ""}" data-cat="${k}" style="--cat:${c.cor}">` +
+        `<span class="sub-cat-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${c.ico}</svg></span>` +
+        `<span class="sub-cat-body"><b class="sub-cat-n">${cont[k]}</b><span class="sub-cat-lab">${c.lab}</span></span>` +
+        `</div>`;
+    }).join("");
+    cats.querySelectorAll(".sub-cat").forEach(el => {
+      el.onclick = () => {
+        const k = el.dataset.cat;
+        subCatSel = (subCatSel === k ? "all" : k);
+        renderMapaSub();
+        abreDrawerSub(subCatSel);
+      };
+    });
+  }
   // chips de filtro por situacao (coluna direita), SELECAO UNICA: clicar isola so aquela
   // categoria no mapa (apaga o resto); "Todas" volta a mostrar tudo. Clicar na ja selecionada
   // tambem volta pra "Todas". Contagens = recorte (periodo/territorio).
@@ -1264,6 +1334,7 @@ function renderMapaSub(){
       // single-select com toggle: clicar na categoria ja ativa volta pra "all"
       subCatSel = (k === "all") ? "all" : (subCatSel === k ? "all" : k);
       renderMapaSub();
+      abreDrawerSub(subCatSel);
     });
   }
 }
@@ -1320,8 +1391,9 @@ function init(){
   });
   document.getElementById("q").addEventListener("input", renderLista);
   document.getElementById("dr-close").addEventListener("click", fechaFicha);
-  document.getElementById("scrim").addEventListener("click", fechaFicha);
-  document.addEventListener("keydown", e => { if (e.key === "Escape") fechaFicha(); });
+  document.getElementById("dr-sub-close").addEventListener("click", fechaDrawerSub);
+  document.getElementById("scrim").addEventListener("click", () => { fechaFicha(); fechaDrawerSub(); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape") { fechaFicha(); fechaDrawerSub(); } });
 
   const nota = document.getElementById("sem-coord");
   const avisos = [];
