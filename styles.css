@@ -48,16 +48,18 @@ body{
 .mono{font-family:var(--fonte-ui)}
 
 /* header = faixa masthead institucional (laranja, full-bleed na largura do conteudo) */
-header.top{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;
-  background:var(--laranja);color:#fff;margin:-28px -22px 0;padding:30px 22px 22px}
-.top-content{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
-.top-texto{display:flex;flex-direction:column}
-.header-brasao{height:42px;width:auto;flex-shrink:0;opacity:.95}
-.eyebrow{font-family:var(--fonte-ui);font-size:11px;font-weight:600;letter-spacing:.14em;
-  text-transform:uppercase;color:rgba(255,255,255,.85)}
+header.top{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;
+  background:var(--laranja);color:#fff;margin:-28px -22px 0;padding:16px 22px 16px}
+.top-content{display:flex;align-items:center;gap:20px;min-width:0}
+.top-sep{width:1px;height:50px;background:rgba(255,255,255,.35);flex-shrink:0}
+.top-texto{display:flex;flex-direction:column;gap:4px;min-width:0}
+.header-brasao{height:58px;width:auto;flex-shrink:0;opacity:.97}
+.eyebrow{font-family:var(--fonte-ui);font-size:10.5px;font-weight:600;letter-spacing:.13em;
+  text-transform:uppercase;color:rgba(255,255,255,.82);white-space:nowrap}
 .eyebrow-2{margin-top:2px;font-weight:500;opacity:.75}
-h1{font-family:var(--fonte-marca);font-weight:800;font-size:clamp(28px,4vw,46px);line-height:.98;letter-spacing:-.01em;color:#fff}
-h1 .thin{font-weight:500;color:#fff}
+h1{font-family:var(--fonte-marca);font-weight:800;font-size:clamp(20px,2.6vw,30px);
+  line-height:1.05;letter-spacing:-.01em;color:#fff;white-space:nowrap}
+h1 .thin{font-weight:400;color:rgba(255,255,255,.88)}
 /* nota descritiva (movida pra fora da masthead): discreta, abaixo da regua tricolor */
 .sub{color:var(--ink2);font-size:13px;line-height:1.5;max-width:620px;margin:0 0 22px}
 .badge{font-family:var(--fonte-ui);font-size:11px;border:1px solid rgba(255,255,255,.7);color:#fff;
