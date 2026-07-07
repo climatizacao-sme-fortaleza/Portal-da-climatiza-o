@@ -592,7 +592,7 @@ function aplicaFiltros() {
   funilExpandido = null;   // qualquer mudanca de recorte (drill/periodo/status) fecha a lista do funil
   renderPanorama();
   renderPainelContexto();
-  renderMapaSub();   // 2o mapa (subestacao) acompanha territorio + periodo
+  // submapa nao reage a drill/filtro territorial do mapa principal
 }
 
 // ---------- painel de contexto do territorio (esquerda do mapa) ----------
@@ -1256,7 +1256,7 @@ function subScale(){
 function ajustaRaioSub(){ const s = subScale(); for (const o of subMarkers) o.m.setRadius(o.base * s); }
 // recorte do 2o mapa = territorio (drill) + periodo, mesma logica do mapa principal (SEM status).
 // Assim os contadores/pontos recalculam quando ha filtro de periodo ou territorio ativo.
-function passaSubmapa(e){ return passaFiltroGeo(e) && passaPeriodo(e); }
+function passaSubmapa(e){ return true; } // sempre parque inteiro; unico filtro = categoria
 function initMapaSub(){
   const el = document.getElementById("map-sub");
   if (!el || mapSub) return;
