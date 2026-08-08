@@ -686,8 +686,18 @@ h1 .thin{font-weight:400;color:rgba(255,255,255,.86)}
 .fz-footer .fz-inner{padding:12px 22px !important}
 .fz-brasao{display:flex;align-items:center}
 .fz-brasao-img{height:34px;width:auto;display:block;opacity:.92}
-.fz-fonte{font-family:var(--fonte-ui);font-size:10.5px;letter-spacing:.04em;
-  color:rgba(255,255,255,.72);text-align:right;text-transform:uppercase}
+/* creditos do rodape: duas linhas alinhadas a direita. Hierarquia so por tamanho e
+   opacidade (nada de cor nova na faixa laranja): linha institucional em caixa alta,
+   como era a nota de fonte; linha de autoria menor e mais apagada. */
+.fz-fonte{display:flex;flex-direction:column;align-items:flex-end;gap:3px;
+  font-family:var(--fonte-ui);text-align:right;max-width:64ch}
+.fz-cred-inst{font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+  color:rgba(255,255,255,.95);line-height:1.35}
+.fz-cred-aut{font-size:9.5px;font-weight:500;letter-spacing:.01em;
+  color:rgba(255,255,255,.70);line-height:1.45}
+@media(max-width:640px){
+  .fz-footer .fz-inner{flex-direction:column;align-items:flex-start;gap:10px}
+  .fz-fonte{align-items:flex-start;text-align:left;max-width:100%}}
 
 /* sub-cat clicavel */
 .sub-cat{cursor:pointer;transition:box-shadow .15s,transform .1s}
