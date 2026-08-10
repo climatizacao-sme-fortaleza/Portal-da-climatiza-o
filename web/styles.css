@@ -695,6 +695,8 @@ h1 .thin{font-weight:400;color:rgba(255,255,255,.86)}
   color:rgba(255,255,255,.95);line-height:1.35}
 .fz-cred-aut{font-size:9.5px;font-weight:500;letter-spacing:.01em;
   color:rgba(255,255,255,.70);line-height:1.45}
+/* respiro sutil separando o bloco institucional (SME, COINF) do bloco de pessoas */
+.fz-cred-inst + .fz-cred-aut{margin-top:6px}
 @media(max-width:640px){
   .fz-footer .fz-inner{flex-direction:column;align-items:flex-start;gap:10px}
   .fz-fonte{align-items:flex-start;text-align:left;max-width:100%}}
