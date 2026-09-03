@@ -36,22 +36,35 @@ escolha **Leitor** e desmarque *Notificar pessoas*.
 
 Leitor basta. O robô nunca escreve na planilha.
 
-### 3. Guardar a chave no GitHub
+### 3. Guardar a chave no GitHub e disparar a primeira carga
 
-No repositório: **Settings → Secrets and variables → Actions → New repository secret**.
+Tem um script que faz o resto: confere a chave, mostra o e-mail da conta de serviço,
+guarda a chave no GitHub, apaga o arquivo local e dispara a primeira carga.
+**A chave não aparece na tela em momento nenhum** — vai do arquivo direto para o GitHub.
 
-- **Name:** `GOOGLE_SHEETS_CREDENCIAL`
-- **Secret:** o **conteúdo inteiro** do arquivo JSON baixado no passo 1.4
-  (abra no bloco de notas, seleciona tudo, copia, cola aqui — incluindo as chaves
-  `{` e `}` das pontas)
+Primeiro o login (uma vez só, escolha *Login with a web browser*):
 
-Depois de colar, **apague o arquivo JSON do computador**. Se precisar de novo, é só
-gerar outra chave.
+```powershell
+& "$env:LOCALAPPDATA\portal-cli\bin\gh.exe" auth login
+```
 
-### 4. Testar
+Depois:
 
-Aba **Actions** do repositório → **Atualiza dados da planilha mestra** →
-**Run workflow**. Em uns 2 minutos ele diz se deu certo.
+```powershell
+powershell -ExecutionPolicy Bypass -File tools\liga-robo.ps1 -Chave "C:\caminho\da\chave.json"
+```
+
+Ele para com mensagem clara se a chave estiver errada, se faltar login, ou se não
+conseguir gravar o segredo. Para conferir sem apagar o arquivo, use `-ManterArquivo`.
+
+**Prefere fazer na mão?** É **Settings → Secrets and variables → Actions → New repository
+secret**, nome `GOOGLE_SHEETS_CREDENCIAL`, e o conteúdo inteiro do JSON no campo do valor.
+Depois apague o arquivo do computador.
+
+### 4. Conferir
+
+Aba **Actions** do repositório → **Atualiza dados da planilha mestra**. Em uns 2 minutos
+ele diz se deu certo. O rodapé do portal passa a mostrar *"planilha ao vivo"*.
 
 ---
 
