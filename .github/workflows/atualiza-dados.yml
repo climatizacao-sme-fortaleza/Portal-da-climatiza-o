@@ -11,6 +11,14 @@ on:
     # gratuitos e a fila atrasa; minuto quebrado costuma sair no horario.
     - cron: '26 10-22 * * 1-5'
   workflow_dispatch:        # botao "Run workflow" para atualizar na hora
+  push:
+    # mexeu no transformador ou nas regras? recarrega e revalida na hora, sem esperar
+    # a proxima janela. NAO inclui web/data aqui, senao o commit do proprio robo
+    # dispararia outra execucao em loop.
+    branches: [main]
+    paths:
+      - 'tools/importa_mestra.py'
+      - '.github/workflows/atualiza-dados.yml'
 
 # uma execucao por vez: duas cargas simultaneas brigariam pelo mesmo push
 concurrency:
