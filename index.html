@@ -32,7 +32,12 @@
     <div class="card">
       <div class="maphead">
         <h2>Mapa do Parque Escolar</h2>
-        <div class="count"><b id="contagem">512</b> unidades escolares no mapa<span id="sem-coord"></span></div>
+        <div class="maphead-dir">
+          <div class="count"><b id="contagem">512</b> unidades escolares no mapa<span id="sem-coord"></span></div>
+          <!-- carimbo da ultima verificacao contra a planilha: preenchido pelo app.js a
+               partir de data/atualizado.js. Discreto de proposito - e contexto, nao dado. -->
+          <span class="carimbo" id="fz-atualizado" hidden></span>
+        </div>
       </div>
 
       <!-- Navegacao do mapa em 3 linhas: (1) controles 'Ver por' + 'Voltar', (2) breadcrumb do
@@ -201,9 +206,6 @@
         <span class="fz-cred-inst">Coordenadoria de Infraestrutura, COINF</span>
         <span class="fz-cred-aut">Coordenação: Gizelly Gomes</span>
         <span class="fz-cred-aut">Desenvolvimento e Gerência: Igor Facundo</span>
-        <!-- carimbo do dado: preenchido pelo app.js a partir de data/atualizado.js,
-             que o importador regrava a cada carga aprovada na validacao. -->
-        <span class="fz-cred-data" id="fz-atualizado" hidden></span>
       </span>
     </div>
   </footer>
