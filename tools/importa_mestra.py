@@ -192,6 +192,20 @@ def num(v):
 def inteiro_se_puder(f):
     return int(f) if f is not None and float(f).is_integer() else f
 
+def dinheiro(v):
+    """Valor em reais: sempre 2 casas.
+
+    O .xlsx entrega o numero ja arredondado; a API do Sheets entrega o double cru da
+    formula, e 49363.4 vira 49363.399999999994. Os dois valem a mesma coisa e o portal
+    formata igual, mas sem arredondar aqui o arquivo mudaria a cada recalculo da
+    planilha e o robo geraria commit de barulho. Centavo e a menor unidade que existe
+    nesse dado: arredondar nao perde nada.
+    """
+    n = num(v)
+    if n is None:
+        return None
+    return inteiro_se_puder(round(n, 2))
+
 def espacos(v):
     """Colapsa quebras de linha e espacos repetidos (as celulas da mestra tem \n dentro)."""
     s = re.sub(r'\s+', ' ', str(v if v is not None else '')).strip()
@@ -344,7 +358,7 @@ def gera_execucao(linhas):
         for campo in EXEC_INT:
             e[campo] = inteiro_se_puder(num(r.get(COLS_EXEC[campo])))
         for campo in EXEC_NUM:
-            e[campo] = inteiro_se_puder(num(r.get(COLS_EXEC[campo])))
+            e[campo] = dinheiro(r.get(COLS_EXEC[campo]))
         for campo in ('etapa', 'statusCivil', 'statusEletrica', 'statusInstalacao', 'equipe'):
             e[campo] = espacos(r.get(COLS_EXEC[campo]))
         e['inicio'] = data_iso(r.get(COLS_EXEC['inicio']))
@@ -403,10 +417,10 @@ def transformar(linhas, atuais):
         e['sge'] = txt(r.get(COLS['sge']))
         for campo in CAMPOS_MOEDA:
             bruto = str(r.get(COLS[campo], '')).strip()
-            valor = num(bruto)
+            valor = dinheiro(bruto)
             if bruto and valor is None:
                 avisos.append("SGE %s: %s tem texto no lugar de valor -> %r" % (e['sge'], campo, bruto))
-            e[campo] = inteiro_se_puder(valor)
+            e[campo] = valor
         e['lat'] = num(r.get(COLS['lat']))
         e['lng'] = num(r.get(COLS['lng']))
         e['geoSrc'] = 'planilha' if (e['lat'] is not None and e['lng'] is not None) else None
