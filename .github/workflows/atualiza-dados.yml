@@ -1,0 +1,95 @@
+name: Atualiza dados da planilha mestra
+
+# Le a BASE MESTRA pela API do Google Sheets, roda o mesmo transformador que usamos
+# a mao, e so publica se o portao de validacao aprovar. Se a planilha estiver com
+# problema, o job FALHA e o site continua servindo o ultimo dado bom.
+
+on:
+  schedule:
+    # de hora em hora, das 7h as 19h de Fortaleza (UTC-3), de segunda a sexta
+    - cron: '0 10-22 * * 1-5'
+  workflow_dispatch:        # botao "Run workflow" para atualizar na hora
+
+# uma execucao por vez: duas cargas simultaneas brigariam pelo mesmo push
+concurrency:
+  group: atualiza-dados
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+env:
+  # id da planilha mestra (esta na URL dela). Nao e segredo: quem controla o acesso
+  # e o compartilhamento da planilha com a conta de servico.
+  PLANILHA_ID: 1PtlPiyra_wcgurnsdsM4XQUcXpEuQ5xq5vieXfxMVFk
+
+jobs:
+  atualizar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar o repositorio
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0        # o subtree push precisa do historico inteiro
+
+      - name: Conferir se a credencial esta configurada
+        env:
+          CRED: ${{ secrets.GOOGLE_SHEETS_CREDENCIAL }}
+        run: |
+          if [ -z "$CRED" ]; then
+            echo "::error::Falta o secret GOOGLE_SHEETS_CREDENCIAL. Veja tools/ROBO.md."
+            exit 1
+          fi
+
+      - name: Preparar o Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Instalar dependencias
+        run: pip install --quiet google-auth requests
+
+      - name: Ler a planilha, validar e gravar
+        env:
+          GOOGLE_SHEETS_CREDENCIAL: ${{ secrets.GOOGLE_SHEETS_CREDENCIAL }}
+          PYTHONIOENCODING: utf-8
+        run: python tools/importa_mestra.py --sheet "$PLANILHA_ID" web/data --gravar
+
+      - name: Ver se algum dado mudou
+        id: mudou
+        run: |
+          # o carimbo de data muda toda execucao; so vale commit se o DADO mudou
+          if git diff --quiet -- web/data/dados.js web/data/subestacao.js \
+                                 web/data/mapa_sub.js web/data/salas_prof.js; then
+            echo "houve=nao" >> "$GITHUB_OUTPUT"
+            echo "Nenhuma mudanca nos dados. Nada a publicar."
+          else
+            echo "houve=sim" >> "$GITHUB_OUTPUT"
+            git --no-pager diff --stat -- web/data
+          fi
+
+      - name: Commitar
+        if: steps.mudou.outputs.houve == 'sim'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add web/data
+          git commit -m "Atualiza dados da planilha mestra
+
+          Carga automatica lida da BASE MESTRA e aprovada no portao de validacao.
+
+          Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>"
+          git push origin HEAD:main
+
+      - name: Publicar no site
+        if: steps.mudou.outputs.houve == 'sim'
+        run: git subtree push --prefix web origin gh-pages
+
+      - name: Resumo
+        if: always()
+        run: |
+          if [ "${{ steps.mudou.outputs.houve }}" = "sim" ]; then
+            echo "### Dados atualizados e publicados" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "### Sem mudanca nos dados" >> "$GITHUB_STEP_SUMMARY"
+          fi

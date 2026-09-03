@@ -66,19 +66,29 @@ portal/
 
 ## De onde vêm os dados
 
-A fonte primária são **planilhas `.xlsx`** (base da SME/COINF). **Elas NÃO estão no
-repositório** — são ignoradas pelo `.gitignore` (`*.xlsx`), por serem arquivos grandes e
-de origem externa.
+A fonte primária é a **planilha mestra no Google Sheets** (base da SME/COINF), aba
+`BASE MESTRA (512)`. Ela não está no repositório.
 
-- O fluxo é: `.xlsx` → `xlsx2csv.ps1` / `build.ps1` → **`web/data/*.js`** (versionados).
-- **O portal NÃO depende dos `.xlsx` em runtime.** Em produção/navegador ele lê apenas os
-  `web/data/*.js`, que **estão no git**. Ou seja: após `git clone`, o portal roda direto,
-  sem precisar das planilhas.
-- Os `.xlsx` só são necessários para **regenerar** os `web/data/*.js` (nova carga de dados).
-  Se for atualizar os dados em outra máquina, leve as planilhas à parte e rode os scripts.
+- O fluxo é: **planilha mestra** → `tools/importa_mestra.py` → **`web/data/*.js`** (versionados).
+- **O portal NÃO depende da planilha em runtime.** Em produção/navegador ele lê apenas os
+  `web/data/*.js`, que **estão no git**. Ou seja: após `git clone`, o portal roda direto.
+- O importador aceita as duas fontes — a planilha ao vivo (pela API do Sheets) ou um
+  `.xlsx` baixado — e **não grava nada se o portão de validação reprovar**:
 
-> Regra do projeto: **nunca** commitar `.xlsx` nem editar `web/data/dados.js` à mão — ele é
-> gerado. Ajustes de dado se fazem na planilha + regeneração.
+```bash
+python tools/importa_mestra.py "CAMINHO/PLANILHA.xlsx" web/data           # ensaio
+python tools/importa_mestra.py "CAMINHO/PLANILHA.xlsx" web/data --gravar  # grava
+python tools/importa_mestra.py --sheet <ID> web/data --gravar             # ao vivo
+```
+
+- O robô em `.github/workflows/atualiza-dados.yml` faz isso sozinho de hora em hora.
+  Configuração e regras em **[`tools/ROBO.md`](tools/ROBO.md)**.
+- Os scripts antigos em PowerShell (`build.ps1`, `xlsx2csv.ps1`, `geocode.ps1`,
+  `writeback.ps1`) são do fluxo anterior, baseado em `.xlsx` local com caminhos fixos.
+  Ficam por referência histórica; quem gera os dados hoje é o `tools/importa_mestra.py`.
+
+> Regra do projeto: **nunca** editar `web/data/*.js` à mão — eles são gerados. Ajustes de
+> dado se fazem na planilha mestra + regeneração.
 
 ---
 
@@ -103,14 +113,32 @@ A pele segue a identidade institucional da Prefeitura de Fortaleza / Secretaria 
 
 ## Correções pendentes
 
+### No portal
+
 - [ ] **Rosca de Salas cortando** (arco/desenho da rosca com corte visual).
 - [ ] **Cobertura cumulativa** — a seção Cobertura do balão precisa acumular por período.
 - [ ] **Nota das 952** — revisar/explicar a nota do previsto (fantasma da etapa 02).
 - [ ] **Funil** — exibir a tag de categoria e melhorar o UX da sub-lista que abre ao clicar.
-- [ ] **Panorama: 6 → 4 cards** — reduzir os KPIs de 6 para 4.
 - [ ] **Buscar unidade sempre 512** — a busca/lista deve refletir sempre as 512 unidades.
 - [ ] **Subestação consolidada** — visão consolidada com ícones novos.
 - [ ] **Salas 2025** — acerto da contagem/atribuição das salas de 2025.
+- [ ] **Gasto por etapa na ficha** — mostrar etapa 01, etapa 02 e total por unidade.
+      Bloqueado: a mestra tem uma linha por unidade com os valores já somados.
+
+### Na planilha mestra
+
+- [ ] **Quebra por etapa dos valores de execução** — destrava o item acima.
+- [ ] **Valor autorizado onde há medição** — 81 unidades, R$ 5,66 mi sem A.S. registrada.
+- [ ] **Separar valor de situação** nas colunas de orçamento — 82 células com texto
+      (`SEINF`, `PENDENTE ELÉTRICA`, `PRONTA`) onde deveria haver número.
+- [ ] **Colunas vazias que o portal já usaria**: `DATA DIAGNÓSTICO/VISITA`,
+      `STATUS A.S. CIVIL/ELÉTRICA`, `O.S. (Nº)`, `TEM EXECUÇÃO`.
+- [ ] **Quebra adm/pedagógica das climatizadas** — 58 unidades só têm o total.
+
+> Concluído nesta rodada: carga da base mestra, salas medidas, execução regenerada,
+> mapa de subestação recalculado, faixa de indicadores reorganizada em 5 cards, bloco
+> de orçamento na ficha, carimbo de data no rodapé e o robô de atualização.
+> O item "Panorama: 6 → 4 cards" saiu da lista: hoje são 5, por pedido da gestão.
 
 ---
 

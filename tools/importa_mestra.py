@@ -16,8 +16,9 @@ Regras deliberadas:
 
 Nada e gravado se o portao de validacao reprovar.
 """
-import io, json, re, sys, zipfile, collections
+import io, json, re, sys, zipfile, collections, datetime
 from xml.etree import ElementTree as ET
+from urllib.parse import quote
 
 NS  = '{http://schemas.openxmlformats.org/spreadsheetml/2006/main}'
 NSR = '{http://schemas.openxmlformats.org/officeDocument/2006/relationships}'
@@ -70,6 +71,57 @@ COL_SALAS_CLIM       = 59   # SALAS CLIMATIZADAS TOTAL (medido, ja inclui a sala
 COL_SALAS_ADM_CLIM   = 60
 COL_SALAS_PEDAG_CLIM = 61
 COL_OBS_PROF         = 64
+
+
+# ------------------------------------------------- leitura da planilha ao vivo
+ESCOPO_SHEETS = 'https://www.googleapis.com/auth/spreadsheets.readonly'
+ENV_CREDENCIAL = 'GOOGLE_SHEETS_CREDENCIAL'   # JSON da conta de servico (GitHub Secret)
+
+def ler_mestra_api(planilha_id, aba=ABA_MESTRA):
+    """Le a aba pela API do Google Sheets com uma conta de servico.
+
+    Devolve a MESMA estrutura de ler_mestra() — lista de linhas, cada uma um dict
+    {indice da coluna começando em 1: valor} — para o transformador nao saber de onde
+    o dado veio.
+
+    valueRenderOption=UNFORMATTED_VALUE entrega numero como numero e data como serial,
+    igualzinho ao que sai do .xlsx. Nao usar FORMATTED_VALUE: ele devolve o texto
+    formatado pelo locale da planilha e a virgula decimal volta a ser um problema.
+    """
+    import os
+    credencial = os.environ.get(ENV_CREDENCIAL)
+    if not credencial:
+        raise SystemExit(
+            "falta a credencial: defina %s com o JSON da conta de servico.\n"
+            "Veja tools/ROBO.md para gerar." % ENV_CREDENCIAL)
+    try:
+        from google.oauth2 import service_account
+        from google.auth.transport.requests import Request
+        import requests
+    except ImportError:
+        raise SystemExit("faltam dependencias: pip install google-auth requests")
+
+    info = json.loads(credencial)
+    creds = service_account.Credentials.from_service_account_info(info, scopes=[ESCOPO_SHEETS])
+    creds.refresh(Request())
+
+    url = ('https://sheets.googleapis.com/v4/spreadsheets/%s/values/%s'
+           '?valueRenderOption=UNFORMATTED_VALUE&majorDimension=ROWS'
+           % (planilha_id, quote(aba)))
+    r = requests.get(url, headers={'Authorization': 'Bearer ' + creds.token}, timeout=120)
+    if r.status_code == 403:
+        raise SystemExit("a conta de servico nao tem acesso a planilha. Compartilhe a "
+                         "planilha com o e-mail da conta (%s) como Leitor."
+                         % info.get('client_email', '?'))
+    if r.status_code == 404:
+        raise SystemExit("planilha ou aba nao encontrada: id=%s aba=%r" % (planilha_id, aba))
+    r.raise_for_status()
+
+    valores = r.json().get('values', [])
+    if not valores:
+        raise SystemExit("a aba %r voltou vazia da API" % aba)
+    # a API omite celulas vazias no fim da linha; o dict esparso ja trata isso
+    return [{i + 1: v for i, v in enumerate(linha) if v != ''} for linha in valores]
 
 
 # ---------------------------------------------------------------- leitura xlsx
@@ -441,14 +493,41 @@ def carregar_atuais(caminho):
     return {str(e['sge']): e for e in arr}
 
 
+USO = """uso:
+  importa_mestra.py <planilha.xlsx>  <pasta web/data> [--gravar]   # de um arquivo baixado
+  importa_mestra.py --sheet <id>     <pasta web/data> [--gravar]   # da planilha ao vivo
+
+Com --sheet e preciso a variavel de ambiente %s com o JSON da conta de
+servico, e a planilha compartilhada com o e-mail dela como Leitor (tools/ROBO.md).
+Sem --gravar o script so mostra o que faria.""" % ENV_CREDENCIAL
+
+
+def escreve_carimbo(caminho, origem):
+    """Data/hora em que este dado foi aceito pelo portao, para o rodape do portal."""
+    agora = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=-3)))
+    io.open(caminho, 'w', encoding='utf-8', newline='').write(
+        "// Gerado pelo importador - NAO editar a mao.\n"
+        "// Momento em que os dados foram lidos da planilha e aprovados na validacao.\n"
+        "window.ATUALIZADO_EM = %s;\n" % json.dumps(
+            {'iso': agora.isoformat(timespec='minutes'),
+             'texto': agora.strftime('%d/%m/%Y às %H:%M'),
+             'origem': origem}, ensure_ascii=False))
+
+
 def main():
-    if len(sys.argv) < 3:
-        raise SystemExit("uso: importa_mestra.py <planilha.xlsx> <pasta web/data> [--gravar]")
-    xlsx, pasta = sys.argv[1], sys.argv[2].rstrip('/\\')
+    args = [a for a in sys.argv[1:] if a != '--gravar']
     gravar = '--gravar' in sys.argv
+    if len(args) >= 3 and args[0] == '--sheet':
+        planilha_id, pasta, origem = args[1], args[2].rstrip('/\\'), 'planilha ao vivo'
+        leitura = lambda: ler_mestra_api(planilha_id)
+    elif len(args) >= 2 and not args[0].startswith('--'):
+        xlsx, pasta, origem = args[0], args[1].rstrip('/\\'), 'arquivo baixado'
+        leitura = lambda: ler_mestra(xlsx)
+    else:
+        raise SystemExit(USO)
     destino = pasta + '/dados.js'
 
-    linhas = ler_mestra(xlsx)
+    linhas = leitura()
     atuais = carregar_atuais(destino)
     novos, avisos = transformar(linhas, atuais)
     sub, mapa, prof = linhas_auxiliares(linhas)
@@ -539,7 +618,8 @@ def main():
         escreve_subestacao(pasta + '/subestacao.js', sub)
         escreve_mapa_sub(pasta + '/mapa_sub.js', mapa)
         escreve_salas_prof(pasta + '/salas_prof.js', prof)
-        print("\ngravados: dados.js, subestacao.js, mapa_sub.js, salas_prof.js")
+        escreve_carimbo(pasta + '/atualizado.js', origem)
+        print("\ngravados: dados.js, subestacao.js, mapa_sub.js, salas_prof.js, atualizado.js")
     else:
         print("\n(ensaio — use --gravar para escrever)")
 

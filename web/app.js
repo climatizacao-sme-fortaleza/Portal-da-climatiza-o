@@ -1118,6 +1118,23 @@ function blocoSalas(e){
   return h;
 }
 
+// Orcamento e A.S.: o que foi AUTORIZADO, antes do que foi gasto. Fica separado do
+// bloco de custos de proposito — la e medicao, aqui e autorizacao.
+// So aparece quando ha algum numero de A.S. ou algum valor; sem isso seria uma
+// sequencia de tracinhos.
+function blocoOrcamento(e){
+  const temAS  = e.asCivil || e.asEletrica;
+  const temVal = e.valorCivil != null || e.valorEletrica != null || e.valorTotal != null;
+  if (!temAS && !temVal) return "";
+  let h = `<div class="sect">Orçamento · A.S.</div>`;
+  if (e.asCivil)    h += kv("A.S. civil", txt(e.asCivil));
+  if (e.asEletrica) h += kv("A.S. elétrica", txt(e.asEletrica));
+  if (e.valorCivil    != null) h += kv("Adequação civil", moeda(e.valorCivil));
+  if (e.valorEletrica != null) h += kv("Adequação elétrica", moeda(e.valorEletrica));
+  if (e.valorTotal    != null) h += kv("Total autorizado", moeda(e.valorTotal));
+  return h;
+}
+
 function blocoDiagnostico(sge, salas){
   const d = DIAGNOSTICO[sge];
   // Enquanto a mestra nao trouxer a data da visita e as salas do diagnostico, o bloco
@@ -1176,13 +1193,12 @@ function blocoSubestacao(sge, b){
     h += kv("Necessita", s.pf ? `${nec} (${s.pf})` : nec);
     if (s.d) h += kv("Solicitada à SEINF em", s.d);
   }
-  // Estudo eletrico: nas ja climatizadas (total/parcial) e Finalizado, definitivo (sem asterisco
-  // nem nota); nas demais segue provisorio -> asterisco discreto + nota "em ajuste".
+  // Estudo eletrico: deixou de ser provisorio. Hoje vem da regra da gestao (status >= 2 =
+  // unidade ja visitada = tem estudo), entao sai sem asterisco e sem a nota "em ajuste".
   if (climatizada) {
     h += kv("Estudo elétrico", "Finalizado");
   } else if (s.e === "TEM" || s.e === "FALTA") {
-    h += kv("Estudo elétrico", `${s.e === "TEM" ? "finalizado" : "pendente"}<sup class="prov">*</sup>`);
-    h += `<div class="prov-nota">* em ajuste</div>`;
+    h += kv("Estudo elétrico", s.e === "TEM" ? "Finalizado" : "Pendente");
   }
   return h;
 }
@@ -1230,6 +1246,7 @@ function abreFicha(sge){
 
   h += blocoSalas(e);          // vale para toda unidade, inclusive as ja climatizadas
   h += blocoSubestacao(sge, b);
+  h += blocoOrcamento(e);      // autorizado (A.S.), antes do gasto que vem na execucao
   // Historico (Diagnostico, Execucao) so nas unidades de periodo 2025 em diante; as de
   // "antes de 2025" foram climatizadas antes desse processo existir e nao tem historico.
   if (PERIODO[e.sge] !== "antes") {
@@ -1514,6 +1531,15 @@ function init(){
   document.getElementById("dr-sub-close").addEventListener("click", fechaDrawerSub);
   document.getElementById("scrim").addEventListener("click", () => { fechaFicha(); fechaDrawerSub(); });
   document.addEventListener("keydown", e => { if (e.key === "Escape") { fechaFicha(); fechaDrawerSub(); } });
+
+  // carimbo do dado no rodape: so aparece quando data/atualizado.js existe. Enquanto a
+  // carga for manual mostra "arquivo baixado"; com o robo passa a dizer "planilha ao vivo".
+  const carimbo = document.getElementById("fz-atualizado");
+  const at = window.ATUALIZADO_EM;
+  if (carimbo && at && at.texto) {
+    carimbo.textContent = `Dados de ${at.texto} · ${at.origem || "planilha"}`;
+    carimbo.hidden = false;
+  }
 
   const nota = document.getElementById("sem-coord");
   const avisos = [];
