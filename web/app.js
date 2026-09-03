@@ -1532,12 +1532,13 @@ function init(){
   document.getElementById("scrim").addEventListener("click", () => { fechaFicha(); fechaDrawerSub(); });
   document.addEventListener("keydown", e => { if (e.key === "Escape") { fechaFicha(); fechaDrawerSub(); } });
 
-  // carimbo do dado no rodape: so aparece quando data/atualizado.js existe. Enquanto a
-  // carga for manual mostra "arquivo baixado"; com o robo passa a dizer "planilha ao vivo".
+  // carimbo do rodape: hora da ULTIMA VERIFICACAO contra a planilha, nao a da ultima
+  // mudanca. O robo regrava toda vez que le e a leitura passa na validacao, mesmo sem
+  // dado diferente — assim carimbo parado quer dizer robo parado, e nao planilha parada.
   const carimbo = document.getElementById("fz-atualizado");
   const at = window.ATUALIZADO_EM;
   if (carimbo && at && at.texto) {
-    carimbo.textContent = `Dados de ${at.texto} · ${at.origem || "planilha"}`;
+    carimbo.textContent = `Verificado em ${at.texto} · ${at.origem || "planilha"}`;
     carimbo.hidden = false;
   }
 

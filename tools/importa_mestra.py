@@ -517,11 +517,16 @@ Sem --gravar o script so mostra o que faria.""" % ENV_CREDENCIAL
 
 
 def escreve_carimbo(caminho, origem):
-    """Data/hora em que este dado foi aceito pelo portao, para o rodape do portal."""
+    """Hora da ultima VERIFICACAO contra a planilha, para o rodape do portal.
+
+    E regravado toda vez que a leitura passa na validacao, mesmo quando nenhum dado
+    mudou. Assim o carimbo funciona como sinal de vida: carimbo velho quer dizer robo
+    parado, e nao planilha parada.
+    """
     agora = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=-3)))
     io.open(caminho, 'w', encoding='utf-8', newline='').write(
         "// Gerado pelo importador - NAO editar a mao.\n"
-        "// Momento em que os dados foram lidos da planilha e aprovados na validacao.\n"
+        "// Momento da ultima verificacao contra a planilha (leitura aprovada na validacao).\n"
         "window.ATUALIZADO_EM = %s;\n" % json.dumps(
             {'iso': agora.isoformat(timespec='minutes'),
              'texto': agora.strftime('%d/%m/%Y às %H:%M'),

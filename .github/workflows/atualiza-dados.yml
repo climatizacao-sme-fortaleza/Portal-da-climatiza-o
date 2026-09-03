@@ -6,8 +6,10 @@ name: Atualiza dados da planilha mestra
 
 on:
   schedule:
-    # de hora em hora, das 7h as 19h de Fortaleza (UTC-3), de segunda a sexta
-    - cron: '0 10-22 * * 1-5'
+    # de hora em hora, das 7h as 19h de Fortaleza (UTC-3), de segunda a sexta.
+    # Minuto 26 de proposito: a hora cheia e o horario mais disputado nos runners
+    # gratuitos e a fila atrasa; minuto quebrado costuma sair no horario.
+    - cron: '26 10-22 * * 1-5'
   workflow_dispatch:        # botao "Run workflow" para atualizar na hora
 
 # uma execucao por vez: duas cargas simultaneas brigariam pelo mesmo push
@@ -58,31 +60,41 @@ jobs:
       - name: Ver se algum dado mudou
         id: mudou
         run: |
-          # o carimbo de data muda toda execucao; so vale commit se o DADO mudou
+          # o carimbo muda toda execucao; aqui olhamos so os arquivos de DADO,
+          # para a mensagem do commit dizer a verdade sobre o que aconteceu
           if git diff --quiet -- web/data/dados.js web/data/subestacao.js \
                                  web/data/mapa_sub.js web/data/salas_prof.js; then
             echo "houve=nao" >> "$GITHUB_OUTPUT"
-            echo "Nenhuma mudanca nos dados. Nada a publicar."
+            echo "Nenhuma mudanca nos dados - so o carimbo de verificacao."
           else
             echo "houve=sim" >> "$GITHUB_OUTPUT"
             git --no-pager diff --stat -- web/data
           fi
 
+      # Commita SEMPRE que a leitura passou na validacao, mesmo sem mudanca de dado:
+      # o carimbo do rodape e a hora da ULTIMA VERIFICACAO, e so tem valor se for
+      # atualizado toda vez. Sem isso, robo saudavel e planilha parada davam a
+      # impressao de robo travado.
       - name: Commitar
-        if: steps.mudou.outputs.houve == 'sim'
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add web/data
-          git commit -m "Atualiza dados da planilha mestra
+          if [ "${{ steps.mudou.outputs.houve }}" = "sim" ]; then
+            ASSUNTO="Atualiza dados da planilha mestra"
+            CORPO="Carga automatica lida da BASE MESTRA e aprovada no portao de validacao."
+          else
+            ASSUNTO="Verificacao da planilha mestra (sem mudanca)"
+            CORPO="Leitura aprovada na validacao. Nenhum dado diferente; so o carimbo de verificacao."
+          fi
+          git commit -m "$ASSUNTO
 
-          Carga automatica lida da BASE MESTRA e aprovada no portao de validacao.
+          $CORPO
 
           Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>"
           git push origin HEAD:main
 
       - name: Publicar no site
-        if: steps.mudou.outputs.houve == 'sim'
         run: git subtree push --prefix web origin gh-pages
 
       - name: Resumo
@@ -91,5 +103,5 @@ jobs:
           if [ "${{ steps.mudou.outputs.houve }}" = "sim" ]; then
             echo "### Dados atualizados e publicados" >> "$GITHUB_STEP_SUMMARY"
           else
-            echo "### Sem mudanca nos dados" >> "$GITHUB_STEP_SUMMARY"
+            echo "### Verificado, sem mudanca nos dados" >> "$GITHUB_STEP_SUMMARY"
           fi
