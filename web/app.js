@@ -24,18 +24,21 @@ function bucket(status) {
   return "iniciar";                          // status 0-4 (e qualquer fallback) = "A iniciar"
 }
 
-// Sala dos professores climatizada (status estrito): retorna o ANO (2025/2026) ou null.
-// INSTALADA 2026 -> 2026; CLIMATIZADA (exata) ou INSTALADA 2025 -> 2025. Variantes (insuficiente,
-// danificado, sem vida util) NAO contam. Fonte: window.SALAS_PROF (SGE -> "status1||status2").
-function salaProfAno(sge) {
-  const raw = (window.SALAS_PROF || {})[String(sge)];
-  if (!raw) return null;
-  const sts = raw.split("||");
-  if (sts.includes("INSTALADA 2025")) return "2025";   // instalada em 2025 -> conta em 2025
-  // INSTALADA 2026 e CLIMATIZADA (sem ano: descobertas/diagnosticadas em 2026, sem registro
-  // anterior) -> contam em 2026.
-  if (sts.includes("INSTALADA 2026") || sts.includes("CLIMATIZADA")) return "2026";
-  return null;
+// Sala dos professores: hoje e SO uma TAG da ficha, nao entra em contagem nenhuma.
+// Ela ja esta dentro de SALAS CLIMATIZADAS TOTAL da mestra (conta como uma das
+// administrativas), entao somar aqui contaria duas vezes.
+// Fonte: window.SALAS_PROF (SGE -> {s: situacao, o: observacao}).
+// "NÃO CLIMATIZADA" = a unidade nao tem sala dos professores; "PADRÃO JURACI" na
+// observacao = a sala ainda precisa ser construida. O motivo vem na observacao.
+function salaProf(sge) {
+  const r = (window.SALAS_PROF || {})[String(sge)];
+  if (!r) return null;
+  return typeof r === "string" ? { s: r, o: "" } : r;   // tolera o formato antigo
+}
+// climatizada de fato: so o estado limpo conta como sim. Variantes (insuficiente,
+// equipamento danificado, sem vida util) aparecem com o proprio texto na tag.
+function salaProfOk(s) {
+  return s === "CLIMATIZADA" || s === "INSTALADA 2025" || s === "INSTALADA 2026";
 }
 
 function moeda(v) {
@@ -598,8 +601,10 @@ function aplicaFiltros() {
 // ---------- painel de contexto do territorio (esquerda do mapa) ----------
 // Recalcula a partir do recorte geografico atual do drill (passaFiltroGeo, sem o filtro de
 // status) — o mesmo recorte que move mapa/lista/funil. NAO se mistura com a ficha da ESCOLA.
-const PARQUE_ESCOLAS = 512;
-const PARQUE_SALAS = 5518;
+// derivados da base, nao fixos: a planilha mestra ainda esta sendo preenchida e o
+// numero de salas muda a cada vistoria (sala dividida em duas vira dois ambientes).
+const PARQUE_ESCOLAS = ESCOLAS.length;
+const PARQUE_SALAS = ESCOLAS.reduce((t, e) => t + (Number(e.salas) || 0), 0);
 // verba total do parque = soma de VALOR TOTAL GASTO (EXECUCAO) de todas as escolas
 const PARQUE_VERBA = (() => {
   let t = 0;
@@ -786,11 +791,12 @@ function renderPainelContexto() {
       totBairros.add(e.bairro);
       if (e.tipo === "CEI") ceiTot++; else escTot++;
       const b = bucket(e.status);
-      if (b === "clim" || b === "parc") {
-        if ((ordPer[PERIODO[e.sge]] ?? 99) <= cutoff) salasClim += Number(e.salas) || 0;
-      } else {
-        const ano = salaProfAno(e.sge);
-        if (ano && (ordPer[ano] ?? 99) <= cutoff) salasClim += 1;             // sala de professores
+      // Salas climatizadas: numero MEDIDO na mestra, unidade por unidade (nao mais deduzido
+      // do status). Vale para qualquer status — unidade "a iniciar" pode ja ter salas
+      // climatizadas — e o acumulado por periodo usa o periodo da propria unidade.
+      // A sala dos professores NAO e somada aqui: ja esta dentro desse numero.
+      if ((ordPer[PERIODO[e.sge]] ?? 99) <= cutoff) salasClim += Number(e.salasClim) || 0;
+      if (b !== "clim" && b !== "parc") {
         if (mostraFantasma && (String(e.sge) in E2)) fantasma += Number(e.salas) || 0;  // etapa 02 a fazer
       }
     }
@@ -799,9 +805,21 @@ function renderPainelContexto() {
     let bInv = 0, bInv25 = 0, bInv26 = 0;
     let cobUni = 0; const cobBairros = new Set();
     let escClim = 0, ceiClim = 0;
+    // quebra do gasto entre maquinas e o resto (adequacao civil/eletrica + instalacao)
+    let bMaq = 0, bAdeq = 0;
+    // salas climatizadas separadas por natureza (administrativa x pedagogica)
+    let admTot = 0, admClim = 0, pedTot = 0, pedClim = 0;
+    // unidades EM EXECUCAO (status 5-8) por tipo de unidade
+    const execTipo = {};
     for (const e of baseBalao) {
       if (bucket(e.status) !== "iniciar") { cobUni++; cobBairros.add(e.bairro); }  // cobertura = nao "A iniciar"
       if (String(e.status).startsWith("9.")) { if (e.tipo === "CEI") ceiClim++; else escClim++; }  // so plenas (status 9)
+      if (bucket(e.status) === "pipeline") {
+        const t = e.tipo || "—";
+        execTipo[t] = (execTipo[t] || 0) + 1;
+      }
+      admTot += Number(e.salasAdm) || 0;   admClim += Number(e.salasAdmClim) || 0;
+      pedTot += Number(e.salasPedag) || 0; pedClim += Number(e.salasPedagClim) || 0;
       const arr = EXECUCAO[e.sge];
       if (arr) for (const x of arr) {
         if (typeof x.totalGasto === "number") {
@@ -810,8 +828,11 @@ function renderPainelContexto() {
           if (et.startsWith("ETAPA 01")) bInv25 += x.totalGasto;
           else if (et.startsWith("ETAPA 02")) bInv26 += x.totalGasto;
         }
+        bMaq  += Number(x.valorMaq) || 0;
+        bAdeq += (Number(x.servCivil) || 0) + (Number(x.servEletrica) || 0) + (Number(x.servInstalacao) || 0);
       }
     }
+    const execTotal = Object.values(execTipo).reduce((a, b) => a + b, 0);
     // SECAO 1: rosca cumulativa. Verde SOLIDO = executado real (salasClim/territorio); o % em destaque
     // e sempre o real. Quando ha fantasma (2026/Todos), faixa verde TRANSPARENTE por cima = previsto.
     const pctSalas = pctNum(salasClim, salasTerritorio);
@@ -833,14 +854,29 @@ function renderPainelContexto() {
        </svg>`;
     const pctVerba = pctNum(bInv, PARQUE_VERBA);
     strip.innerHTML =
-      // 1) SALAS CLIMATIZADAS (verde)
+      // 1) SALAS (verde): total climatizado + a quebra por natureza da sala
       `<div class="metricard">
          <div class="mc-lab">Salas climatizadas</div>
          <div class="mc-donut-row">${donut}
            <div class="mc-donut-sub">${salasClim.toLocaleString("pt-BR")} de ${salasTerritorio.toLocaleString("pt-BR")} salas</div>
          </div>
+         <div class="mc-sep">
+           <div class="mc-lab2">Por natureza</div>
+           <div class="mc-tipos">
+             <div class="mc-tipo">
+               <div class="mc-tipo-top"><span>Pedagógicas</span><b>${fmtPct(pedClim, pedTot)}%</b></div>
+               <div class="mc-bar2"><span style="width:${pctNum(pedClim, pedTot).toFixed(1)}%"></span></div>
+               <div class="mc-sub">${pedClim.toLocaleString("pt-BR")} de ${pedTot.toLocaleString("pt-BR")}</div>
+             </div>
+             <div class="mc-tipo">
+               <div class="mc-tipo-top"><span>Administrativas</span><b>${fmtPct(admClim, admTot)}%</b></div>
+               <div class="mc-bar2"><span style="width:${pctNum(admClim, admTot).toFixed(1)}%"></span></div>
+               <div class="mc-sub">${admClim.toLocaleString("pt-BR")} de ${admTot.toLocaleString("pt-BR")}</div>
+             </div>
+           </div>
+         </div>
        </div>` +
-      // 2) INVESTIMENTO (laranja): total + barra + quebra por ano
+      // 2) INVESTIMENTO (laranja): total + barra + quebra por ano e a composicao do gasto
       `<div class="metricard">
          <div class="mc-lab">Investimento</div>
          <div class="mc-num">${moedaCompacta(bInv)}</div>
@@ -848,6 +884,19 @@ function renderPainelContexto() {
          <div class="mc-anos">
            <span><b>2025</b> ${moedaCompacta(bInv25)}</span>
            <span><b>2026</b> ${moedaCompacta(bInv26)}</span>
+         </div>
+         <div class="mc-sep">
+           <div class="mc-lab2">Composição</div>
+           <div class="mc-tipos">
+             <div class="mc-tipo">
+               <div class="mc-tipo-top"><span>Máquinas</span><b>${moedaCompacta(bMaq)}</b></div>
+               <div class="mc-bar2"><span style="width:${pctNum(bMaq, bMaq + bAdeq).toFixed(1)}%"></span></div>
+             </div>
+             <div class="mc-tipo">
+               <div class="mc-tipo-top"><span>Adequação e instalação</span><b>${moedaCompacta(bAdeq)}</b></div>
+               <div class="mc-bar2"><span style="width:${pctNum(bAdeq, bMaq + bAdeq).toFixed(1)}%"></span></div>
+             </div>
+           </div>
          </div>
        </div>` +
       // 3) COBERTURA (azul): bairros (grande) + barra (proporcao de bairros) + unidades (menor)
@@ -870,6 +919,19 @@ function renderPainelContexto() {
              <div class="mc-bar2"><span style="width:${pctNum(ceiClim, ceiTot).toFixed(1)}%"></span></div>
            </div>
          </div>
+       </div>` +
+      // 5) EM EXECUCAO POR TIPO: quantas unidades do status 5-8, quebradas por tipo de unidade
+      `<div class="metricard">
+         <div class="mc-lab">Em execução por tipo</div>
+         <div class="mc-num">${execTotal}<span class="mc-unit"> unidade${execTotal === 1 ? "" : "s"}</span></div>
+         <div class="mc-tipos">${
+           Object.entries(execTipo).sort((a, b) => b[1] - a[1]).map(([t, n]) =>
+             `<div class="mc-tipo">
+                <div class="mc-tipo-top"><span>${t}</span><b>${n}</b></div>
+                <div class="mc-bar2"><span style="width:${pctNum(n, execTotal).toFixed(1)}%"></span></div>
+              </div>`).join("") ||
+           `<div class="mc-sub">Nenhuma unidade em execução neste recorte.</div>`
+         }</div>
        </div>`;
   }
 }
@@ -1033,11 +1095,37 @@ function renderLista() {
 // ---------- ficha (Camada 2) ----------
 function kv(k, v){ return `<div class="kv"><span class="k">${k}</span><span class="v">${v}</span></div>`; }
 
+// Bloco de salas: numeros MEDIDOS na mestra, unidade por unidade — e o mesmo dado que
+// alimenta o indicador de salas climatizadas do balao. A sala dos professores aparece
+// como TAG e nao soma: ela ja esta contada entre as administrativas.
+function blocoSalas(e){
+  let h = `<div class="sect">Salas</div>`;
+  const tot = Number(e.salas) || 0;
+  const cl  = Number(e.salasClim) || 0;
+  h += kv("Nº de salas", txt(e.salas));
+  if (e.salasAdm != null || e.salasPedag != null) {
+    h += kv("Administrativas / pedagógicas", `${txt(e.salasAdm)} / ${txt(e.salasPedag)}`);
+  }
+  h += kv("Salas climatizadas", tot
+    ? `${cl} de ${tot} <span class="prov">(${fmtPct(cl, tot)}%)</span>`
+    : String(cl));
+  const sp = salaProf(e.sge);
+  if (sp) {
+    h += kv("Sala dos professores",
+            `<span class="pill ${salaProfOk(sp.s) ? "p-clim" : "p-init"}">${sp.s}</span>`);
+    if (sp.o) h += `<div class="prov-nota">${sp.o}</div>`;
+  }
+  return h;
+}
+
 function blocoDiagnostico(sge, salas){
   const d = DIAGNOSTICO[sge];
+  // Enquanto a mestra nao trouxer a data da visita e as salas do diagnostico, o bloco
+  // fica so com tracinhos. Nesse caso nao desenha nada — o numero de salas ja aparece
+  // no bloco Salas, que e medido.
+  const vazio = !d || (d.salasClim == null && d.salasFora == null && !d.dataVisita);
+  if (vazio) return "";
   let h = `<div class="sect">Diagnóstico</div>`;
-  h += kv("Nº de salas", txt(salas));   // trazido do cadastro: nº de salas / climatizaveis / aguardando
-  if (!d) { return h + `<div class="empty">Sem registro de diagnóstico.</div>`; }
   h += kv("Salas climatizáveis", txt(d.salasClim));
   h += kv("Salas aguardando", txt(d.salasFora));
   h += kv("Data da visita", data(d.dataVisita));
@@ -1140,6 +1228,7 @@ function abreFicha(sge){
   if (e.endereco) h += kv("Endereço", e.endereco);
   h += `</div>`;
 
+  h += blocoSalas(e);          // vale para toda unidade, inclusive as ja climatizadas
   h += blocoSubestacao(sge, b);
   // Historico (Diagnostico, Execucao) so nas unidades de periodo 2025 em diante; as de
   // "antes de 2025" foram climatizadas antes desse processo existir e nao tem historico.

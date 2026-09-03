@@ -22,3 +22,7 @@ dist/
 # dados de origem: planilhas .xlsx (fonte externa, grandes; nao versionar)
 *.xlsx
 _data/
+
+# cache do Python (tools/)
+__pycache__/
+*.pyc
