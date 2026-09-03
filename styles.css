@@ -136,14 +136,17 @@ h1 .thin{font-weight:400;color:rgba(255,255,255,.86)}
 .oculto{display:none}
 
 /* painel de contexto (esquerda) + mapa (resto da largura) */
-.mapwrap{display:flex;align-items:stretch;position:relative}
+/* grade de 2 linhas: em cima painel + mapa; embaixo a faixa de indicadores atravessando
+   a largura inteira. align-items:start faz cada coluna ter a altura do proprio conteudo,
+   entao o vazio que sobrava no painel abaixo da linha do tempo deixa de existir. */
+.mapwrap{display:grid;grid-template-columns:290px minmax(0,1fr);align-items:start;position:relative}
 /* coluna direita: linha do mapa (mapa + filtros) em cima e o balao de indicadores embaixo.
    align-items:stretch => a coluna direita estica ate a altura do painel (que e o mais alto
    por causa da linha do tempo); o balao preenche o vazio que ja existe abaixo do mapa, SEM
    criar altura nova no conjunto. O painel mantem seu tamanho (e o elemento mais alto). */
-.mapcol{flex:1 1 auto;min-width:0;display:flex;flex-direction:column}
+.mapcol{min-width:0;display:flex;flex-direction:column}
 .maprow{display:flex;align-items:stretch;position:relative;flex:0 0 auto}
-.ctxpanel{flex:0 0 290px;width:290px;background:var(--panel);
+.ctxpanel{width:290px;background:var(--panel);
   border-right:1px solid var(--line);padding:16px;overflow:hidden}
 .ctx-head{border-bottom:2px solid var(--ink);padding-bottom:9px;margin-bottom:15px}
 .ctx-eyebrow{display:block;font-family:var(--fonte-ui);font-size:9.5px;
@@ -174,19 +177,27 @@ h1 .thin{font-weight:400;color:rgba(255,255,255,.86)}
 /* BALAO UNICO de indicadores (abaixo do mapa+filtros): uma so moldura com 4 secoes lado a
    lado, separadas por divisoria fina vertical, cada uma com uma listra de cor fina no topo. */
 /* faixa de indicadores: card flutuante, fonte Inter (escopo SO da faixa), cantos 14px */
-.cardstrip{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:1fr;
-  flex:1 1 auto;margin-top:12px;
+.cardstrip{grid-column:1 / -1;                                      /* atravessa painel + mapa */
+  display:grid;grid-template-columns:repeat(5,1fr);
+  margin-top:12px;
   font-family:var(--fonte-ui);
   background:var(--panel);border:1px solid var(--line);border-radius:14px;
   box-shadow:0 1px 2px rgba(0,0,0,.04);overflow:hidden}
-.metricard{padding:11px 14px;border-top:3px solid var(--azul);   /* listra de cor no topo */
-  display:flex;flex-direction:column;justify-content:center;       /* conteudo centrado no vazio */
+.metricard{padding:14px 16px 16px;border-top:3px solid var(--mc,var(--azul));  /* listra de cor no topo */
+  display:flex;flex-direction:column;gap:2px;                       /* blocos empilhados, sem centrar */
   opacity:0;animation:mc-in .5s ease both}                          /* entrada em cascata */
 .metricard + .metricard{border-left:1px solid var(--line)}          /* divisoria fina vertical */
-.metricard:nth-child(1){border-top-color:var(--verde);animation-delay:0s}
-.metricard:nth-child(2){border-top-color:var(--laranja);animation-delay:.08s}
-.metricard:nth-child(3){border-top-color:var(--azul);animation-delay:.16s}
-.metricard:nth-child(4){border-top-color:var(--roxo);animation-delay:.24s}
+/* uma cor por card; --mc pinta listra do topo e as barrinhas de dentro do mesmo card.
+   Em execucao herda o amarelo do funil e da legenda do mapa. */
+.metricard:nth-child(1){--mc:var(--verde);animation-delay:0s}
+.metricard:nth-child(2){--mc:var(--laranja);animation-delay:.08s}
+.metricard:nth-child(3){--mc:var(--azul);animation-delay:.16s}
+.metricard:nth-child(4){--mc:var(--roxo);animation-delay:.24s}
+.metricard:nth-child(5){--mc:var(--amarelo);animation-delay:.32s}
+/* separador entre os dois assuntos que passaram a dividir o mesmo card */
+.mc-sep{margin-top:10px;padding-top:10px;border-top:1px dotted var(--line)}
+.mc-sep .mc-lab2{font-family:var(--fonte-ui);font-size:9.5px;font-weight:600;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--ink2);margin-bottom:5px}
 @keyframes mc-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 /* titulos das secoes: caixa alta, recuados (cinza suave) pra destacar os numeros */
 .metricard .mc-lab{font-family:var(--fonte-ui);font-size:11px;font-weight:600;letter-spacing:.07em;
@@ -205,8 +216,9 @@ h1 .thin{font-weight:400;color:rgba(255,255,255,.86)}
 .mc-bar span{background:var(--laranja)}
 .mc-bar-cob{background:#DDE7EE;background:color-mix(in srgb,var(--azul) 16%,#fff);margin-top:8px}
 .mc-bar-cob span{background:var(--azul)}
-.mc-bar2{background:#E6E0EE;background:color-mix(in srgb,var(--roxo) 16%,#fff);margin-top:3px}
-.mc-bar2 span{background:var(--roxo)}
+/* barrinha interna herda a cor do card (--mc); roxo continua sendo o padrao de reserva */
+.mc-bar2{background:#E6E0EE;background:color-mix(in srgb,var(--mc,var(--roxo)) 16%,#fff);margin-top:3px}
+.mc-bar2 span{background:var(--mc,var(--roxo))}
 /* secao Salas climatizadas: rosca pequena + texto ao lado */
 .mc-donut-row{display:flex;align-items:center;gap:10px;margin-top:5px}
 .mini-donut{width:50px;height:50px;flex:0 0 auto;overflow:visible}
@@ -228,7 +240,10 @@ h1 .thin{font-weight:400;color:rgba(255,255,255,.86)}
 .mc-tipo-top b{font-family:var(--fonte-ui);font-weight:700;font-size:14px;color:var(--ink);
   font-variant-numeric:tabular-nums;letter-spacing:-.02em}
 /* responsivo do balao: 2 colunas e depois 1; ajusta as divisorias verticais */
+@media(max-width:1200px){.cardstrip{grid-template-columns:repeat(3,1fr)}
+  .metricard:nth-child(3n+1){border-left:0}}
 @media(max-width:960px){.cardstrip{grid-template-columns:repeat(2,1fr)}
+  .metricard:nth-child(3n+1){border-left:1px solid var(--line)}
   .metricard:nth-child(odd){border-left:0}}
 @media(max-width:560px){.cardstrip{grid-template-columns:1fr}
   .metricard + .metricard{border-left:0}}
@@ -275,8 +290,8 @@ h1 .thin{font-weight:400;color:rgba(255,255,255,.86)}
    do mapa (cabecalho 46 + filtros 60 + navegacao 90 + legenda 41 + indicadores 125 + bordas). */
 #map{height:clamp(320px,calc(100vh - 363px),470px);flex:1 1 auto;width:auto;background:#e8e4da}
 @media(max-width:760px){
-  .mapwrap{flex-direction:column}
-  .ctxpanel{flex:auto;width:auto;max-height:none;border-right:0;border-bottom:1px solid var(--line)}
+  .mapwrap{grid-template-columns:1fr}
+  .ctxpanel{width:auto;max-height:none;border-right:0;border-bottom:1px solid var(--line)}
   /* empilhado: a coluna direita ocupa a largura toda; dentro dela o mapa em cima e os filtros abaixo */
   .mapcol{width:auto}
   .maprow{flex-direction:column}
