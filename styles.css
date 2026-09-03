@@ -712,6 +712,10 @@ h1 .thin{font-weight:400;color:rgba(255,255,255,.86)}
   color:rgba(255,255,255,.70);line-height:1.45}
 /* respiro sutil separando o bloco institucional (SME, COINF) do bloco de pessoas */
 .fz-cred-inst + .fz-cred-aut{margin-top:6px}
+/* carimbo do dado: a linha mais discreta do rodape. Mesma regra de hierarquia -
+   so tamanho e opacidade, nenhuma cor nova na faixa laranja. */
+.fz-cred-data{font-size:9px;font-weight:500;letter-spacing:.02em;
+  color:rgba(255,255,255,.55);line-height:1.45;margin-top:5px}
 @media(max-width:640px){
   .fz-footer .fz-inner{flex-direction:column;align-items:flex-start;gap:10px}
   .fz-fonte{align-items:flex-start;text-align:left;max-width:100%}}
