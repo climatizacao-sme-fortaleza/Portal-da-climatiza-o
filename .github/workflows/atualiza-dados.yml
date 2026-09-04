@@ -6,10 +6,24 @@ name: Atualiza dados da planilha mestra
 
 on:
   schedule:
-    # de hora em hora, das 7h as 19h de Fortaleza (UTC-3), de segunda a sexta.
-    # Minuto 26 de proposito: a hora cheia e o horario mais disputado nos runners
-    # gratuitos e a fila atrasa; minuto quebrado costuma sair no horario.
-    - cron: '26 10-22 * * 1-5'
+    # Seis janelas por dia, de segunda a sexta. O horario do cron e UTC; Fortaleza
+    # e UTC-3. Minutos quebrados e diferentes entre si de proposito: a hora cheia e
+    # a meia hora sao os horarios mais disputados nos runners gratuitos, e espalhar
+    # os minutos evita que as seis concorram no mesmo instante da fila.
+    #
+    #   UTC      Fortaleza   para que serve
+    #   08:07  ->  05:07     dado pronto antes de qualquer um chegar
+    #   12:23  ->  09:23     inicio do expediente
+    #   16:41  ->  13:41     volta do almoco
+    #   18:19  ->  15:19     meio da tarde
+    #   21:37  ->  18:37     fim do expediente
+    #   23:11  ->  20:11     fecha o dia com o que foi lancado ate tarde
+    - cron: '7 8 * * 1-5'
+    - cron: '23 12 * * 1-5'
+    - cron: '41 16 * * 1-5'
+    - cron: '19 18 * * 1-5'
+    - cron: '37 21 * * 1-5'
+    - cron: '11 23 * * 1-5'
   workflow_dispatch:        # botao "Run workflow" para atualizar na hora
   push:
     # mexeu no transformador ou nas regras? recarrega e revalida na hora, sem esperar

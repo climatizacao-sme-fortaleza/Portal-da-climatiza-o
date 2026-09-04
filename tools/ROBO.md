@@ -77,10 +77,23 @@ ele diz se deu certo. O rodapé do portal passa a mostrar *"planilha ao vivo"*.
 | Validação reprovou | **Job falha**, você recebe e-mail, o site fica como está |
 | Credencial errada ou sem acesso | Job falha com a mensagem dizendo exatamente o quê |
 
-Horário: de hora em hora, das 7h às 19h de Fortaleza, de segunda a sexta. Para
-mudar, é a linha `cron` no workflow (o horário lá é UTC, Fortaleza é UTC−3).
+### Horários
 
-Para atualizar fora de hora, use o **Run workflow**.
+Seis janelas por dia, de segunda a sexta (horário de Fortaleza):
+
+**05:07 · 09:23 · 13:41 · 15:19 · 18:37 · 20:11**
+
+Os minutos são quebrados de propósito: a hora cheia e a meia hora são os horários
+mais disputados nos runners gratuitos. Para mudar, são as linhas `cron` no workflow —
+lá o horário é **UTC**, e Fortaleza é UTC−3.
+
+> **O agendamento do GitHub é irregular.** Ele trata `schedule` como a menor prioridade
+> da fila e a própria documentação avisa que pode atrasar ou pular execuções. Atrasos
+> observados aqui: 23 minutos e 1h47. Algumas janelas simplesmente não rodam. Conte com
+> algo entre 4 e 6 atualizações por dia, em horários aproximados — não exatos.
+
+Para atualizar na hora, sem esperar janela: **Run workflow**, ou qualquer alteração
+em `tools/importa_mestra.py` (o push também dispara).
 
 ---
 
