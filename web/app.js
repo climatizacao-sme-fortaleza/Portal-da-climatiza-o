@@ -1554,3 +1554,40 @@ function init(){
 }
 
 init();
+
+// ---------- controle remoto (usado só quando o portal roda embutido) ----------
+// Roda DEPOIS de init(): entraDistrito depende do mapa e das camadas montadas.
+// O climatiza mostra o portal ao lado da ficha da unidade e quer o mapa no mesmo
+// recorte em que a pessoa está trabalhando. Em vez de o climatiza mexer por
+// dentro (impossível: origens diferentes) ou de duplicarem o mapa, o portal
+// expõe um controle mínimo e reusa o drill que já existe.
+//
+// Inerte para quem visita o site: sem ?distrito= na URL e sem mensagem chegando,
+// nada aqui roda. E só aceita comando quando está dentro de um iframe.
+(function controleRemoto() {
+  // I..VI (como vem da planilha) -> 1..6 (como o mapa indexa os polígonos)
+  const ROMANO = { I: 1, II: 2, III: 3, IV: 4, V: 5, VI: 6 };
+
+  function aplicaDistrito(valor) {
+    if (valor == null || valor === "" || valor === "todos") { voltaNivel0(); return; }
+    const texto = String(valor).trim().toUpperCase();
+    const num = ROMANO[texto] ?? (/^[1-6]$/.test(texto) ? Number(texto) : null);
+    if (num == null) return;               // valor que não conhecemos: ignora calado
+    if (drillModo !== "distritos") trocaModo("distritos");
+    entraDistrito(num);
+  }
+
+  // 1) na carga: ?distrito=IV — serve para abrir o iframe já no recorte certo
+  const daUrl = new URLSearchParams(location.search).get("distrito");
+  if (daUrl) aplicaDistrito(daUrl);
+
+  // 2) depois: mensagens do container, para trocar sem recarregar o mapa inteiro
+  if (window.parent === window) return;    // não está embutido: não escuta nada
+  window.addEventListener("message", ev => {
+    const d = ev.data;
+    if (!d || d.tipo !== "portal:distrito") return;
+    aplicaDistrito(d.distrito);
+  });
+  // avisa o container que já está pronto para receber comando
+  window.parent.postMessage({ tipo: "portal:pronto" }, "*");
+})();
