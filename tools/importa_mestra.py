@@ -395,6 +395,53 @@ def escreve_mapa_sub(caminho, mapa):
     io.open(caminho, 'w', encoding='utf-8', newline='').write(
         cab + 'window.MAPA_SUB = ' + json.dumps(mapa, ensure_ascii=False, separators=(',', ':')) + ';\n')
 
+def escreve_registro(caminho, novos, sub, mapa, prof, origem):
+    """Cadastro canônico das 512, num arquivo só, para quem consome de fora.
+
+    O portal lê quatro arquivos (dados/subestacao/mapa_sub/salas_prof) porque cada um
+    virou script na página. Quem consome de fora — hoje o climatiza — não deveria
+    precisar saber disso nem remontar o quebra-cabeça. Este arquivo é o contrato:
+    uma linha por unidade, com tudo que a mestra sabe dela, já validado pelo portão.
+
+    É JSON puro (não .js) de propósito: quem lê não é navegador.
+    """
+    agora = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=-3)))
+    escolas = []
+    for e in novos:
+        s = sub.get(e['sge'], {})
+        p = prof.get(e['sge'])
+        escolas.append({
+            'sge': e['sge'], 'nome': e['nome'], 'tipo': e['tipo'],
+            'endereco': e['endereco'], 'bairro': e['bairro'], 'codBairro': e['codBairro'],
+            'distrito': e['distrito'], 'regional': e['regional'], 'territorio': e['territorio'],
+            'lat': e['lat'], 'lng': e['lng'],
+            'etapa': e['etapa'], 'status': e['status'],
+            'salas': e['salas'], 'salasAdm': e['salasAdm'], 'salasPedag': e['salasPedag'],
+            'salasClim': e['salasClim'], 'salasAdmClim': e['salasAdmClim'],
+            'salasPedagClim': e['salasPedagClim'],
+            'possuiSubestacao': s.get('p') or None,
+            'potenciaAtual': s.get('pa') or None,
+            'necessitaSubestacao': s.get('n') or None,
+            'potenciaFutura': s.get('pf') or None,
+            'dataSolicitacaoSeinf': s.get('d') or None,
+            'estudoEletrico': s.get('e') or None,
+            'categoriaSubestacao': mapa.get(e['sge']),
+            'salaProfessores': p['s'] if p else None,
+            'obsSalaProfessores': (p or {}).get('o') or None,
+            'asCivil': e['asCivil'], 'asEletrica': e['asEletrica'],
+            'valorCivil': e['valorCivil'], 'valorEletrica': e['valorEletrica'],
+            'valorTotal': e['valorTotal'],
+            'temExecucao': e['temExecucao'],
+        })
+    io.open(caminho, 'w', encoding='utf-8', newline='').write(json.dumps({
+        'gerado_em': agora.isoformat(timespec='minutes'),
+        'origem': origem,
+        'fonte': 'BASE MESTRA (512) — escopo COINF, exclui CRP e CAEE',
+        'total': len(escolas),
+        'escolas': escolas,
+    }, ensure_ascii=False, indent=1) + '\n')
+
+
 def escreve_salas_prof(caminho, prof):
     cab = ("// Gerado da BASE MESTRA - NAO editar a mao.\n"
            "// SGE -> {s: situacao da sala dos professores, o: observacao}.\n"
@@ -638,7 +685,9 @@ def main():
         escreve_mapa_sub(pasta + '/mapa_sub.js', mapa)
         escreve_salas_prof(pasta + '/salas_prof.js', prof)
         escreve_carimbo(pasta + '/atualizado.js', origem)
-        print("\ngravados: dados.js, subestacao.js, mapa_sub.js, salas_prof.js, atualizado.js")
+        escreve_registro(pasta + '/registro.json', novos, sub, mapa, prof, origem)
+        print("\ngravados: dados.js, subestacao.js, mapa_sub.js, salas_prof.js,"
+              " atualizado.js, registro.json")
     else:
         print("\n(ensaio — use --gravar para escrever)")
 
