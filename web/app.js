@@ -1259,6 +1259,13 @@ function abreFicha(sge){
   document.getElementById("drawer").classList.add("on");
   document.getElementById("scrim").classList.add("on");
   document.getElementById("drawer").setAttribute("aria-hidden", "false");
+
+  // Rodando embutido no climatiza: avisa qual unidade foi aberta, para a ficha
+  // de trabalho ao lado acompanhar. Só o SGE viaja — quem tem o dado é o outro
+  // lado, e mandar mais aqui seria duplicar informação entre janelas.
+  if (window.parent !== window) {
+    window.parent.postMessage({ tipo: "portal:escola", sge: String(sge) }, "*");
+  }
 }
 
 function fechaDrawerSub(){
