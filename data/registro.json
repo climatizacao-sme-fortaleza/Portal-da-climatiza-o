@@ -1,5 +1,5 @@
 {
- "gerado_em": "2026-09-10T13:31-03:00",
+ "gerado_em": "2026-09-10T16:14-03:00",
  "origem": "planilha ao vivo",
  "fonte": "BASE MESTRA (512) — escopo COINF, exclui CRP e CAEE",
  "total": 512,
@@ -33,11 +33,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "NÃO CLIMATIZADA",
    "obsSalaProfessores": "PADRÃO JURACI",
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -69,11 +69,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -105,11 +105,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "102346.98",
-   "asEletrica": "A.S.4109-26",
-   "valorCivil": null,
-   "valorEletrica": 39638.81,
-   "valorTotal": 62708.17,
+   "asCivil": "A.S.4109-26",
+   "asEletrica": "A.S. AINDA NÃO DEFINIDA",
+   "valorCivil": 39638.81,
+   "valorEletrica": 62708.17,
+   "valorTotal": 102346.98,
    "temExecucao": "NÃO"
   },
   {
@@ -177,11 +177,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "47827.26",
-   "asEletrica": "A.S.3976-26",
-   "valorCivil": null,
-   "valorEletrica": 47827.26,
-   "valorTotal": null,
+   "asCivil": "A.S.3976-26",
+   "asEletrica": null,
+   "valorCivil": 47827.26,
+   "valorEletrica": null,
+   "valorTotal": 47827.26,
    "temExecucao": "NÃO"
   },
   {
@@ -213,11 +213,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "SIM"
   },
   {
@@ -249,11 +249,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "SIM"
   },
   {
@@ -285,11 +285,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "59746.93",
-   "asEletrica": "CANCELADA",
-   "valorCivil": null,
-   "valorEletrica": 59746.93,
-   "valorTotal": null,
+   "asCivil": "CANCELADA",
+   "asEletrica": null,
+   "valorCivil": 59746.93,
+   "valorEletrica": null,
+   "valorTotal": 59746.93,
    "temExecucao": "SIM"
   },
   {
@@ -321,11 +321,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -357,11 +357,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -393,11 +393,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -429,11 +429,11 @@
    "categoriaSubestacao": "aumento",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "49363.399999999994",
-   "asEletrica": "A.S. Nº 3818/25",
-   "valorCivil": null,
-   "valorEletrica": 25691.05,
-   "valorTotal": 23672.35,
+   "asCivil": "A.S. Nº 3818/25",
+   "asEletrica": "A.S. Nº 3814/25",
+   "valorCivil": 25691.05,
+   "valorEletrica": 23672.35,
+   "valorTotal": 49363.4,
    "temExecucao": "SIM"
   },
   {
@@ -465,11 +465,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -501,11 +501,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "77790.42",
-   "asEletrica": "A.S. Nº 3782/25",
-   "valorCivil": null,
-   "valorEletrica": 37821.43,
-   "valorTotal": 39968.99,
+   "asCivil": "A.S. Nº 3782/25",
+   "asEletrica": "A.S. Nº 3778/25",
+   "valorCivil": 37821.43,
+   "valorEletrica": 39968.99,
+   "valorTotal": 77790.42,
    "temExecucao": "SIM"
   },
   {
@@ -537,11 +537,11 @@
    "categoriaSubestacao": "aumento",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "70644.47",
-   "asEletrica": "A.S.4078-26",
-   "valorCivil": null,
-   "valorEletrica": 70644.47,
-   "valorTotal": null,
+   "asCivil": "A.S.4078-26",
+   "asEletrica": null,
+   "valorCivil": 70644.47,
+   "valorEletrica": null,
+   "valorTotal": 70644.47,
    "temExecucao": "SIM"
   },
   {
@@ -573,11 +573,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "NÃO CLIMATIZADA",
    "obsSalaProfessores": "PADRÃO JURACI",
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -609,11 +609,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "276027.08999999997",
-   "asEletrica": "A.S.4028-26",
-   "valorCivil": null,
-   "valorEletrica": 109080.93,
-   "valorTotal": 166946.16,
+   "asCivil": "A.S.4028-26",
+   "asEletrica": "A.S. 4088-26",
+   "valorCivil": 109080.93,
+   "valorEletrica": 166946.16,
+   "valorTotal": 276027.09,
    "temExecucao": "SIM"
   },
   {
@@ -645,11 +645,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "SIM"
   },
   {
@@ -681,11 +681,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -717,11 +717,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -753,11 +753,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "INSTALADA 2025",
    "obsSalaProfessores": null,
-   "asCivil": "15671.42",
-   "asEletrica": "A.S.4111-26",
-   "valorCivil": null,
-   "valorEletrica": 15671.42,
-   "valorTotal": null,
+   "asCivil": "A.S.4111-26",
+   "asEletrica": null,
+   "valorCivil": 15671.42,
+   "valorEletrica": null,
+   "valorTotal": 15671.42,
    "temExecucao": "SIM"
   },
   {
@@ -825,11 +825,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "NÃO CLIMATIZADA",
    "obsSalaProfessores": "PADRÃO JURACI",
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -861,11 +861,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "NÃO CLIMATIZADA",
    "obsSalaProfessores": "NÃO POSSUI SALA DOS PROFESSORES CONFERIR",
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -933,11 +933,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "SIM"
   },
   {
@@ -1005,11 +1005,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -1041,11 +1041,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "122186.20999999999",
-   "asEletrica": "A.S. Nº 3856/25",
-   "valorCivil": null,
-   "valorEletrica": 58509.6,
-   "valorTotal": 63676.61,
+   "asCivil": "A.S. Nº 3856/25",
+   "asEletrica": "A.S. Nº 3852/25",
+   "valorCivil": 58509.6,
+   "valorEletrica": 63676.61,
+   "valorTotal": 122186.21,
    "temExecucao": "SIM"
   },
   {
@@ -1077,11 +1077,11 @@
    "categoriaSubestacao": "aumento",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "357387.64",
-   "asEletrica": "A.S. Nº 3548-25",
-   "valorCivil": null,
-   "valorEletrica": 166768.96,
-   "valorTotal": 190618.68,
+   "asCivil": "A.S. Nº 3548-25",
+   "asEletrica": "A.S. 4066-2026",
+   "valorCivil": 166768.96,
+   "valorEletrica": 190618.68,
+   "valorTotal": 357387.64,
    "temExecucao": "SIM"
   },
   {
@@ -1113,11 +1113,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA EQUIPAMENTO DANIFICADO",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -1185,11 +1185,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -1293,11 +1293,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -1365,11 +1365,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -1401,11 +1401,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "227907.96999999997",
-   "asEletrica": "A.S.4079-26",
-   "valorCivil": null,
-   "valorEletrica": 132437.18,
-   "valorTotal": 95470.79,
+   "asCivil": "A.S.4079-26",
+   "asEletrica": "A.S. AINDA NÃO DEFINIDA",
+   "valorCivil": 132437.18,
+   "valorEletrica": 95470.79,
+   "valorTotal": 227907.97,
    "temExecucao": "SIM"
   },
   {
@@ -1437,11 +1437,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -1473,11 +1473,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -1509,11 +1509,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "NÃO CLIMATIZADA",
    "obsSalaProfessores": "PADRÃO JURACI",
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -1545,11 +1545,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "53318.31",
-   "asEletrica": "A.S. 3963-26",
-   "valorCivil": null,
-   "valorEletrica": 53318.31,
-   "valorTotal": null,
+   "asCivil": "A.S. 3963-26",
+   "asEletrica": null,
+   "valorCivil": 53318.31,
+   "valorEletrica": null,
+   "valorTotal": 53318.31,
    "temExecucao": "NÃO"
   },
   {
@@ -1581,11 +1581,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -1617,11 +1617,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -1653,11 +1653,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "INSTALADA 2025",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -1689,11 +1689,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -1725,11 +1725,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "143476.24",
-   "asEletrica": "A.S.4163-26",
-   "valorCivil": null,
-   "valorEletrica": 57886.6,
-   "valorTotal": 85589.64,
+   "asCivil": "A.S.4163-26",
+   "asEletrica": null,
+   "valorCivil": 57886.6,
+   "valorEletrica": 85589.64,
+   "valorTotal": 143476.24,
    "temExecucao": "NÃO"
   },
   {
@@ -1761,11 +1761,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA EQUIPAMENTO DANIFICADO",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -1797,11 +1797,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -1833,11 +1833,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "29925.45",
+   "asCivil": null,
    "asEletrica": null,
-   "valorCivil": null,
-   "valorEletrica": 29925.45,
-   "valorTotal": null,
+   "valorCivil": 29925.45,
+   "valorEletrica": null,
+   "valorTotal": 29925.45,
    "temExecucao": "SIM"
   },
   {
@@ -1869,11 +1869,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "SIM"
   },
   {
@@ -1977,11 +1977,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -2085,11 +2085,11 @@
    "categoriaSubestacao": "climatizada",
    "salaProfessores": "Á CLIMATIZAR AGUARDANDO APROVAÇÃO",
    "obsSalaProfessores": null,
-   "asCivil": "25850.56",
-   "asEletrica": "A.S. 3821-25",
-   "valorCivil": null,
-   "valorEletrica": 25850.56,
-   "valorTotal": null,
+   "asCivil": "A.S. 3821-25",
+   "asEletrica": "-",
+   "valorCivil": 25850.56,
+   "valorEletrica": null,
+   "valorTotal": 25850.56,
    "temExecucao": "SIM"
   },
   {
@@ -2121,11 +2121,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": "CONFERIR",
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -2157,11 +2157,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "NÃO CLIMATIZADA",
    "obsSalaProfessores": "PENDENTE CLIMATIZAÇÃO CONFERIR O ESTADO DA SALA",
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -2193,11 +2193,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "NÃO CLIMATIZADA",
    "obsSalaProfessores": "PENDENTE CLIMATIZAÇÃO CONFERIR O ESTADO DA SALA",
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "SIM"
   },
   {
@@ -2265,11 +2265,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "83725.66",
-   "asEletrica": "A.S. 4198-26",
-   "valorCivil": null,
-   "valorEletrica": 50604.46,
-   "valorTotal": 33121.2,
+   "asCivil": "A.S. 4198-26",
+   "asEletrica": "A.S. 3736-26",
+   "valorCivil": 50604.46,
+   "valorEletrica": 33121.2,
+   "valorTotal": 83725.66,
    "temExecucao": "SIM"
   },
   {
@@ -2301,11 +2301,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -2337,11 +2337,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "180813.35",
-   "asEletrica": "A.S. Nº 3546/25",
-   "valorCivil": null,
-   "valorEletrica": 127145.73,
-   "valorTotal": 53667.62,
+   "asCivil": "A.S. Nº 3546/25",
+   "asEletrica": "A.S. Nº 3583/25",
+   "valorCivil": 127145.73,
+   "valorEletrica": 53667.62,
+   "valorTotal": 180813.35,
    "temExecucao": "SIM"
   },
   {
@@ -2373,11 +2373,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -2409,11 +2409,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "SIM"
   },
   {
@@ -2445,11 +2445,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "117768.36",
-   "asEletrica": "A.S. 3831-25",
-   "valorCivil": null,
-   "valorEletrica": 86429.88,
-   "valorTotal": 31338.48,
+   "asCivil": "A.S. 3831-25",
+   "asEletrica": "A.S. 4065-26",
+   "valorCivil": 86429.88,
+   "valorEletrica": 31338.48,
+   "valorTotal": 117768.36,
    "temExecucao": "SIM"
   },
   {
@@ -2517,11 +2517,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "INSTALADA 2025",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -2553,11 +2553,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "INSTALADA 2026",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -2625,11 +2625,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -2661,11 +2661,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA EQUIPAMENTO DANIFICADO",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -2697,11 +2697,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA SEM VIDA ÚTIL",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -2733,11 +2733,11 @@
    "categoriaSubestacao": "aumento",
    "salaProfessores": "CLIMATIZADA SEM VIDA ÚTIL",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -2769,11 +2769,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA SEM VIDA ÚTIL",
    "obsSalaProfessores": null,
-   "asCivil": "62381.01",
-   "asEletrica": "A.S.4108-26",
-   "valorCivil": null,
-   "valorEletrica": 62381.01,
-   "valorTotal": null,
+   "asCivil": "A.S.4108-26",
+   "asEletrica": null,
+   "valorCivil": 62381.01,
+   "valorEletrica": null,
+   "valorTotal": 62381.01,
    "temExecucao": "SIM"
   },
   {
@@ -2805,11 +2805,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -2877,11 +2877,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "124237.2",
-   "asEletrica": "A.S.4104-26",
-   "valorCivil": null,
-   "valorEletrica": 124237.2,
-   "valorTotal": null,
+   "asCivil": "A.S.4104-26",
+   "asEletrica": null,
+   "valorCivil": 124237.2,
+   "valorEletrica": null,
+   "valorTotal": 124237.2,
    "temExecucao": "SIM"
   },
   {
@@ -2913,11 +2913,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "19936.3",
-   "asEletrica": "A.S. 3846-25",
-   "valorCivil": null,
-   "valorEletrica": 19936.3,
-   "valorTotal": null,
+   "asCivil": "A.S. 3846-25",
+   "asEletrica": null,
+   "valorCivil": 19936.3,
+   "valorEletrica": null,
+   "valorTotal": 19936.3,
    "temExecucao": "SIM"
   },
   {
@@ -2949,11 +2949,11 @@
    "categoriaSubestacao": "aumento",
    "salaProfessores": "INSTALADA 2025",
    "obsSalaProfessores": null,
-   "asCivil": "82243.35",
-   "asEletrica": "A.S.4186-26",
-   "valorCivil": null,
-   "valorEletrica": 82243.35,
-   "valorTotal": null,
+   "asCivil": "A.S.4186-26",
+   "asEletrica": null,
+   "valorCivil": 82243.35,
+   "valorEletrica": null,
+   "valorTotal": 82243.35,
    "temExecucao": "NÃO"
   },
   {
@@ -3057,11 +3057,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "INSTALADA 2025",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -3093,11 +3093,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA SEM VIDA ÚTIL",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -3129,11 +3129,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -3201,11 +3201,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -3237,11 +3237,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "106826.33",
-   "asEletrica": "A.S.4045-26",
-   "valorCivil": null,
-   "valorEletrica": 106826.33,
-   "valorTotal": null,
+   "asCivil": "A.S.4045-26",
+   "asEletrica": null,
+   "valorCivil": 106826.33,
+   "valorEletrica": null,
+   "valorTotal": 106826.33,
    "temExecucao": "NÃO"
   },
   {
@@ -3273,11 +3273,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -3293,7 +3293,7 @@
    "lat": -3.81767924847236,
    "lng": -38.6172430519126,
    "etapa": "ETAPA 02",
-   "status": "5. EXECUÇÃO DAS ADEQUAÇÕES",
+   "status": "9. CLIMATIZADA",
    "salas": 14,
    "salasAdm": 4,
    "salasPedag": 10,
@@ -3306,7 +3306,7 @@
    "potenciaFutura": null,
    "dataSolicitacaoSeinf": null,
    "estudoEletrico": "TEM",
-   "categoriaSubestacao": "liberada",
+   "categoriaSubestacao": "climatizada",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
    "asCivil": null,
@@ -3381,11 +3381,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -3453,11 +3453,11 @@
    "categoriaSubestacao": "aumento",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -3489,11 +3489,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -3525,11 +3525,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -3597,11 +3597,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "113885.59",
-   "asEletrica": "A.S.4217-26",
-   "valorCivil": null,
-   "valorEletrica": 113885.59,
-   "valorTotal": null,
+   "asCivil": "A.S.4217-26",
+   "asEletrica": null,
+   "valorCivil": 113885.59,
+   "valorEletrica": null,
+   "valorTotal": 113885.59,
    "temExecucao": "SIM"
   },
   {
@@ -3633,11 +3633,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "92659.35",
-   "asEletrica": "A.S.4048-26",
-   "valorCivil": null,
-   "valorEletrica": 92659.35,
-   "valorTotal": null,
+   "asCivil": "A.S.4048-26",
+   "asEletrica": null,
+   "valorCivil": 92659.35,
+   "valorEletrica": null,
+   "valorTotal": 92659.35,
    "temExecucao": "NÃO"
   },
   {
@@ -3669,11 +3669,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "SIM"
   },
   {
@@ -3705,11 +3705,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -3741,11 +3741,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "41964.8",
-   "asEletrica": "A.S.4106-26",
-   "valorCivil": null,
-   "valorEletrica": 20291.46,
-   "valorTotal": 21673.34,
+   "asCivil": "A.S.4106-26",
+   "asEletrica": "A.S. AINDA NÃO DEFINIDA",
+   "valorCivil": 20291.46,
+   "valorEletrica": 21673.34,
+   "valorTotal": 41964.8,
    "temExecucao": "SIM"
   },
   {
@@ -3777,11 +3777,11 @@
    "categoriaSubestacao": "aumento",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -3885,11 +3885,11 @@
    "categoriaSubestacao": "aumento",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "63114.07",
-   "asEletrica": "A.S.4076-26",
-   "valorCivil": null,
-   "valorEletrica": 63114.07,
-   "valorTotal": null,
+   "asCivil": "A.S.4076-26",
+   "asEletrica": "-",
+   "valorCivil": 63114.07,
+   "valorEletrica": null,
+   "valorTotal": 63114.07,
    "temExecucao": "SIM"
   },
   {
@@ -3921,11 +3921,11 @@
    "categoriaSubestacao": "aumento",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -3957,11 +3957,11 @@
    "categoriaSubestacao": "aumento",
    "salaProfessores": "NÃO CLIMATIZADA",
    "obsSalaProfessores": "PENDENTE CLIMATIZAÇÃO CONFERIR O ESTADO DA SALA",
-   "asCivil": "140150.51",
-   "asEletrica": "A.S. Nº 3544/25",
-   "valorCivil": null,
-   "valorEletrica": 75000.21,
-   "valorTotal": 65150.3,
+   "asCivil": "A.S. Nº 3544/25",
+   "asEletrica": "A.S. Nº 3773/25",
+   "valorCivil": 75000.21,
+   "valorEletrica": 65150.3,
+   "valorTotal": 140150.51,
    "temExecucao": "SIM"
   },
   {
@@ -3993,11 +3993,11 @@
    "categoriaSubestacao": "aumento",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "144933.66",
-   "asEletrica": "A.S. Nº 3767/25",
-   "valorCivil": null,
-   "valorEletrica": 111921.85,
-   "valorTotal": 33011.81,
+   "asCivil": "A.S. Nº 3767/25",
+   "asEletrica": "A.S. Nº 3764/25",
+   "valorCivil": 111921.85,
+   "valorEletrica": 33011.81,
+   "valorTotal": 144933.66,
    "temExecucao": "SIM"
   },
   {
@@ -4029,11 +4029,11 @@
    "categoriaSubestacao": "aumento",
    "salaProfessores": "CLIMATIZADA EQUIPAMENTO DANIFICADO",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -4065,11 +4065,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "70366.2",
-   "asEletrica": "A.S. 3962-26",
-   "valorCivil": null,
-   "valorEletrica": 70366.2,
-   "valorTotal": null,
+   "asCivil": "A.S. 3962-26",
+   "asEletrica": null,
+   "valorCivil": 70366.2,
+   "valorEletrica": null,
+   "valorTotal": 70366.2,
    "temExecucao": "NÃO"
   },
   {
@@ -4101,11 +4101,11 @@
    "categoriaSubestacao": "aumento",
    "salaProfessores": "EM OBRA SEINF",
    "obsSalaProfessores": "PADRÃO JURACI",
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "SIM"
   },
   {
@@ -4173,11 +4173,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -4209,11 +4209,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -4245,11 +4245,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -4281,11 +4281,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -4317,11 +4317,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -4353,11 +4353,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "SIM"
   },
   {
@@ -4425,11 +4425,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -4533,11 +4533,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "29670.86",
-   "asEletrica": "A.S.4080-26",
-   "valorCivil": null,
-   "valorEletrica": 29670.86,
-   "valorTotal": null,
+   "asCivil": "A.S.4080-26",
+   "asEletrica": null,
+   "valorCivil": 29670.86,
+   "valorEletrica": null,
+   "valorTotal": 29670.86,
    "temExecucao": "SIM"
   },
   {
@@ -4569,11 +4569,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "76273.91",
+   "asCivil": null,
    "asEletrica": null,
-   "valorCivil": null,
-   "valorEletrica": 76273.91,
-   "valorTotal": null,
+   "valorCivil": 76273.91,
+   "valorEletrica": null,
+   "valorTotal": 76273.91,
    "temExecucao": "SIM"
   },
   {
@@ -4605,11 +4605,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA SEM VIDA ÚTIL",
    "obsSalaProfessores": null,
-   "asCivil": "6472.23",
+   "asCivil": null,
    "asEletrica": null,
-   "valorCivil": null,
-   "valorEletrica": 6472.23,
-   "valorTotal": null,
+   "valorCivil": 6472.23,
+   "valorEletrica": null,
+   "valorTotal": 6472.23,
    "temExecucao": "NÃO"
   },
   {
@@ -4641,11 +4641,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "74287.65",
-   "asEletrica": "A.S. 4179-26",
-   "valorCivil": null,
-   "valorEletrica": 74287.65,
-   "valorTotal": null,
+   "asCivil": "A.S. 4179-26",
+   "asEletrica": null,
+   "valorCivil": 74287.65,
+   "valorEletrica": null,
+   "valorTotal": 74287.65,
    "temExecucao": "NÃO"
   },
   {
@@ -4713,11 +4713,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "79458.11",
-   "asEletrica": "A.S.4164-26",
-   "valorCivil": null,
-   "valorEletrica": 79458.11,
-   "valorTotal": null,
+   "asCivil": "A.S.4164-26",
+   "asEletrica": null,
+   "valorCivil": 79458.11,
+   "valorEletrica": null,
+   "valorTotal": 79458.11,
    "temExecucao": "NÃO"
   },
   {
@@ -4857,11 +4857,11 @@
    "categoriaSubestacao": "aumento",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "SIM"
   },
   {
@@ -4929,11 +4929,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -4965,11 +4965,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "16234.63",
-   "asEletrica": "A.S. 4180-26",
-   "valorCivil": null,
-   "valorEletrica": 16234.63,
-   "valorTotal": null,
+   "asCivil": "A.S. 4180-26",
+   "asEletrica": null,
+   "valorCivil": 16234.63,
+   "valorEletrica": null,
+   "valorTotal": 16234.63,
    "temExecucao": "NÃO"
   },
   {
@@ -5001,11 +5001,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -5037,11 +5037,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "NÃO CLIMATIZADA",
    "obsSalaProfessores": "PENDENTE CLIMATIZAÇÃO CONFERIR O ESTADO DA SALA",
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -5073,11 +5073,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "NÃO CLIMATIZADA",
    "obsSalaProfessores": "NÃO POSSUI SALA DOS PROFESSORES CONFERIR",
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -5109,11 +5109,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -5145,11 +5145,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "SIM"
   },
   {
@@ -5217,11 +5217,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -5253,11 +5253,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -5289,11 +5289,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "INSTALADA 2025",
    "obsSalaProfessores": null,
-   "asCivil": "11349.52",
+   "asCivil": null,
    "asEletrica": null,
-   "valorCivil": null,
-   "valorEletrica": 11349.52,
-   "valorTotal": null,
+   "valorCivil": 11349.52,
+   "valorEletrica": null,
+   "valorTotal": 11349.52,
    "temExecucao": "SIM"
   },
   {
@@ -5325,11 +5325,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "INSTALADA 2025",
    "obsSalaProfessores": null,
-   "asCivil": "42439.1",
-   "asEletrica": "A.S. 3959-26",
-   "valorCivil": null,
-   "valorEletrica": 4948.33,
-   "valorTotal": 37490.77,
+   "asCivil": "A.S. 3959-26",
+   "asEletrica": "A.S. AINDA NÃO DEFINIDA",
+   "valorCivil": 4948.33,
+   "valorEletrica": 37490.77,
+   "valorTotal": 42439.1,
    "temExecucao": "SIM"
   },
   {
@@ -5361,11 +5361,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -5469,11 +5469,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -5505,11 +5505,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -5541,11 +5541,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "SIM"
   },
   {
@@ -5577,11 +5577,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -5613,11 +5613,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -5649,11 +5649,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "78854.94",
-   "asEletrica": "A.S. Nº 3838/25",
-   "valorCivil": null,
-   "valorEletrica": 55337.53,
-   "valorTotal": 23517.41,
+   "asCivil": "A.S. Nº 3838/25",
+   "asEletrica": "A.S. Nº 3771/25",
+   "valorCivil": 55337.53,
+   "valorEletrica": 23517.41,
+   "valorTotal": 78854.94,
    "temExecucao": "SIM"
   },
   {
@@ -5685,11 +5685,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "179219.24",
-   "asEletrica": "A.S.4018-26",
-   "valorCivil": null,
-   "valorEletrica": 64818,
-   "valorTotal": 114401.24,
+   "asCivil": "A.S.4018-26",
+   "asEletrica": "A.S. AINDA NÃO DEFINIDA",
+   "valorCivil": 64818,
+   "valorEletrica": 114401.24,
+   "valorTotal": 179219.24,
    "temExecucao": "SIM"
   },
   {
@@ -5793,11 +5793,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -5829,11 +5829,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -5865,11 +5865,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -5937,11 +5937,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -5973,11 +5973,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -6045,11 +6045,11 @@
    "categoriaSubestacao": "aumento",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "50708.32",
+   "asCivil": null,
    "asEletrica": null,
-   "valorCivil": null,
-   "valorEletrica": 50708.32,
-   "valorTotal": null,
+   "valorCivil": 50708.32,
+   "valorEletrica": null,
+   "valorTotal": 50708.32,
    "temExecucao": "SIM"
   },
   {
@@ -6081,11 +6081,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "NÃO CLIMATIZADA",
    "obsSalaProfessores": "NÃO POSSUI SALA DOS PROFESSORES CONFERIR SALAS E PLANTA",
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -6153,11 +6153,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -6189,11 +6189,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "SIM"
   },
   {
@@ -6225,11 +6225,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "SIM"
   },
   {
@@ -6261,11 +6261,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": "-",
    "asEletrica": "-",
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "SIM"
   },
   {
@@ -6297,11 +6297,11 @@
    "categoriaSubestacao": "aumento",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -6369,11 +6369,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -6405,11 +6405,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "NÃO CLIMATIZADA",
    "obsSalaProfessores": "PENDENTE CLIMATIZAÇÃO CONFERIR O ESTADO DA SALA",
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -6477,11 +6477,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -6513,11 +6513,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "214344.57",
-   "asEletrica": "A.S. 4162-26",
-   "valorCivil": null,
-   "valorEletrica": 105856,
-   "valorTotal": 108488.57,
+   "asCivil": "A.S. 4162-26",
+   "asEletrica": null,
+   "valorCivil": 105856,
+   "valorEletrica": 108488.57,
+   "valorTotal": 214344.57,
    "temExecucao": "NÃO"
   },
   {
@@ -6549,11 +6549,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA EQUIPAMENTO DANIFICADO",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -6585,11 +6585,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -6621,11 +6621,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "INSTALADA 2025",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -6693,11 +6693,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -6729,11 +6729,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -6765,11 +6765,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "INSTALADA 2025",
    "obsSalaProfessores": "SOLICITADO POR CIRO",
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -6873,11 +6873,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "SIM"
   },
   {
@@ -6909,11 +6909,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "INSTALADA 2025",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -6945,11 +6945,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "INSTALADA 2026",
    "obsSalaProfessores": null,
-   "asCivil": "233154.96",
-   "asEletrica": "A.S. Nº 3954/26",
-   "valorCivil": null,
-   "valorEletrica": 65860.47,
-   "valorTotal": 167294.49,
+   "asCivil": "A.S. Nº 3954/26",
+   "asEletrica": "A.S. 4010-26",
+   "valorCivil": 65860.47,
+   "valorEletrica": 167294.49,
+   "valorTotal": 233154.96,
    "temExecucao": "SIM"
   },
   {
@@ -7017,11 +7017,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "57423.850000000006",
-   "asEletrica": "A.S. Nº 3798/25",
-   "valorCivil": null,
-   "valorEletrica": 24306.34,
-   "valorTotal": 33117.51,
+   "asCivil": "A.S. Nº 3798/25",
+   "asEletrica": "A.S. Nº 3786/25",
+   "valorCivil": 24306.34,
+   "valorEletrica": 33117.51,
+   "valorTotal": 57423.85,
    "temExecucao": "SIM"
   },
   {
@@ -7089,11 +7089,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "EM OBRA SEINF",
    "obsSalaProfessores": "Á CLIMATIZAR ESCOLA EM REFORMA",
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "SIM"
   },
   {
@@ -7161,11 +7161,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -7233,11 +7233,11 @@
    "categoriaSubestacao": "aumento",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "SIM"
   },
   {
@@ -7269,11 +7269,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -7341,11 +7341,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "INSTALADA 2025",
    "obsSalaProfessores": null,
-   "asCivil": "52722.76",
-   "asEletrica": "A.S.4249-26",
-   "valorCivil": null,
-   "valorEletrica": 15353.03,
-   "valorTotal": 37369.73,
+   "asCivil": "A.S.4249-26",
+   "asEletrica": "A.S. AINDA NÃO DEFINIDA",
+   "valorCivil": 15353.03,
+   "valorEletrica": 37369.73,
+   "valorTotal": 52722.76,
    "temExecucao": "NÃO"
   },
   {
@@ -7377,11 +7377,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "SIM"
   },
   {
@@ -7413,11 +7413,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -7449,11 +7449,11 @@
    "categoriaSubestacao": "aumento",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "191997.91",
-   "asEletrica": "A.S. Nº 3797/25",
-   "valorCivil": null,
-   "valorEletrica": 115318.78,
-   "valorTotal": 76679.13,
+   "asCivil": "A.S. Nº 3797/25",
+   "asEletrica": "A.S. Nº 3787/25",
+   "valorCivil": 115318.78,
+   "valorEletrica": 76679.13,
+   "valorTotal": 191997.91,
    "temExecucao": "SIM"
   },
   {
@@ -7593,11 +7593,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -7665,11 +7665,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "76797.95",
+   "asCivil": null,
    "asEletrica": null,
-   "valorCivil": null,
-   "valorEletrica": 76797.95,
-   "valorTotal": null,
+   "valorCivil": 76797.95,
+   "valorEletrica": null,
+   "valorTotal": 76797.95,
    "temExecucao": "NÃO"
   },
   {
@@ -7701,11 +7701,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "40388.08",
-   "asEletrica": "A.S. Nº 3766/25",
-   "valorCivil": null,
-   "valorEletrica": 26601.87,
-   "valorTotal": 13786.21,
+   "asCivil": "A.S. Nº 3766/25",
+   "asEletrica": "A.S. Nº 3762/25",
+   "valorCivil": 26601.87,
+   "valorEletrica": 13786.21,
+   "valorTotal": 40388.08,
    "temExecucao": "SIM"
   },
   {
@@ -7809,11 +7809,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -7845,11 +7845,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "89726.42",
-   "asEletrica": "A.S. 3748-25",
-   "valorCivil": null,
-   "valorEletrica": 89726.42,
-   "valorTotal": null,
+   "asCivil": "A.S. 3748-25",
+   "asEletrica": null,
+   "valorCivil": 89726.42,
+   "valorEletrica": null,
+   "valorTotal": 89726.42,
    "temExecucao": "SIM"
   },
   {
@@ -7881,11 +7881,11 @@
    "categoriaSubestacao": "aumento",
    "salaProfessores": "EM OBRA SEINF",
    "obsSalaProfessores": "Á CLIMATIZAR ESCOLA EM REFORMA",
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "SIM"
   },
   {
@@ -7917,11 +7917,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -7953,11 +7953,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "73864.7",
-   "asEletrica": "A.S.4248-26",
-   "valorCivil": null,
-   "valorEletrica": 22868.36,
-   "valorTotal": 50996.34,
+   "asCivil": "A.S.4248-26",
+   "asEletrica": null,
+   "valorCivil": 22868.36,
+   "valorEletrica": 50996.34,
+   "valorTotal": 73864.7,
    "temExecucao": "NÃO"
   },
   {
@@ -7989,11 +7989,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA SEM VIDA ÚTIL",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -8025,11 +8025,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "EM OBRA COINF",
    "obsSalaProfessores": "Á CLIMATIZAR ESCOLA EM REFORMA",
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "SIM"
   },
   {
@@ -8061,11 +8061,11 @@
    "categoriaSubestacao": "aumento",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -8097,11 +8097,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -8133,11 +8133,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -8169,11 +8169,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -8241,11 +8241,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "32382.73",
+   "asCivil": null,
    "asEletrica": null,
-   "valorCivil": null,
-   "valorEletrica": 32382.73,
-   "valorTotal": null,
+   "valorCivil": 32382.73,
+   "valorEletrica": null,
+   "valorTotal": 32382.73,
    "temExecucao": "NÃO"
   },
   {
@@ -8277,11 +8277,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "SIM"
   },
   {
@@ -8313,11 +8313,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -8349,11 +8349,11 @@
    "categoriaSubestacao": "aumento",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "179200.14",
-   "asEletrica": "A.S. 4021-26",
-   "valorCivil": null,
-   "valorEletrica": 179200.14,
-   "valorTotal": null,
+   "asCivil": "A.S. 4021-26",
+   "asEletrica": null,
+   "valorCivil": 179200.14,
+   "valorEletrica": null,
+   "valorTotal": 179200.14,
    "temExecucao": "NÃO"
   },
   {
@@ -8385,11 +8385,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -8457,11 +8457,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "SIM"
   },
   {
@@ -8493,11 +8493,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA EQUIPAMENTO DANIFICADO",
    "obsSalaProfessores": null,
-   "asCivil": "107349.41",
-   "asEletrica": "A.S. 3752-25",
-   "valorCivil": null,
-   "valorEletrica": 107349.41,
-   "valorTotal": null,
+   "asCivil": "A.S. 3752-25",
+   "asEletrica": "3568/2025",
+   "valorCivil": 107349.41,
+   "valorEletrica": null,
+   "valorTotal": 107349.41,
    "temExecucao": "SIM"
   },
   {
@@ -8529,11 +8529,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -8565,11 +8565,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA EQUIPAMENTO DANIFICADO",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -8637,11 +8637,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -8709,11 +8709,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "264203.33999999997",
-   "asEletrica": "A.S. 4047-26",
-   "valorCivil": null,
-   "valorEletrica": 89337.6,
-   "valorTotal": 174865.74,
+   "asCivil": "A.S. 4047-26",
+   "asEletrica": "A.S. 4122-26",
+   "valorCivil": 89337.6,
+   "valorEletrica": 174865.74,
+   "valorTotal": 264203.34,
    "temExecucao": "SIM"
   },
   {
@@ -8745,11 +8745,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "61142.09",
-   "asEletrica": "A.S. 3966-26",
-   "valorCivil": null,
-   "valorEletrica": 61142.09,
-   "valorTotal": null,
+   "asCivil": "A.S. 3966-26",
+   "asEletrica": null,
+   "valorCivil": 61142.09,
+   "valorEletrica": null,
+   "valorTotal": 61142.09,
    "temExecucao": "NÃO"
   },
   {
@@ -8781,11 +8781,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "177827.53",
-   "asEletrica": "CANCELADA",
-   "valorCivil": null,
-   "valorEletrica": 48866.53,
-   "valorTotal": 128961,
+   "asCivil": "CANCELADA",
+   "asEletrica": "A.S. AINDA NÃO DEFINIDA",
+   "valorCivil": 48866.53,
+   "valorEletrica": 128961,
+   "valorTotal": 177827.53,
    "temExecucao": "SIM"
   },
   {
@@ -8853,11 +8853,11 @@
    "categoriaSubestacao": "aumento",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "182164.39",
-   "asEletrica": "A.S. Nº 3765/25",
-   "valorCivil": null,
-   "valorEletrica": 75771.64,
-   "valorTotal": 106392.75,
+   "asCivil": "A.S. Nº 3765/25",
+   "asEletrica": "A.S. Nº 3757/25",
+   "valorCivil": 75771.64,
+   "valorEletrica": 106392.75,
+   "valorTotal": 182164.39,
    "temExecucao": "SIM"
   },
   {
@@ -8889,11 +8889,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -8925,11 +8925,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -8997,11 +8997,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -9033,11 +9033,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -9105,11 +9105,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA EQUIPAMENTO DANIFICADO",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -9213,11 +9213,11 @@
    "categoriaSubestacao": "aumento",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -9249,11 +9249,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -9321,11 +9321,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "SIM"
   },
   {
@@ -9357,11 +9357,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "INSTALADA 2025",
    "obsSalaProfessores": null,
-   "asCivil": "52249.48",
-   "asEletrica": "A.S.4133-26",
-   "valorCivil": null,
-   "valorEletrica": 52249.48,
-   "valorTotal": null,
+   "asCivil": "A.S.4133-26",
+   "asEletrica": null,
+   "valorCivil": 52249.48,
+   "valorEletrica": null,
+   "valorTotal": 52249.48,
    "temExecucao": "NÃO"
   },
   {
@@ -9429,11 +9429,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -9465,11 +9465,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -9501,11 +9501,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -9609,11 +9609,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -9645,11 +9645,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "EM OBRA SEINF",
    "obsSalaProfessores": "Á CLIMATIZAR ESCOLA EM REFORMA",
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "SIM"
   },
   {
@@ -9681,11 +9681,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "SIM"
   },
   {
@@ -9717,11 +9717,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -9789,11 +9789,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -9861,11 +9861,11 @@
    "categoriaSubestacao": "aumento",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "245060.86",
-   "asEletrica": "A.S. Nº 3833/25",
-   "valorCivil": null,
-   "valorEletrica": 176026.84,
-   "valorTotal": 69034.02,
+   "asCivil": "A.S. Nº 3833/25",
+   "asEletrica": "A.S. Nº 3819/25",
+   "valorCivil": 176026.84,
+   "valorEletrica": 69034.02,
+   "valorTotal": 245060.86,
    "temExecucao": "SIM"
   },
   {
@@ -9897,11 +9897,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -10005,11 +10005,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "61134.21",
-   "asEletrica": "A.S. 3943-26",
-   "valorCivil": null,
-   "valorEletrica": 28964.57,
-   "valorTotal": 32169.64,
+   "asCivil": "A.S. 3943-26",
+   "asEletrica": "A.S. 4039/2026",
+   "valorCivil": 28964.57,
+   "valorEletrica": 32169.64,
+   "valorTotal": 61134.21,
    "temExecucao": "SIM"
   },
   {
@@ -10077,11 +10077,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -10113,11 +10113,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA EQUIPAMENTO DANIFICADO",
    "obsSalaProfessores": null,
-   "asCivil": "7280.02",
-   "asEletrica": "A.S. 4008-26",
-   "valorCivil": null,
-   "valorEletrica": 7280.02,
-   "valorTotal": null,
+   "asCivil": "A.S. 4008-26",
+   "asEletrica": null,
+   "valorCivil": 7280.02,
+   "valorEletrica": null,
+   "valorTotal": 7280.02,
    "temExecucao": "SIM"
   },
   {
@@ -10185,11 +10185,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "70610.29",
-   "asEletrica": "A.S. 3947-26",
-   "valorCivil": null,
-   "valorEletrica": 32494.19,
-   "valorTotal": 38116.1,
+   "asCivil": "A.S. 3947-26",
+   "asEletrica": "A.S. AINDA NÃO DEFINIDA",
+   "valorCivil": 32494.19,
+   "valorEletrica": 38116.1,
+   "valorTotal": 70610.29,
    "temExecucao": "SIM"
   },
   {
@@ -10221,11 +10221,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA SEM VIDA ÚTIL",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -10257,11 +10257,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -10293,11 +10293,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "NÃO CLIMATIZADA",
    "obsSalaProfessores": "PADRÃO JURACI",
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -10329,11 +10329,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -10365,11 +10365,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "NÃO CLIMATIZADA",
    "obsSalaProfessores": "PADRÃO JURACI",
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -10437,11 +10437,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -10473,11 +10473,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "NÃO CLIMATIZADA",
    "obsSalaProfessores": "PADRÃO JURACI",
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -10509,11 +10509,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -10545,11 +10545,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "NÃO CLIMATIZADA",
    "obsSalaProfessores": "PADRÃO JURACI",
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -10581,11 +10581,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "INSTALADA 2026",
    "obsSalaProfessores": "PENDENTE CLIMATIZAÇÃO SALA ADEQUADA PRA CLIMATIZAÇÃO",
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -10617,11 +10617,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "NÃO CLIMATIZADA",
    "obsSalaProfessores": "PADRÃO JURACI",
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -10653,11 +10653,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -10689,11 +10689,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "INSTALADA 2025",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -10725,11 +10725,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -10761,11 +10761,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "INSTALADA 2025",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -10797,11 +10797,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "57414.69",
-   "asEletrica": "A.S. 3955-26",
-   "valorCivil": null,
-   "valorEletrica": 28964.57,
-   "valorTotal": 28450.12,
+   "asCivil": "A.S. 3955-26",
+   "asEletrica": "A.S. AINDA NÃO DEFINIDA",
+   "valorCivil": 28964.57,
+   "valorEletrica": 28450.12,
+   "valorTotal": 57414.69,
    "temExecucao": "SIM"
   },
   {
@@ -10833,11 +10833,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -10869,11 +10869,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -10905,10 +10905,10 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "175573.99",
-   "asEletrica": null,
+   "asCivil": null,
+   "asEletrica": "O.S 0223-26",
    "valorCivil": null,
-   "valorEletrica": null,
+   "valorEletrica": 175573.99,
    "valorTotal": 175573.99,
    "temExecucao": "SIM"
   },
@@ -10941,11 +10941,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -10977,11 +10977,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "NÃO CLIMATIZADA",
    "obsSalaProfessores": "NÃO POSSUI SALA DOS PROFESSORES CONFERIR",
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -11013,11 +11013,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "INSTALADA 2025",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -11049,10 +11049,10 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "33822.12",
-   "asEletrica": "-",
+   "asCivil": "-",
+   "asEletrica": "A.S. AINDA NÃO DEFINIDA",
    "valorCivil": null,
-   "valorEletrica": null,
+   "valorEletrica": 33822.12,
    "valorTotal": 33822.12,
    "temExecucao": "SIM"
   },
@@ -11085,11 +11085,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -11121,11 +11121,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "NÃO CLIMATIZADA",
    "obsSalaProfessores": "PADRÃO JURACI",
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -11157,11 +11157,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "65253.340000000004",
-   "asEletrica": "A.S. 3950-26",
-   "valorCivil": null,
-   "valorEletrica": 28810.97,
-   "valorTotal": 36442.37,
+   "asCivil": "A.S. 3950-26",
+   "asEletrica": "A.S. AINDA NÃO DEFINIDA",
+   "valorCivil": 28810.97,
+   "valorEletrica": 36442.37,
+   "valorTotal": 65253.34,
    "temExecucao": "SIM"
   },
   {
@@ -11193,11 +11193,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "INSTALADA 2026",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -11229,11 +11229,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "INSTALADA 2025",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -11301,11 +11301,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "NÃO CLIMATIZADA",
    "obsSalaProfessores": "PADRÃO JURACI",
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -11337,11 +11337,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -11373,11 +11373,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "INSTALADA 2026",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -11409,11 +11409,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "NÃO CLIMATIZADA",
    "obsSalaProfessores": "SALA SEM VEDAÇÃO DE JANELA E FORRO SALA SEM PONTO ELÉTRICO IDENTIFICADO NECESSECIDADE DE REFORMA ELÉTRICA TOTAL",
-   "asCivil": "201645.06",
-   "asEletrica": "A.S. Nº 3862/25",
-   "valorCivil": null,
-   "valorEletrica": 96220.3,
-   "valorTotal": 105424.76,
+   "asCivil": "A.S. Nº 3862/25",
+   "asEletrica": "A.S. Nº 3858/25",
+   "valorCivil": 96220.3,
+   "valorEletrica": 105424.76,
+   "valorTotal": 201645.06,
    "temExecucao": "SIM"
   },
   {
@@ -11445,11 +11445,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "INSTALADA 2025",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -11481,11 +11481,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "NÃO CLIMATIZADA",
    "obsSalaProfessores": "PADRÃO JURACI",
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -11517,11 +11517,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "NÃO CLIMATIZADA",
    "obsSalaProfessores": "PADRÃO JURACI",
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -11553,11 +11553,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -11589,11 +11589,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "INSTALADA 2026",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -11625,11 +11625,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -11661,11 +11661,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -11697,11 +11697,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -11733,11 +11733,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -11769,11 +11769,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -11805,11 +11805,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "INSTALADA 2025",
    "obsSalaProfessores": null,
-   "asCivil": "129282.44",
-   "asEletrica": "A.S. Nº 4046-26",
-   "valorCivil": null,
-   "valorEletrica": 19869.46,
-   "valorTotal": 109412.98,
+   "asCivil": "A.S. Nº 4046-26",
+   "asEletrica": "A.S. 4038-26",
+   "valorCivil": 19869.46,
+   "valorEletrica": 109412.98,
+   "valorTotal": 129282.44,
    "temExecucao": "SIM"
   },
   {
@@ -11877,11 +11877,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "86030.20999999999",
-   "asEletrica": "A.S. 3951-26",
-   "valorCivil": null,
-   "valorEletrica": 41370.33,
-   "valorTotal": 44659.88,
+   "asCivil": "A.S. 3951-26",
+   "asEletrica": "A.S. 4036/2026",
+   "valorCivil": 41370.33,
+   "valorEletrica": 44659.88,
+   "valorTotal": 86030.21,
    "temExecucao": "SIM"
   },
   {
@@ -11913,11 +11913,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -11949,11 +11949,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "INSTALADA 2025",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -11985,11 +11985,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "INSTALADA 2025",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -12021,11 +12021,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "NÃO CLIMATIZADA",
    "obsSalaProfessores": "PADRÃO JURACI",
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -12057,11 +12057,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "NÃO CLIMATIZADA",
    "obsSalaProfessores": "PADRÃO JURACI",
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -12093,11 +12093,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "INSTALADA 2025",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -12129,11 +12129,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "28810.97",
-   "asEletrica": "A.S. 3946-26",
-   "valorCivil": null,
-   "valorEletrica": 28810.97,
-   "valorTotal": null,
+   "asCivil": "A.S. 3946-26",
+   "asEletrica": null,
+   "valorCivil": 28810.97,
+   "valorEletrica": null,
+   "valorTotal": 28810.97,
    "temExecucao": "SIM"
   },
   {
@@ -12165,11 +12165,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "NÃO CLIMATIZADA",
    "obsSalaProfessores": "PADRÃO JURACI",
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -12201,11 +12201,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "NÃO CLIMATIZADA",
    "obsSalaProfessores": "PADRÃO JURACI",
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -12237,11 +12237,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -12273,11 +12273,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -12309,11 +12309,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "INSTALADA 2025",
    "obsSalaProfessores": "VISITA SECRETÁRIO",
-   "asCivil": "111421.52",
-   "asEletrica": "A.S.4112-26",
-   "valorCivil": null,
-   "valorEletrica": 111421.52,
-   "valorTotal": null,
+   "asCivil": "A.S.4112-26",
+   "asEletrica": null,
+   "valorCivil": 111421.52,
+   "valorEletrica": null,
+   "valorTotal": 111421.52,
    "temExecucao": "NÃO"
   },
   {
@@ -12345,11 +12345,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -12417,11 +12417,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "INSTALADA 2025",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -12453,11 +12453,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "NÃO CLIMATIZADA",
    "obsSalaProfessores": "PADRÃO JURACI",
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -12489,11 +12489,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -12525,11 +12525,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "SIM"
   },
   {
@@ -12561,11 +12561,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "NÃO CLIMATIZADA",
    "obsSalaProfessores": "PADRÃO JURACI",
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -12597,11 +12597,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -12633,10 +12633,10 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "29029.07",
-   "asEletrica": "-",
+   "asCivil": "-",
+   "asEletrica": "A.S. AINDA NÃO DEFINIDA",
    "valorCivil": null,
-   "valorEletrica": null,
+   "valorEletrica": 29029.07,
    "valorTotal": 29029.07,
    "temExecucao": "SIM"
   },
@@ -12669,11 +12669,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "NÃO CLIMATIZADA",
    "obsSalaProfessores": "PADRÃO JURACI",
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -12705,11 +12705,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -12741,11 +12741,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "NÃO CLIMATIZADA",
    "obsSalaProfessores": "PADRÃO JURACI",
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -12777,11 +12777,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -12813,11 +12813,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "NÃO CLIMATIZADA",
    "obsSalaProfessores": "PADRÃO JURACI",
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -12849,11 +12849,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -12885,11 +12885,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "NÃO CLIMATIZADA",
    "obsSalaProfessores": "PADRÃO JURACI",
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -12921,11 +12921,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "NÃO CLIMATIZADA",
    "obsSalaProfessores": "NÃO POSSUI SALA DOS PROFESSORES CONFERIR",
-   "asCivil": "40765.03",
-   "asEletrica": "A.S.4107-26",
-   "valorCivil": null,
-   "valorEletrica": 19734.89,
-   "valorTotal": 21030.14,
+   "asCivil": "A.S.4107-26",
+   "asEletrica": "A.S. AINDA NÃO DEFINIDA",
+   "valorCivil": 19734.89,
+   "valorEletrica": 21030.14,
+   "valorTotal": 40765.03,
    "temExecucao": "SIM"
   },
   {
@@ -12957,11 +12957,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "NÃO CLIMATIZADA",
    "obsSalaProfessores": "PADRÃO JURACI",
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -12993,11 +12993,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -13029,11 +13029,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "INSTALADA 2026",
    "obsSalaProfessores": "OBRA SEINF",
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -13065,11 +13065,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -13101,11 +13101,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -13137,11 +13137,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -13173,11 +13173,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -13209,11 +13209,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -13245,11 +13245,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -13281,11 +13281,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA SEM VIDA ÚTIL",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -13317,11 +13317,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -13353,11 +13353,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "88764.83",
-   "asEletrica": "A.S. 3965-26",
-   "valorCivil": null,
-   "valorEletrica": 88764.83,
-   "valorTotal": null,
+   "asCivil": "A.S. 3965-26",
+   "asEletrica": null,
+   "valorCivil": 88764.83,
+   "valorEletrica": null,
+   "valorTotal": 88764.83,
    "temExecucao": "NÃO"
   },
   {
@@ -13389,11 +13389,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -13425,11 +13425,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "NÃO CLIMATIZADA",
    "obsSalaProfessores": "PADRÃO JURACI",
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -13461,11 +13461,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "INSTALADA 2025",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -13533,11 +13533,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -13569,11 +13569,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "61752.45",
-   "asEletrica": "A.S.4017-26",
-   "valorCivil": null,
-   "valorEletrica": 35961.26,
-   "valorTotal": 25791.19,
+   "asCivil": "A.S.4017-26",
+   "asEletrica": "A.S. 4121-26",
+   "valorCivil": 35961.26,
+   "valorEletrica": 25791.19,
+   "valorTotal": 61752.45,
    "temExecucao": "SIM"
   },
   {
@@ -13605,11 +13605,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "INSTALADA 2026",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -13641,11 +13641,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA SEM VIDA ÚTIL",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -13677,11 +13677,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "SIM"
   },
   {
@@ -13713,11 +13713,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "NÃO CLIMATIZADA",
    "obsSalaProfessores": "PADRÃO JURACI",
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -13749,11 +13749,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "NÃO CLIMATIZADA",
    "obsSalaProfessores": "NÃO POSSUI SALA DOS PROFESSORES CONFERIR",
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -13785,11 +13785,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -13821,11 +13821,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -13857,11 +13857,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "61057.35",
-   "asEletrica": "A.S. 3961-26",
-   "valorCivil": null,
-   "valorEletrica": 29502.84,
-   "valorTotal": 31554.51,
+   "asCivil": "A.S. 3961-26",
+   "asEletrica": "A.S. AINDA NÃO DEFINIDA",
+   "valorCivil": 29502.84,
+   "valorEletrica": 31554.51,
+   "valorTotal": 61057.35,
    "temExecucao": "SIM"
   },
   {
@@ -13929,11 +13929,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -13965,11 +13965,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "INSTALADA 2026",
    "obsSalaProfessores": null,
-   "asCivil": "28810.97",
-   "asEletrica": "A.S. 3945-26",
-   "valorCivil": null,
-   "valorEletrica": 28810.97,
-   "valorTotal": null,
+   "asCivil": "A.S. 3945-26",
+   "asEletrica": null,
+   "valorCivil": 28810.97,
+   "valorEletrica": null,
+   "valorTotal": 28810.97,
    "temExecucao": "SIM"
   },
   {
@@ -14037,11 +14037,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "NÃO CLIMATIZADA",
    "obsSalaProfessores": "PADRÃO JURACI",
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -14073,11 +14073,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -14145,11 +14145,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -14181,10 +14181,10 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "32689.01",
-   "asEletrica": "-",
+   "asCivil": "-",
+   "asEletrica": "A.S. AINDA NÃO DEFINIDA",
    "valorCivil": null,
-   "valorEletrica": null,
+   "valorEletrica": 32689.01,
    "valorTotal": 32689.01,
    "temExecucao": "SIM"
   },
@@ -14253,11 +14253,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "38071.259999999995",
-   "asEletrica": "A.S. Nº 3781/25",
-   "valorCivil": null,
-   "valorEletrica": 13702.48,
-   "valorTotal": 24368.78,
+   "asCivil": "A.S. Nº 3781/25",
+   "asEletrica": "A.S. Nº 3776/25",
+   "valorCivil": 13702.48,
+   "valorEletrica": 24368.78,
+   "valorTotal": 38071.26,
    "temExecucao": "SIM"
   },
   {
@@ -14325,11 +14325,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "INSTALADA 2025",
    "obsSalaProfessores": null,
-   "asCivil": "63687.100000000006",
-   "asEletrica": "A.S.4081-26",
-   "valorCivil": null,
-   "valorEletrica": 21199.88,
-   "valorTotal": 42487.22,
+   "asCivil": "A.S.4081-26",
+   "asEletrica": "A.S. AINDA NÃO DEFINIDA",
+   "valorCivil": 21199.88,
+   "valorEletrica": 42487.22,
+   "valorTotal": 63687.1,
    "temExecucao": "SIM"
   },
   {
@@ -14361,11 +14361,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -14397,11 +14397,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "INSTALADA 2025",
    "obsSalaProfessores": null,
-   "asCivil": "18386",
-   "asEletrica": "A.S. 3941-26",
-   "valorCivil": null,
-   "valorEletrica": 18386,
-   "valorTotal": null,
+   "asCivil": "A.S. 3941-26",
+   "asEletrica": "-",
+   "valorCivil": 18386,
+   "valorEletrica": null,
+   "valorTotal": 18386,
    "temExecucao": "SIM"
   },
   {
@@ -14505,11 +14505,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "INSTALADA 2025",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -14613,11 +14613,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "46226.05",
+   "asCivil": null,
    "asEletrica": null,
-   "valorCivil": null,
-   "valorEletrica": 46226.05,
-   "valorTotal": null,
+   "valorCivil": 46226.05,
+   "valorEletrica": null,
+   "valorTotal": 46226.05,
    "temExecucao": "SIM"
   },
   {
@@ -14685,11 +14685,11 @@
    "categoriaSubestacao": "nova",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "SIM"
   },
   {
@@ -14721,11 +14721,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "NÃO CLIMATIZADA",
    "obsSalaProfessores": "NÃO POSSUI SALA DOS PROFESSORES CONFERIR SALAS E PLANTA",
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -14757,11 +14757,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "85455.74",
-   "asEletrica": "A.S.4250-26",
-   "valorCivil": null,
-   "valorEletrica": 53687.47,
-   "valorTotal": 31768.27,
+   "asCivil": "A.S.4250-26",
+   "asEletrica": null,
+   "valorCivil": 53687.47,
+   "valorEletrica": 31768.27,
+   "valorTotal": 85455.74,
    "temExecucao": "NÃO"
   },
   {
@@ -14901,11 +14901,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "NÃO CLIMATIZADA",
    "obsSalaProfessores": "NÃO POSSUI SALA DOS PROFESSORES CONFERIR SALAS E PLANTA",
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -14973,11 +14973,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -15009,11 +15009,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "INSTALADA 2026",
    "obsSalaProfessores": null,
-   "asCivil": "66292.58",
-   "asEletrica": "A.S. Nº 4009-26",
-   "valorCivil": null,
-   "valorEletrica": 12140.51,
-   "valorTotal": 54152.07,
+   "asCivil": "A.S. Nº 4009-26",
+   "asEletrica": "A.S. AINDA NÃO DEFINIDA",
+   "valorCivil": 12140.51,
+   "valorEletrica": 54152.07,
+   "valorTotal": 66292.58,
    "temExecucao": "SIM"
   },
   {
@@ -15045,11 +15045,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -15189,10 +15189,10 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "28631.92",
-   "asEletrica": "-",
+   "asCivil": "-",
+   "asEletrica": "A.S. AINDA NÃO DEFINIDA",
    "valorCivil": null,
-   "valorEletrica": null,
+   "valorEletrica": 28631.92,
    "valorTotal": 28631.92,
    "temExecucao": "SIM"
   },
@@ -15369,10 +15369,10 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "24917.81",
-   "asEletrica": "-",
+   "asCivil": "-",
+   "asEletrica": "A.S. AINDA NÃO DEFINIDA",
    "valorCivil": null,
-   "valorEletrica": null,
+   "valorEletrica": 24917.81,
    "valorTotal": 24917.81,
    "temExecucao": "SIM"
   },
@@ -15461,7 +15461,7 @@
    "lat": -3.85262767725649,
    "lng": -38.5241263980659,
    "etapa": "ETAPA 02",
-   "status": "5. EXECUÇÃO DAS ADEQUAÇÕES",
+   "status": "9. CLIMATIZADA",
    "salas": 12,
    "salasAdm": 3,
    "salasPedag": 9,
@@ -15474,7 +15474,7 @@
    "potenciaFutura": null,
    "dataSolicitacaoSeinf": null,
    "estudoEletrico": "TEM",
-   "categoriaSubestacao": "liberada",
+   "categoriaSubestacao": "climatizada",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
    "asCivil": null,
@@ -15513,10 +15513,10 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "27509.71",
-   "asEletrica": "-",
+   "asCivil": "-",
+   "asEletrica": "A.S. AINDA NÃO DEFINIDA",
    "valorCivil": null,
-   "valorEletrica": null,
+   "valorEletrica": 27509.71,
    "valorTotal": 27509.71,
    "temExecucao": "SIM"
   },
@@ -15549,11 +15549,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "SIM"
   },
   {
@@ -15621,11 +15621,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "INSTALADA 2025",
    "obsSalaProfessores": "SOLICITADO POR PATRICIO",
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -15693,11 +15693,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -15729,11 +15729,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -15765,11 +15765,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "NÃO CLIMATIZADA",
    "obsSalaProfessores": "PENDENTE CLIMATIZAÇÃO CONFERIR O ESTADO DA SALA",
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -15801,11 +15801,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -15981,11 +15981,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "INSTALADA 2025",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -16017,11 +16017,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "INSTALADA 2025",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -16125,11 +16125,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA EQUIPAMENTO DANIFICADO",
    "obsSalaProfessores": null,
-   "asCivil": "33494.11",
-   "asEletrica": "A.S. 3940-26",
-   "valorCivil": null,
-   "valorEletrica": 5799.53,
-   "valorTotal": 27694.58,
+   "asCivil": "A.S. 3940-26",
+   "asEletrica": "A.S. AINDA NÃO DEFINIDA",
+   "valorCivil": 5799.53,
+   "valorEletrica": 27694.58,
+   "valorTotal": 33494.11,
    "temExecucao": "SIM"
   },
   {
@@ -16413,11 +16413,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": "67882.59",
-   "asEletrica": "A.S. 3955-26",
-   "valorCivil": null,
-   "valorEletrica": 28964.57,
-   "valorTotal": 38918.02,
+   "asCivil": "A.S. 3955-26",
+   "asEletrica": "A.S. AINDA NÃO DEFINIDA",
+   "valorCivil": 28964.57,
+   "valorEletrica": 38918.02,
+   "valorTotal": 67882.59,
    "temExecucao": "SIM"
   },
   {
@@ -16665,11 +16665,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -16701,11 +16701,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "SIM"
   },
   {
@@ -17817,11 +17817,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -17853,11 +17853,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -18177,11 +18177,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "NÃO CLIMATIZADA",
    "obsSalaProfessores": "NÃO POSSUI SALA DOS PROFESSORES CONFERIR",
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -18285,11 +18285,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "NÃO CLIMATIZADA",
    "obsSalaProfessores": "PADRÃO JURACI",
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -18321,11 +18321,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   },
   {
@@ -18429,11 +18429,11 @@
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
-   "asCivil": "0",
+   "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": null,
+   "valorTotal": 0,
    "temExecucao": "NÃO"
   }
  ]
