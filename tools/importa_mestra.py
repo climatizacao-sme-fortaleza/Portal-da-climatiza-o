@@ -565,6 +565,16 @@ servico, e a planilha compartilhada com o e-mail dela como Leitor (tools/ROBO.md
 Sem --gravar o script so mostra o que faria.""" % ENV_CREDENCIAL
 
 
+def escreve_cabecalho(caminho, linhas):
+    """Cabecalho da BASE MESTRA (linha 1), coluna -> titulo, para quem precisa mapear
+    uma coluna nova sem ter acesso a planilha (ela e privada). Metadado, nao dado."""
+    if not linhas:
+        return
+    cab = {str(i): espacos(v) for i, v in sorted(linhas[0].items()) if espacos(v)}
+    io.open(caminho, 'w', encoding='utf-8', newline='').write(
+        json.dumps({'aba': ABA_MESTRA, 'colunas': cab}, ensure_ascii=False, indent=1))
+
+
 def escreve_carimbo(caminho, origem):
     """Hora da ultima VERIFICACAO contra a planilha, para o rodape do portal.
 
@@ -688,8 +698,9 @@ def main():
         escreve_salas_prof(pasta + '/salas_prof.js', prof)
         escreve_carimbo(pasta + '/atualizado.js', origem)
         escreve_registro(pasta + '/registro.json', novos, sub, mapa, prof, origem)
+        escreve_cabecalho(pasta + '/cabecalho.json', linhas)
         print("\ngravados: dados.js, subestacao.js, mapa_sub.js, salas_prof.js,"
-              " atualizado.js, registro.json")
+              " atualizado.js, registro.json, cabecalho.json")
     else:
         print("\n(ensaio — use --gravar para escrever)")
 
