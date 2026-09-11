@@ -55,6 +55,8 @@ COL_SALAS        = 56   # SALAS TOTAL (CLIMATIZAVEIS) = adm + pedagogicas
 COL_NECESSITA    = 20
 COL_POT_FUTURA   = 21
 COL_DATA_SEINF   = 22
+COL_DATA_VISITA  = 24   # DATA DIAGNOSTICO/VISITA
+COL_DIAGNOSTICO  = 25   # texto do diagnostico
 COL_SALA_PROF    = 63   # SALA DOS PROFESSORES CLIMATIZADA?
 
 # status a partir do qual a unidade ja foi visitada e tem estudo eletrico (regra da gestao)
@@ -338,13 +340,29 @@ def linhas_auxiliares(linhas):
 # colunas do bloco de execucao na mestra
 COLS_EXEC = dict(etapa=13, ar12=38, ar18=39, ar24=40, ar36=41, ar48=42, totalMaq=43,
                  valorMaq=44, servCivil=45, servEletrica=46, servInstalacao=47,
-                 totalGasto=48, statusCivil=50, statusEletrica=51, statusInstalacao=52,
-                 equipe=53, inicio=54, fim=55)
+                 totalGasto=48, responsavel=49, statusCivil=50, statusEletrica=51,
+                 statusInstalacao=52, equipe=53, inicio=54, fim=55)
 ORDEM_EXEC = ['etapa','ar12','ar18','ar24','ar36','ar48','totalMaq','valorMaq',
-              'servCivil','servEletrica','servInstalacao','totalGasto',
+              'servCivil','servEletrica','servInstalacao','totalGasto','responsavel',
               'statusCivil','statusEletrica','statusInstalacao','equipe','inicio','fim']
 EXEC_INT   = ['ar12','ar18','ar24','ar36','ar48','totalMaq']
 EXEC_NUM   = ['valorMaq','servCivil','servEletrica','servInstalacao','totalGasto']
+
+def gera_diagnostico(linhas):
+    """DIAGNOSTICO por SGE: data da visita (col 24) e texto do diagnostico (col 25).
+    Substitui o dicionario antigo, que era estatico e nao acompanhava a mestra.
+    Preserva o formato que o app.js ja le (dataVisita em aaaa-mm-dd)."""
+    diag = {}
+    for r in linhas[1:]:
+        sge = txt(r.get(COLS['sge']))
+        if not sge or not str(r.get(COLS['status'], '')).strip():
+            continue
+        data = data_iso(r.get(COL_DATA_VISITA))
+        texto = espacos(r.get(COL_DIAGNOSTICO)) or None
+        if data or texto:
+            diag[sge] = {'dataVisita': data or None, 'texto': texto}
+    return diag
+
 
 def gera_execucao(linhas):
     """EXECUCAO por SGE. A mestra tem UMA linha por unidade, entao sai uma entrada por
@@ -361,7 +379,7 @@ def gera_execucao(linhas):
             e[campo] = inteiro_se_puder(num(r.get(COLS_EXEC[campo])))
         for campo in EXEC_NUM:
             e[campo] = dinheiro(r.get(COLS_EXEC[campo]))
-        for campo in ('etapa', 'statusCivil', 'statusEletrica', 'statusInstalacao', 'equipe'):
+        for campo in ('etapa', 'responsavel', 'statusCivil', 'statusEletrica', 'statusInstalacao', 'equipe'):
             e[campo] = espacos(r.get(COLS_EXEC[campo]))
         e['inicio'] = data_iso(r.get(COLS_EXEC['inicio']))
         e['fim']    = data_iso(r.get(COLS_EXEC['fim']))
@@ -692,7 +710,8 @@ def main():
         print("       %-10s %3d -> %3d%s" % (k, antes_p[k], depois_p[k], seta))
 
     if gravar:
-        escrever(destino, {'ESCOLAS': novos, 'EXECUCAO': execucao})
+        escrever(destino, {'ESCOLAS': novos, 'EXECUCAO': execucao,
+                           'DIAGNOSTICO': gera_diagnostico(linhas)})
         escreve_subestacao(pasta + '/subestacao.js', sub)
         escreve_mapa_sub(pasta + '/mapa_sub.js', mapa)
         escreve_salas_prof(pasta + '/salas_prof.js', prof)

@@ -1137,15 +1137,16 @@ function blocoOrcamento(e){
 
 function blocoDiagnostico(sge, salas){
   const d = DIAGNOSTICO[sge];
-  // Enquanto a mestra nao trouxer a data da visita e as salas do diagnostico, o bloco
-  // fica so com tracinhos. Nesse caso nao desenha nada — o numero de salas ja aparece
-  // no bloco Salas, que e medido.
-  const vazio = !d || (d.salasClim == null && d.salasFora == null && !d.dataVisita);
+  // Vem da mestra (colunas DATA DIAGNOSTICO/VISITA e DIAGNOSTICO), regerado pelo robo.
+  // Sem data nem texto, nao desenha nada — o numero de salas ja aparece no bloco
+  // Salas, que e medido.
+  const vazio = !d || (!d.dataVisita && !d.texto && d.salasClim == null && d.salasFora == null);
   if (vazio) return "";
   let h = `<div class="sect">Diagnóstico</div>`;
-  h += kv("Salas climatizáveis", txt(d.salasClim));
-  h += kv("Salas aguardando", txt(d.salasFora));
-  h += kv("Data da visita", data(d.dataVisita));
+  if (d.dataVisita) h += kv("Data da visita", data(d.dataVisita));
+  if (d.texto) h += kv("Diagnóstico", txt(d.texto));
+  if (d.salasClim != null) h += kv("Salas climatizáveis", txt(d.salasClim));
+  if (d.salasFora != null) h += kv("Salas aguardando", txt(d.salasFora));
   return h;
 }
 
@@ -1167,6 +1168,7 @@ function blocoExecucao(sge){
         ${kv("Serv. civil", moeda(x.servCivil))}
         ${kv("Serv. elétrica", moeda(x.servEletrica))}
         ${kv("Serv. instalação", moeda(x.servInstalacao))}
+        ${x.responsavel ? kv("Adequação por", txt(x.responsavel)) : ""}
         ${(x.statusCivil||x.statusEletrica||x.statusInstalacao) ? kv("Status (civil/elét./instal.)", `${txt(x.statusCivil)} / ${txt(x.statusEletrica)} / ${txt(x.statusInstalacao)}`) : ""}
         ${x.fim ? kv("Climatizada em", data(x.fim)) : ""}
       </div>
