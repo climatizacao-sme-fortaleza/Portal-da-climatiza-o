@@ -1542,10 +1542,14 @@ function init(){
   // carimbo do rodape: hora da ULTIMA VERIFICACAO contra a planilha, nao a da ultima
   // mudanca. O robo regrava toda vez que le e a leitura passa na validacao, mesmo sem
   // dado diferente — assim carimbo parado quer dizer robo parado, e nao planilha parada.
+  // Texto para quem nao sabe (nem precisa saber) que existe planilha ou robo por
+  // tras: o que importa e que o portal se atualiza sozinho, varias vezes ao dia.
   const carimbo = document.getElementById("fz-atualizado");
   const at = window.ATUALIZADO_EM;
   if (carimbo && at && at.texto) {
-    carimbo.textContent = `Verificado em ${at.texto} · ${at.origem || "planilha"}`;
+    carimbo.textContent = at.origem === "arquivo baixado"
+      ? `Atualizado em ${at.texto}`
+      : `Atualização automática · última conferência em ${at.texto}`;
     carimbo.hidden = false;
   }
 
