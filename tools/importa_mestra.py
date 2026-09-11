@@ -28,7 +28,9 @@ ABA_MESTRA = 'BASE MESTRA (512)'
 REGUA_STATUS = {
     "0. A INICIAR", "1. VISTORIA", "2. ANALISE ELETRICA E CIVIL",
     "3. ORÇAMENTO E PLANTA", "4. APROVAÇÃO A.S.", "5. EXECUÇÃO DAS ADEQUAÇÕES",
-    "6. ENTREGA DE MÁQUINAS", "9. CLIMATIZADA", "10. CLIMATIZADA PARCIAL",
+    "6. ENTREGA DE MÁQUINAS", "7. INSTALAÇÃO ARES",
+    "8. EM EXECUÇÃO - INSTALAÇÃO DOS ARES",   # 7 e 8 entraram na mestra em 10/09/2026
+    "9. CLIMATIZADA", "10. CLIMATIZADA PARCIAL",
 }
 
 # limites generosos de Fortaleza, so para pegar coordenada trocada ou com virgula perdida
