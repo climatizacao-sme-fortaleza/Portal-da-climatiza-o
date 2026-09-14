@@ -785,11 +785,16 @@ function renderPainelContexto() {
     let salasTerritorio = 0, salasClim = 0, fantasma = 0;
     // DENOMINADORES (territorio inteiro, TODOS os periodos -> FIXOS no filtro de periodo):
     // total de bairros, escolas, CEIs e unidades. Os numeradores (acumulados) vem do baseBalao.
-    const totBairros = new Set(); let escTot = 0, ceiTot = 0;
+    // Tipos de unidade da mestra: EMTP, EMTI, CEI e ANE (anexo — "UND II" de uma EM,
+    // que aqui conta com as EMTP, pois e uma escola de tempo parcial em outro predio).
+    const TIPOS_CLIM = [["EMTP", "EMTP"], ["EMTI", "EMTI"], ["CEI", "CEI (creche)"]];
+    const tipoClim = t => (t === "CEI" || t === "EMTI") ? t : "EMTP";
+    const totTipo = { EMTP: 0, EMTI: 0, CEI: 0 };
+    const totBairros = new Set();
     for (const e of baseGeo) {
       salasTerritorio += Number(e.salas) || 0;
       totBairros.add(e.bairro);
-      if (e.tipo === "CEI") ceiTot++; else escTot++;
+      totTipo[tipoClim(e.tipo)]++;
       const b = bucket(e.status);
       // Salas climatizadas: numero MEDIDO na mestra, unidade por unidade (nao mais deduzido
       // do status). Vale para qualquer status — unidade "a iniciar" pode ja ter salas
@@ -801,10 +806,16 @@ function renderPainelContexto() {
       }
     }
     const totUnidades = baseGeo.length;
+    const barrasTipo = cont => TIPOS_CLIM.map(([k, rot]) =>
+      `<div class="mc-tipo">
+         <div class="mc-tipo-top"><span>${rot}</span><b>${cont[k]} / ${totTipo[k]}</b></div>
+         <div class="mc-bar2"><span style="width:${pctNum(cont[k], totTipo[k]).toFixed(1)}%"></span></div>
+       </div>`).join("");
     // NUMERADORES (acumulados ate o periodo, via baseBalao): cobertura e climatizadas por tipo
     let bInv = 0, bInv25 = 0, bInv26 = 0;
     let cobUni = 0; const cobBairros = new Set();
-    let escClim = 0, ceiClim = 0;
+    // climatizadas por tipo, separando plenas (status 9) de parciais (status 10)
+    const climTipo = { EMTP: 0, EMTI: 0, CEI: 0 }, parcTipo = { EMTP: 0, EMTI: 0, CEI: 0 };
     // quebra do gasto entre maquinas e o resto (adequacao civil/eletrica + instalacao)
     let bMaq = 0, bAdeq = 0;
     // salas climatizadas separadas por natureza (administrativa x pedagogica)
@@ -813,7 +824,8 @@ function renderPainelContexto() {
     const execTipo = {};
     for (const e of baseBalao) {
       if (bucket(e.status) !== "iniciar") { cobUni++; cobBairros.add(e.bairro); }  // cobertura = nao "A iniciar"
-      if (String(e.status).startsWith("9.")) { if (e.tipo === "CEI") ceiClim++; else escClim++; }  // so plenas (status 9)
+      if (String(e.status).startsWith("9.")) climTipo[tipoClim(e.tipo)]++;
+      else if (String(e.status).startsWith("10.")) parcTipo[tipoClim(e.tipo)]++;
       if (bucket(e.status) === "pipeline") {
         const t = e.tipo || "—";
         execTipo[t] = (execTipo[t] || 0) + 1;
@@ -906,18 +918,14 @@ function renderPainelContexto() {
          <div class="mc-bar mc-bar-cob"><span style="width:${pctNum(cobBairros.size, totBairros.size).toFixed(1)}%"></span></div>
          <div class="mc-sub">${cobUni.toLocaleString("pt-BR")} de ${totUnidades.toLocaleString("pt-BR")} unidades</div>
        </div>` +
-      // 4) CLIMATIZADAS POR TIPO (roxo): duas barras (Escolas / CEI), so plenas
+      // 4) CLIMATIZADAS POR TIPO (roxo): EMTP / EMTI / CEI, plenas em cima e parciais embaixo.
+      //    Denominador e sempre o total de unidades daquele tipo no territorio.
       `<div class="metricard">
          <div class="mc-lab">Climatizadas por tipo</div>
-         <div class="mc-tipos">
-           <div class="mc-tipo">
-             <div class="mc-tipo-top"><span>Escolas</span><b>${escClim} / ${escTot}</b></div>
-             <div class="mc-bar2"><span style="width:${pctNum(escClim, escTot).toFixed(1)}%"></span></div>
-           </div>
-           <div class="mc-tipo">
-             <div class="mc-tipo-top"><span>CEI (creche)</span><b>${ceiClim} / ${ceiTot}</b></div>
-             <div class="mc-bar2"><span style="width:${pctNum(ceiClim, ceiTot).toFixed(1)}%"></span></div>
-           </div>
+         <div class="mc-tipos">${barrasTipo(climTipo)}</div>
+         <div class="mc-sep">
+           <div class="mc-lab2">Parcialmente climatizadas</div>
+           <div class="mc-tipos">${barrasTipo(parcTipo)}</div>
          </div>
        </div>` +
       // 5) EM EXECUCAO POR TIPO: quantas unidades do status 5-8, quebradas por tipo de unidade
