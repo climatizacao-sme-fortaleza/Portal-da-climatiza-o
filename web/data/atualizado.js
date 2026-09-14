@@ -1,3 +1,3 @@
 // Gerado pelo importador - NAO editar a mao.
 // Momento da ultima verificacao contra a planilha (leitura aprovada na validacao).
-window.ATUALIZADO_EM = {"iso": "2026-09-11T22:03-03:00", "texto": "11/09/2026 às 22:03", "origem": "planilha ao vivo"};
+window.ATUALIZADO_EM = {"iso": "2026-09-14T11:58-03:00", "texto": "14/09/2026 às 11:58", "origem": "planilha ao vivo"};
