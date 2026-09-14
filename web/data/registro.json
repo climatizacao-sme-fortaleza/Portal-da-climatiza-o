@@ -1,5 +1,5 @@
 {
- "gerado_em": "2026-09-14T15:06-03:00",
+ "gerado_em": "2026-09-14T17:30-03:00",
  "origem": "planilha ao vivo",
  "fonte": "BASE MESTRA (512) — escopo COINF, exclui CRP e CAEE",
  "total": 512,
@@ -7108,7 +7108,7 @@
    "territorio": "3",
    "lat": -3.7064775386845,
    "lng": -38.5853115639254,
-   "etapa": "ETAPA 01 - PARCIAL",
+   "etapa": "ETAPA 01",
    "status": "9. CLIMATIZADA",
    "salas": 22,
    "salasAdm": 5,
