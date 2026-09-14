@@ -234,9 +234,18 @@ h1 .thin{font-weight:400;color:rgba(255,255,255,.86)}
 .mc-bar-dupla span.parc{background:color-mix(in srgb,var(--mc,var(--roxo)) 45%,#fff);border-radius:0 4px 4px 0;animation-delay:.5s}
 .mc-tipo-top .mc-parc{font-style:normal;font-weight:600;font-size:11px;color:color-mix(in srgb,var(--mc,var(--roxo)) 70%,#555);margin-left:2px}
 .mc-tipo-top .mc-de{font-weight:500;font-size:11px;color:var(--ink2)}
-.mc-legenda{display:flex;align-items:center;gap:5px;margin-top:9px;font-family:var(--fonte-ui);font-size:9.5px;color:var(--ink2);letter-spacing:.02em}
+/* legenda clicavel: cada item e um botao que isola a medida (sel) ou apaga a outra (off) */
+.mc-legenda{display:flex;align-items:center;gap:6px;margin-top:9px}
+.mc-legenda button{display:inline-flex;align-items:center;gap:5px;border:1px solid transparent;background:none;
+  padding:2px 7px 2px 5px;border-radius:12px;cursor:pointer;font-family:var(--fonte-ui);font-size:9.5px;
+  color:var(--ink2);letter-spacing:.02em;transition:background .15s,color .15s,opacity .15s}
+.mc-legenda button:hover{background:color-mix(in srgb,var(--mc,var(--roxo)) 10%,#fff)}
+.mc-legenda button.sel{background:color-mix(in srgb,var(--mc,var(--roxo)) 14%,#fff);
+  border-color:color-mix(in srgb,var(--mc,var(--roxo)) 40%,#fff);color:var(--ink);font-weight:600}
+.mc-legenda button.off{opacity:.45}
+.mc-legenda button:focus-visible{outline:2px solid var(--mc,var(--roxo));outline-offset:1px}
 .mc-legenda i{display:inline-block;width:8px;height:8px;border-radius:2px;background:var(--mc,var(--roxo))}
-.mc-legenda i.parc{background:color-mix(in srgb,var(--mc,var(--roxo)) 45%,#fff);margin-left:8px}
+.mc-legenda i.parc{background:color-mix(in srgb,var(--mc,var(--roxo)) 45%,#fff)}
 /* secao Salas climatizadas: rosca pequena + texto ao lado */
 .mc-donut-row{display:flex;align-items:center;gap:10px;margin-top:5px}
 .mini-donut{width:50px;height:50px;flex:0 0 auto;overflow:visible}

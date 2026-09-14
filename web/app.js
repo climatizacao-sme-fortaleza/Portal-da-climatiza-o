@@ -547,6 +547,9 @@ let periodoAtivo = "all";
 // grupo do funil (bucket) ativo: null | "iniciar" | "pipeline" | "parc" | "clim".
 // Filtra mapa/lista por bucket. Hoje so o dropdown "Status geral" usa isso; o FUNIL nao filtra mais.
 let funilBucket = null;
+// Cartao "Climatizadas por tipo": o que a barra mostra. "ambas" = plenas + parciais empilhadas;
+// clicar num item da legenda isola aquela medida; clicar de novo volta para "ambas".
+let tipoClimModo = "ambas";
 // faixa do funil com a lista de unidades aberta (expandida). NAO filtra o mapa, so mostra a lista.
 let funilExpandido = null;
 const PERIODO = {};
@@ -810,12 +813,14 @@ function renderPainelContexto() {
     // cartao na mesma altura dos vizinhos e mostra as duas medidas numa leitura so.
     const barrasTipo = (plenas, parciais) => TIPOS_CLIM.map(([k, rot]) => {
       const tot = totTipo[k], p = plenas[k], q = parciais[k];
+      const soPlenas = tipoClimModo === "plenas", soParc = tipoClimModo === "parciais";
+      const num = soPlenas ? `${p}` : soParc ? `<i class="mc-parc">${q}</i>`
+                : `${p}${q ? `<i class="mc-parc">+${q}</i>` : ""}`;
       return `<div class="mc-tipo">
-         <div class="mc-tipo-top"><span>${rot}</span>
-           <b>${p}${q ? `<i class="mc-parc">+${q}</i>` : ""}<small class="mc-de"> / ${tot}</small></b></div>
+         <div class="mc-tipo-top"><span>${rot}</span><b>${num}<small class="mc-de"> / ${tot}</small></b></div>
          <div class="mc-bar2 mc-bar-dupla">
-           <span style="width:${pctNum(p, tot).toFixed(1)}%"></span>
-           <span class="parc" style="width:${pctNum(q, tot).toFixed(1)}%"></span>
+           ${soParc ? "" : `<span style="width:${pctNum(p, tot).toFixed(1)}%"></span>`}
+           ${soPlenas ? "" : `<span class="parc" style="width:${pctNum(q, tot).toFixed(1)}%"></span>`}
          </div>
        </div>`; }).join("");
     // NUMERADORES (acumulados ate o periodo, via baseBalao): cobertura e climatizadas por tipo
@@ -930,7 +935,10 @@ function renderPainelContexto() {
       `<div class="metricard">
          <div class="mc-lab">Climatizadas por tipo</div>
          <div class="mc-tipos">${barrasTipo(climTipo, parcTipo)}</div>
-         <div class="mc-legenda"><i></i>Climatizadas<i class="parc"></i>Parcialmente (+)</div>
+         <div class="mc-legenda" id="mc-legenda-tipo" title="Clique para isolar uma das medidas">
+           <button type="button" data-modo="plenas" class="${tipoClimModo === "plenas" ? "sel" : ""}${tipoClimModo === "parciais" ? " off" : ""}"><i></i>Climatizadas</button>
+           <button type="button" data-modo="parciais" class="${tipoClimModo === "parciais" ? "sel" : ""}${tipoClimModo === "plenas" ? " off" : ""}"><i class="parc"></i>Parcialmente${tipoClimModo === "ambas" ? " (+)" : ""}</button>
+         </div>
        </div>` +
       // 5) EM EXECUCAO POR TIPO: quantas unidades do status 5-8, quebradas por tipo de unidade
       `<div class="metricard">
@@ -945,6 +953,15 @@ function renderPainelContexto() {
            `<div class="mc-sub">Nenhuma unidade em execução neste recorte.</div>`
          }</div>
        </div>`;
+    // legenda do cartao 4 alterna a medida; re-renderiza o painel inteiro (barato) para
+    // a barra e o numero acompanharem
+    strip.querySelectorAll("#mc-legenda-tipo button").forEach(bt => {
+      bt.onclick = () => {
+        const m = bt.dataset.modo;
+        tipoClimModo = (tipoClimModo === m) ? "ambas" : m;
+        renderPainelContexto();
+      };
+    });
   }
 }
 
