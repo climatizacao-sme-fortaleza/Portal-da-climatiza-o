@@ -806,11 +806,18 @@ function renderPainelContexto() {
       }
     }
     const totUnidades = baseGeo.length;
-    const barrasTipo = cont => TIPOS_CLIM.map(([k, rot]) =>
-      `<div class="mc-tipo">
-         <div class="mc-tipo-top"><span>${rot}</span><b>${cont[k]} / ${totTipo[k]}</b></div>
-         <div class="mc-bar2"><span style="width:${pctNum(cont[k], totTipo[k]).toFixed(1)}%"></span></div>
-       </div>`).join("");
+    // Uma linha por tipo, barra empilhada: cheio = plenas, claro = parciais. Mantem o
+    // cartao na mesma altura dos vizinhos e mostra as duas medidas numa leitura so.
+    const barrasTipo = (plenas, parciais) => TIPOS_CLIM.map(([k, rot]) => {
+      const tot = totTipo[k], p = plenas[k], q = parciais[k];
+      return `<div class="mc-tipo">
+         <div class="mc-tipo-top"><span>${rot}</span>
+           <b>${p}${q ? `<i class="mc-parc">+${q}</i>` : ""}<small class="mc-de"> / ${tot}</small></b></div>
+         <div class="mc-bar2 mc-bar-dupla">
+           <span style="width:${pctNum(p, tot).toFixed(1)}%"></span>
+           <span class="parc" style="width:${pctNum(q, tot).toFixed(1)}%"></span>
+         </div>
+       </div>`; }).join("");
     // NUMERADORES (acumulados ate o periodo, via baseBalao): cobertura e climatizadas por tipo
     let bInv = 0, bInv25 = 0, bInv26 = 0;
     let cobUni = 0; const cobBairros = new Set();
@@ -922,11 +929,8 @@ function renderPainelContexto() {
       //    Denominador e sempre o total de unidades daquele tipo no territorio.
       `<div class="metricard">
          <div class="mc-lab">Climatizadas por tipo</div>
-         <div class="mc-tipos">${barrasTipo(climTipo)}</div>
-         <div class="mc-sep">
-           <div class="mc-lab2">Parcialmente climatizadas</div>
-           <div class="mc-tipos">${barrasTipo(parcTipo)}</div>
-         </div>
+         <div class="mc-tipos">${barrasTipo(climTipo, parcTipo)}</div>
+         <div class="mc-legenda"><i></i>Climatizadas<i class="parc"></i>Parcialmente (+)</div>
        </div>` +
       // 5) EM EXECUCAO POR TIPO: quantas unidades do status 5-8, quebradas por tipo de unidade
       `<div class="metricard">
