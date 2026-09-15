@@ -64,7 +64,7 @@ STATUS_COM_ESTUDO = 2
 
 ORDEM_SAIDA = ['sge','tipo','nome','endereco','bairro','codBairro','distrito','regional',
                'territorio','etapa','salas','salasAdm','salasPedag','salasClim',
-               'salasAdmClim','salasPedagClim',
+               'salasAdmClim','salasPedagClim','matricula',
                'subestacao','potenciaSub','status',
                'valorCivil','valorEletrica','valorTotal','asCivil','asEletrica',
                'temExecucao','lat','lng','geoSrc']
@@ -74,6 +74,7 @@ COL_SALAS_PEDAG      = 58
 COL_SALAS_CLIM       = 59   # SALAS CLIMATIZADAS TOTAL (medido, ja inclui a sala dos professores)
 COL_SALAS_ADM_CLIM   = 60
 COL_SALAS_PEDAG_CLIM = 61
+COL_MATRICULA        = 62   # MATRICULA / N DE ALUNOS
 COL_OBS_PROF         = 64
 
 
@@ -439,6 +440,7 @@ def escreve_registro(caminho, novos, sub, mapa, prof, origem):
             'salas': e['salas'], 'salasAdm': e['salasAdm'], 'salasPedag': e['salasPedag'],
             'salasClim': e['salasClim'], 'salasAdmClim': e['salasAdmClim'],
             'salasPedagClim': e['salasPedagClim'],
+            'matricula': e.get('matricula'),
             'possuiSubestacao': s.get('p') or None,
             'potenciaAtual': s.get('pa') or None,
             'necessitaSubestacao': s.get('n') or None,
@@ -501,6 +503,8 @@ def transformar(linhas, atuais):
         # Preenchimento parcial na mestra — 0 aqui significa "nao informado ainda", nao "nenhuma".
         e['salasAdmClim']   = inteiro_se_puder(num(r.get(COL_SALAS_ADM_CLIM)))
         e['salasPedagClim'] = inteiro_se_puder(num(r.get(COL_SALAS_PEDAG_CLIM)))
+        # alunos matriculados: base do indicador de alunos em ambiente climatizado
+        e['matricula'] = inteiro_se_puder(num(r.get(COL_MATRICULA)))
         # medido unidade por unidade; a sala dos professores JA esta contada aqui,
         # como uma das administrativas — nao somar de novo em lugar nenhum.
         e['salasClim']  = inteiro_se_puder(num(r.get(COL_SALAS_CLIM))) or 0
