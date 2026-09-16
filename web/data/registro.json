@@ -1,5 +1,5 @@
 {
- "gerado_em": "2026-09-16T10:27-03:00",
+ "gerado_em": "2026-09-16T14:07-03:00",
  "origem": "planilha ao vivo",
  "fonte": "BASE MESTRA (512) — escopo COINF, exclui CRP e CAEE",
  "total": 512,
@@ -10874,7 +10874,7 @@
    "estudoEletrico": "FALTA",
    "categoriaSubestacao": "falta_estudo",
    "salaProfessores": "INSTALADA 2026",
-   "obsSalaProfessores": "PENDENTE CLIMATIZAÇÃO SALA ADEQUADA PRA CLIMATIZAÇÃO",
+   "obsSalaProfessores": null,
    "asCivil": null,
    "asEletrica": null,
    "valorCivil": null,
