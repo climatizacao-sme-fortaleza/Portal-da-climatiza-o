@@ -1,5 +1,5 @@
 {
- "gerado_em": "2026-09-18T22:07-03:00",
+ "gerado_em": "2026-09-21T12:06-03:00",
  "origem": "planilha ao vivo",
  "fonte": "BASE MESTRA (512) — escopo COINF, exclui CRP e CAEE",
  "total": 512,
@@ -38,7 +38,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -75,7 +75,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -223,7 +223,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "SIM"
   },
   {
@@ -334,7 +334,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -371,7 +371,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -408,7 +408,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -482,7 +482,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -593,7 +593,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -704,7 +704,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -741,7 +741,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -852,7 +852,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -889,7 +889,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -963,7 +963,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "SIM"
   },
   {
@@ -1037,7 +1037,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -1148,7 +1148,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -1222,7 +1222,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -1333,7 +1333,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -1407,7 +1407,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -1481,7 +1481,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -1518,7 +1518,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -1555,7 +1555,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -1629,7 +1629,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -1666,7 +1666,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -1703,7 +1703,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -1740,7 +1740,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -1814,7 +1814,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -1851,7 +1851,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -1925,7 +1925,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "SIM"
   },
   {
@@ -2036,7 +2036,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -2184,7 +2184,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -2221,7 +2221,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -2443,7 +2443,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -2591,7 +2591,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -2628,7 +2628,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -2702,7 +2702,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -2739,7 +2739,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -2776,7 +2776,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -2813,7 +2813,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -2887,7 +2887,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -3146,7 +3146,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -3220,7 +3220,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -3294,7 +3294,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -3368,7 +3368,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -3479,7 +3479,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -3553,7 +3553,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -3590,7 +3590,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -3627,7 +3627,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -3775,7 +3775,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "SIM"
   },
   {
@@ -3812,7 +3812,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -3886,7 +3886,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -4034,7 +4034,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -4145,7 +4145,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -4293,7 +4293,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -4330,7 +4330,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -4367,7 +4367,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -4404,7 +4404,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -4441,7 +4441,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -4478,7 +4478,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "SIM"
   },
   {
@@ -4552,7 +4552,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -4996,7 +4996,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "SIM"
   },
   {
@@ -5070,7 +5070,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -5144,7 +5144,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -5181,7 +5181,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -5197,7 +5197,7 @@
    "lat": -3.71898607824609,
    "lng": -38.5470204206179,
    "etapa": null,
-   "status": "0. A INICIAR",
+   "status": "1. VISTORIA",
    "salas": 4,
    "salasAdm": 1,
    "salasPedag": 3,
@@ -5218,7 +5218,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -5255,7 +5255,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -5366,7 +5366,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -5403,7 +5403,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -5514,7 +5514,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -5625,7 +5625,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -5662,7 +5662,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -5699,7 +5699,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "SIM"
   },
   {
@@ -5736,7 +5736,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -5773,7 +5773,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -5958,7 +5958,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -5995,7 +5995,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -6032,7 +6032,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -6106,7 +6106,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -6143,7 +6143,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -6159,7 +6159,7 @@
    "lat": -3.8282403388791,
    "lng": -38.5304844727065,
    "etapa": "ETAPA 02 - PARCIAL",
-   "status": "8. EM EXECUÇÃO - INSTALAÇÃO DOS ARES",
+   "status": "10. CLIMATIZADA PARCIAL",
    "salas": 20,
    "salasAdm": 5,
    "salasPedag": 15,
@@ -6254,7 +6254,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -6328,7 +6328,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -6402,7 +6402,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "SIM"
   },
   {
@@ -6476,7 +6476,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -6550,7 +6550,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -6587,7 +6587,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -6661,7 +6661,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -6735,7 +6735,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -6772,7 +6772,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -6809,7 +6809,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -6883,7 +6883,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -6920,7 +6920,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -6957,7 +6957,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -7068,7 +7068,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "SIM"
   },
   {
@@ -7105,7 +7105,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -7269,7 +7269,7 @@
    "lat": -3.77664696673674,
    "lng": -38.5777791521588,
    "etapa": "ETAPA 02 - PARCIAL",
-   "status": "6. ENTREGA DE MÁQUINAS",
+   "status": "7. INSTALAÇÃO ARES",
    "salas": 18,
    "salasAdm": 4,
    "salasPedag": 14,
@@ -7364,7 +7364,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -7438,7 +7438,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "SIM"
   },
   {
@@ -7475,7 +7475,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -7623,7 +7623,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -7808,7 +7808,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -8030,7 +8030,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -8141,7 +8141,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -8215,7 +8215,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -8252,7 +8252,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "SIM"
   },
   {
@@ -8289,7 +8289,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -8326,7 +8326,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -8363,7 +8363,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -8400,7 +8400,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -8548,7 +8548,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -8622,7 +8622,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -8696,7 +8696,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "SIM"
   },
   {
@@ -8770,7 +8770,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -8807,7 +8807,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -9140,7 +9140,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -9177,7 +9177,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -9251,7 +9251,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -9288,7 +9288,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -9362,7 +9362,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -9473,7 +9473,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -9510,7 +9510,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -9695,7 +9695,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -9732,7 +9732,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -9769,7 +9769,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -9880,7 +9880,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -9991,7 +9991,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -10065,7 +10065,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -10176,7 +10176,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -10361,7 +10361,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -10509,7 +10509,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -10546,7 +10546,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -10583,7 +10583,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -10620,7 +10620,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -10657,7 +10657,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -10731,7 +10731,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -10768,7 +10768,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -10805,7 +10805,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -10842,7 +10842,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -10879,7 +10879,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -10916,7 +10916,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -10953,7 +10953,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -10990,7 +10990,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -11027,7 +11027,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -11064,7 +11064,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -11138,7 +11138,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -11208,11 +11208,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": null,
-   "asEletrica": "O.S 0223-26",
-   "valorCivil": null,
+   "asCivil": "Nº O.S. NÃO DIFNIDA",
+   "asEletrica": "O.S. 0223/2026",
+   "valorCivil": 35228.73,
    "valorEletrica": 175573.99,
-   "valorTotal": 175573.99,
+   "valorTotal": 210802.72,
    "temExecucao": "SIM"
   },
   {
@@ -11249,7 +11249,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -11286,7 +11286,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -11323,7 +11323,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -11357,10 +11357,10 @@
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
    "asCivil": "-",
-   "asEletrica": "A.S. AINDA NÃO DEFINIDA",
+   "asEletrica": "Nº O.S. NÃO DIFNIDA",
    "valorCivil": null,
-   "valorEletrica": 33822.12,
-   "valorTotal": 33822.12,
+   "valorEletrica": 52106.21,
+   "valorTotal": 52106.21,
    "temExecucao": "SIM"
   },
   {
@@ -11397,7 +11397,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -11434,7 +11434,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -11508,7 +11508,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -11545,7 +11545,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -11619,7 +11619,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -11656,7 +11656,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -11693,7 +11693,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -11767,7 +11767,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -11804,7 +11804,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -11841,7 +11841,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -11878,7 +11878,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -11915,7 +11915,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -11952,7 +11952,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -11989,7 +11989,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -12026,7 +12026,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -12063,7 +12063,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -12100,7 +12100,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -12248,7 +12248,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -12285,7 +12285,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -12322,7 +12322,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -12359,7 +12359,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -12396,7 +12396,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -12433,7 +12433,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -12507,7 +12507,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -12544,7 +12544,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -12581,7 +12581,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -12618,7 +12618,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -12692,7 +12692,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -12766,7 +12766,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -12803,7 +12803,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -12840,7 +12840,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -12877,7 +12877,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "SIM"
   },
   {
@@ -12914,7 +12914,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -12985,10 +12985,10 @@
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
    "asCivil": "-",
-   "asEletrica": "A.S. AINDA NÃO DEFINIDA",
+   "asEletrica": "Nº O.S. NÃO DIFNIDA",
    "valorCivil": null,
-   "valorEletrica": 29029.07,
-   "valorTotal": 29029.07,
+   "valorEletrica": 52106.21,
+   "valorTotal": 52106.21,
    "temExecucao": "SIM"
   },
   {
@@ -13025,7 +13025,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -13062,7 +13062,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -13099,7 +13099,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -13136,7 +13136,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -13173,7 +13173,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -13210,7 +13210,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -13247,7 +13247,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -13321,7 +13321,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -13358,7 +13358,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -13395,7 +13395,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -13432,7 +13432,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -13469,7 +13469,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -13506,7 +13506,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -13543,7 +13543,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -13580,7 +13580,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -13654,7 +13654,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -13691,7 +13691,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -13802,7 +13802,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -13839,7 +13839,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -13913,7 +13913,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -13987,7 +13987,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -14024,7 +14024,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -14061,7 +14061,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "SIM"
   },
   {
@@ -14098,7 +14098,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -14135,7 +14135,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -14172,7 +14172,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -14209,7 +14209,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -14320,7 +14320,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -14431,7 +14431,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -14468,7 +14468,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -14542,7 +14542,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -14576,10 +14576,10 @@
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
    "asCivil": "-",
-   "asEletrica": "A.S. AINDA NÃO DEFINIDA",
+   "asEletrica": "O.S. 343/2026",
    "valorCivil": null,
-   "valorEletrica": 32689.01,
-   "valorTotal": 32689.01,
+   "valorEletrica": 52106.21,
+   "valorTotal": 52106.21,
    "temExecucao": "SIM"
   },
   {
@@ -14764,7 +14764,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -14912,7 +14912,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -15097,7 +15097,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "SIM"
   },
   {
@@ -15134,7 +15134,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -15319,7 +15319,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -15393,7 +15393,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -15467,7 +15467,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -15612,10 +15612,10 @@
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
    "asCivil": "-",
-   "asEletrica": "A.S. AINDA NÃO DEFINIDA",
+   "asEletrica": "Nº O.S. NÃO DIFNIDA",
    "valorCivil": null,
-   "valorEletrica": 28631.92,
-   "valorTotal": 28631.92,
+   "valorEletrica": 52106.21,
+   "valorTotal": 52106.21,
    "temExecucao": "SIM"
   },
   {
@@ -15797,10 +15797,10 @@
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
    "asCivil": "-",
-   "asEletrica": "A.S. AINDA NÃO DEFINIDA",
+   "asEletrica": "Nº O.S. NÃO DIFNIDA",
    "valorCivil": null,
-   "valorEletrica": 24917.81,
-   "valorTotal": 24917.81,
+   "valorEletrica": 52106.21,
+   "valorTotal": 52106.21,
    "temExecucao": "SIM"
   },
   {
@@ -15945,10 +15945,10 @@
    "salaProfessores": "CLIMATIZADA",
    "obsSalaProfessores": null,
    "asCivil": "-",
-   "asEletrica": "A.S. AINDA NÃO DEFINIDA",
+   "asEletrica": "Nº O.S. NÃO DIFNIDA",
    "valorCivil": null,
-   "valorEletrica": 27509.71,
-   "valorTotal": 27509.71,
+   "valorEletrica": 52106.21,
+   "valorTotal": 52106.21,
    "temExecucao": "SIM"
   },
   {
@@ -15981,11 +15981,11 @@
    "categoriaSubestacao": "liberada",
    "salaProfessores": "CLIMATIZADA INSUFICIENTE",
    "obsSalaProfessores": null,
-   "asCivil": null,
-   "asEletrica": null,
+   "asCivil": "-",
+   "asEletrica": "Nº O.S. NÃO DIFNIDA",
    "valorCivil": null,
-   "valorEletrica": null,
-   "valorTotal": 0,
+   "valorEletrica": 52106.21,
+   "valorTotal": 52106.21,
    "temExecucao": "SIM"
   },
   {
@@ -16059,7 +16059,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -16133,7 +16133,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -16170,7 +16170,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -16207,7 +16207,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -16244,7 +16244,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -16429,7 +16429,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -16466,7 +16466,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -17111,7 +17111,7 @@
    "lat": -3.72472966390963,
    "lng": -38.5445451307207,
    "etapa": null,
-   "status": "0. A INICIAR",
+   "status": "1. VISTORIA",
    "salas": 21,
    "salasAdm": 4,
    "salasPedag": 17,
@@ -17132,7 +17132,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -18316,7 +18316,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -18353,7 +18353,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -18686,7 +18686,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -18797,7 +18797,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -18834,7 +18834,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   },
   {
@@ -18945,7 +18945,7 @@
    "asEletrica": null,
    "valorCivil": null,
    "valorEletrica": null,
-   "valorTotal": 0,
+   "valorTotal": null,
    "temExecucao": "NÃO"
   }
  ]
