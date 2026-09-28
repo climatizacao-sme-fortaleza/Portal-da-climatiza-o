@@ -873,13 +873,18 @@ function renderPainelContexto() {
     // COM fantasma a ponta pinta por cima do inicio dele e a rosca parece cortada
     // na emenda. Com os dois arcos encostados, o corte reto e o certo.
     const pontaCheio = fF > 0 ? "butt" : "round";
+    // O numero vai DENTRO do anel, e o vao livre e de 27 (raio 16 menos meia espessura,
+    // vezes 2). "49%" ocupa 20; com casa decimal, "41,1%" ocupa 28,5 e encosta no anel dos
+    // dois lados — era a rosca "cortando". O corpo cai conforme o texto cresce.
+    const rotuloPct = `${fmtPct(salasClim, salasTerritorio)}%`;
+    const corpoPct = rotuloPct.length >= 5 ? 7.6 : rotuloPct.length === 4 ? 8.3 : 9;
     const donut =
       `<svg class="mini-donut" viewBox="0 0 40 40" role="img" aria-label="${fmtPct(salasClim, salasTerritorio)}% das salas climatizadas">
          <circle cx="20" cy="20" r="${R}" fill="none" stroke="#EDEAE2" stroke-width="${W}"/>
          ${arcFant}
          <circle cx="20" cy="20" r="${R}" fill="none" stroke="var(--verde)" stroke-width="${W}"
            stroke-dasharray="${(fR * C).toFixed(2)} ${C.toFixed(2)}" transform="rotate(-90 20 20)" stroke-linecap="${pontaCheio}"/>
-         <text x="20" y="23.5" text-anchor="middle" class="mini-donut-num" font-size="9">${fmtPct(salasClim, salasTerritorio)}%</text>
+         <text x="20" y="${(20 + corpoPct * 0.39).toFixed(1)}" text-anchor="middle" class="mini-donut-num" font-size="${corpoPct}">${rotuloPct}</text>
        </svg>`;
     const pctVerba = pctNum(bInv, PARQUE_VERBA);
     strip.innerHTML =
