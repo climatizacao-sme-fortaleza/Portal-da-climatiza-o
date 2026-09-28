@@ -868,12 +868,17 @@ function renderPainelContexto() {
       ? `<circle cx="20" cy="20" r="${R}" fill="none" stroke="var(--verde)" stroke-opacity=".30" stroke-width="${W}"
            stroke-dasharray="${(fF * C).toFixed(2)} ${C.toFixed(2)}" transform="rotate(${(fR * 360 - 90).toFixed(2)} 20 20)"/>`
       : "";
+    // A ponta arredondada do arco cheio avanca meia espessura ALEM do fim do arco
+    // (2,5 px = ~9 graus neste raio). Sem fantasma isso e so um acabamento bonito;
+    // COM fantasma a ponta pinta por cima do inicio dele e a rosca parece cortada
+    // na emenda. Com os dois arcos encostados, o corte reto e o certo.
+    const pontaCheio = fF > 0 ? "butt" : "round";
     const donut =
       `<svg class="mini-donut" viewBox="0 0 40 40" role="img" aria-label="${fmtPct(salasClim, salasTerritorio)}% das salas climatizadas">
          <circle cx="20" cy="20" r="${R}" fill="none" stroke="#EDEAE2" stroke-width="${W}"/>
          ${arcFant}
          <circle cx="20" cy="20" r="${R}" fill="none" stroke="var(--verde)" stroke-width="${W}"
-           stroke-dasharray="${(fR * C).toFixed(2)} ${C.toFixed(2)}" transform="rotate(-90 20 20)" stroke-linecap="round"/>
+           stroke-dasharray="${(fR * C).toFixed(2)} ${C.toFixed(2)}" transform="rotate(-90 20 20)" stroke-linecap="${pontaCheio}"/>
          <text x="20" y="23.5" text-anchor="middle" class="mini-donut-num" font-size="9">${fmtPct(salasClim, salasTerritorio)}%</text>
        </svg>`;
     const pctVerba = pctNum(bInv, PARQUE_VERBA);
