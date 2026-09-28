@@ -115,11 +115,16 @@ A pele segue a identidade institucional da Prefeitura de Fortaleza / Secretaria 
 
 ### No portal
 
-- [ ] **Rosca de Salas cortando** (arco/desenho da rosca com corte visual).
-- [ ] **Cobertura cumulativa** — a seção Cobertura do balão precisa acumular por período.
-- [ ] **Nota das 952** — revisar/explicar a nota do previsto (fantasma da etapa 02).
-- [ ] **Funil** — exibir a tag de categoria e melhorar o UX da sub-lista que abre ao clicar.
-- [ ] **Buscar unidade sempre 512** — a busca/lista deve refletir sempre as 512 unidades.
+- [x] **Rosca de Salas cortando** — era a ponta arredondada do arco cheio pintando por
+      cima do início do arco fantasma. Com os dois arcos encostados, a ponta agora é reta;
+      sem fantasma continua arredondada. *(28/09/2026)*
+- [x] **Cobertura cumulativa** — a seção Cobertura acumula por período
+      (72 → 146 → 200 unidades). Conferido em 28/09/2026.
+- [x] **Buscar unidade sempre 512** — a lista parte de `ESCOLAS` inteiro; só a busca
+      textual filtra. Conferido em 28/09/2026.
+- [x] **Funil** — a sub-lista abre agrupada por distrito, com trilha, contagem, tag de
+      categoria por unidade e botões de voltar/fechar. Conferido em 28/09/2026.
+- [x] ~~**Nota das 952**~~ — a nota não existe mais na página. Encerrado sem ação.
 - [ ] **Subestação consolidada** — visão consolidada com ícones novos.
 - [ ] **Salas 2025** — acerto da contagem/atribuição das salas de 2025.
 - [ ] **Gasto por etapa na ficha** — mostrar etapa 01, etapa 02 e total por unidade.
@@ -127,13 +132,32 @@ A pele segue a identidade institucional da Prefeitura de Fortaleza / Secretaria 
 
 ### Na planilha mestra
 
-- [ ] **Quebra por etapa dos valores de execução** — destrava o item acima.
-- [ ] **Valor autorizado onde há medição** — 81 unidades, R$ 5,66 mi sem A.S. registrada.
-- [ ] **Separar valor de situação** nas colunas de orçamento — 82 células com texto
-      (`SEINF`, `PENDENTE ELÉTRICA`, `PRONTA`) onde deveria haver número.
-- [ ] **Colunas vazias que o portal já usaria**: `DATA DIAGNÓSTICO/VISITA`,
-      `STATUS A.S. CIVIL/ELÉTRICA`, `O.S. (Nº)`, `TEM EXECUÇÃO`.
-- [ ] **Quebra adm/pedagógica das climatizadas** — 58 unidades só têm o total.
+*Contagens conferidas no registro publicado em 28/09/2026.*
+
+- [ ] **Recuperar a medição apagada da etapa 02** — entre 15/09 16h e 16/09 13h as colunas
+      de medição de **39 unidades** foram esvaziadas: **R$ 6,46 mi** sumiram do portal, que
+      mostra 2026 zerado. O histórico de versões do Google Sheets recupera.
+- [ ] **Recuperar os números de A.S. ELÉTRICA** — caíram de 53 para 10 entre 21 e 22/09,
+      enquanto A.S. CIVIL subia de 82 para 99. Mesmo padrão de apagamento.
+- [ ] **Quebra por etapa dos valores de execução** — destrava o item "gasto por etapa".
+      A mestra continua com 64 colunas e só uma de `ETAPA`.
+- [ ] **Valor autorizado onde há medição** — **62 unidades** (era 81).
+- [ ] **Separar valor de situação** nas colunas de orçamento — texto (`SEINF`,
+      `PENDENTE ELÉTRICA`, `PRONTA`) onde deveria haver número.
+- [x] **Quebra adm/pedagógica das climatizadas** — era 58 unidades, hoje **zero**.
+- [x] **`DATA DIAGNÓSTICO/VISITA` e `DIAGNÓSTICO`** — 173 e 111 unidades preenchidas;
+      o robô passou a ler as duas colunas e a ficha já as mostra. *(11/09/2026)*
+- [x] **`TEM EXECUÇÃO`** — preenchida nas 512.
+- [ ] **`STATUS A.S. CIVIL` e `O.S. (Nº)`** — continuam vazias.
+- [ ] **Coluna de estudo elétrico (`TEM`/`FALTA`)** — opcional; hoje é derivada de
+      *status ≥ 2*, o que faz o estudo mudar sozinho quando alguém mexe no status.
+
+### Pente fino das salas
+
+A equipe levantou por telefone os ambientes já climatizados de cada escola e a Luana está
+lançando na mestra em levas. A primeira entrou em 28/09/2026: **123 unidades, +348 salas**,
+e o percentual foi de 44,6% para **49,0%**. A conferência completa fica para quando ela
+concluir — achados até agora no quadro de pendências.
 
 > Concluído nesta rodada: carga da base mestra, salas medidas, execução regenerada,
 > mapa de subestação recalculado, faixa de indicadores reorganizada em 5 cards, bloco
