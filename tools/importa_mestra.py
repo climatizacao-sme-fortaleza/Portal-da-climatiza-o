@@ -292,9 +292,21 @@ def audita_valores(linhas):
 
 
 # ------------------------------------------------- arquivos auxiliares por SGE
-def calc_estudo(status):
-    """Regra da gestao: do status 2 em diante a unidade ja foi visitada -> tem estudo."""
-    return 'TEM' if nivel(status) >= STATUS_COM_ESTUDO else 'FALTA'
+def calc_estudo(status, data_visita=None):
+    """Tem estudo se o STATUS avancou (>= 2) OU se existe DATA DE VISTORIA.
+
+    Sao DUAS fontes de proposito, nao redundancia acidental. Quem preenche a data e o
+    Edvaldo; quem move o status e a Luana. Se qualquer um dos dois registrar, a
+    informacao esta salva — o sistema nao depende de os dois se falarem. Basta uma
+    das duas fontes para contar como estudado, nunca as duas.
+
+    Nao usar "sala climatizada" como indicio: muitas unidades foram climatizadas pelos
+    proprios diretores, por conta, ANTES de qualquer visita nossa (levantamento por
+    telefone, set/2026). Sala com ar nao quer dizer que alguem olhou a eletrica.
+    """
+    if nivel(status) >= STATUS_COM_ESTUDO:
+        return 'TEM'
+    return 'TEM' if str(data_visita or '').strip() else 'FALTA'
 
 def calc_categoria(status, necessita, estudo):
     """Categoria do mapa de subestacao. A necessidade pesa ANTES de 'climatizada':
@@ -319,7 +331,7 @@ def linhas_auxiliares(linhas):
         if not sge or not status:
             continue
         necessita = (espacos(r.get(COL_NECESSITA)) or 'NAO').upper()
-        estudo = calc_estudo(status)
+        estudo = calc_estudo(status, data_iso(r.get(COL_DATA_VISITA)))
         sub[sge] = {
             'p':  espacos(r.get(COLS['subestacao'])) or '',
             'pa': espacos(r.get(COLS['potenciaSub'])) or '',
