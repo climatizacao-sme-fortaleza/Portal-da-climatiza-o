@@ -24,6 +24,16 @@ on:
     - cron: '19 18 * * 1-5'
     - cron: '37 21 * * 1-5'
     - cron: '11 23 * * 1-5'
+  # Para atualizar na hora, sem esperar a proxima janela, por ordem de facilidade:
+  #
+  #   1. Aba Actions do repositorio -> "Atualiza dados da planilha mestra" ->
+  #      botao "Run workflow" -> Branch: main -> "Run workflow". Leva ~40 s.
+  #      E o unico caminho que nao precisa de nada instalado.
+  #   2. gh workflow run atualiza-dados.yml --repo climatizacao-sme-fortaleza/Portal-da-climatiza-o
+  #      Exige "gh auth login" feito antes, nessa maquina.
+  #   3. Empurrar qualquer mudanca em tools/importa_mestra.py ou neste arquivo:
+  #      cai no gatilho de push abaixo e recarrega. Serve de quebra-galho, mas
+  #      suja o historico com commit que existe so para disparar — evite.
   workflow_dispatch:        # botao "Run workflow" para atualizar na hora
   push:
     # mexeu no transformador ou nas regras? recarrega e revalida na hora, sem esperar
