@@ -129,6 +129,46 @@ jobs:
       - name: Publicar no site
         run: git subtree push --prefix web origin gh-pages
 
+      # Em 06/10/2026 o branch gh-pages recebeu o dado das 15:28 e o site continuou
+      # servindo o das 12:04 por quase uma hora: o push funcionou e o build do Pages
+      # nao rodou. Nada no robo acusava — ele dava tudo verde. Quem descobriu foi o
+      # Igor abrindo o site numa aba anonima.
+      #
+      # Este passo confere o que o site ENTREGA, nao o que o branch guarda. Avisa e
+      # nunca falha: lag de Pages e comum e um job vermelho aqui viraria e-mail de
+      # erro a cada hiccup, o que ensina a ignorar e-mail de erro.
+      - name: Conferir se o site publicou mesmo
+        if: always()
+        continue-on-error: true
+        run: |
+          ESPERADO=$(grep -o '"iso": "[^"]*"' web/data/atualizado.js | cut -d'"' -f4)
+          URL="https://${GITHUB_REPOSITORY_OWNER}.github.io/${GITHUB_REPOSITORY#*/}/data/atualizado.js"
+          echo "esperado no site: $ESPERADO"
+          echo "conferindo: $URL"
+          for tentativa in 1 2 3 4 5 6; do
+            SERVIDO=$(curl -fsS --max-time 20 "$URL?v=$(date +%s)" 2>/dev/null \
+                      | grep -o '"iso": "[^"]*"' | cut -d'"' -f4 || true)
+            if [ "$SERVIDO" = "$ESPERADO" ]; then
+              echo "ok: o site ja serve $SERVIDO (tentativa $tentativa)"
+              echo "Site publicado e conferido: \`$SERVIDO\`" >> "$GITHUB_STEP_SUMMARY"
+              exit 0
+            fi
+            echo "  tentativa $tentativa: site ainda em '${SERVIDO:-vazio}', esperando 30 s"
+            sleep 30
+          done
+          echo "::warning title=Pages nao publicou::O branch gh-pages tem $ESPERADO mas o site ainda serve '${SERVIDO:-vazio}' depois de 3 min. O push funcionou; o build do Pages e que nao saiu. Olhe a aba Actions, workflow 'pages build and deployment'."
+          {
+            echo "### Atencao: o site nao refletiu a publicacao"
+            echo ""
+            echo "| | |"
+            echo "|---|---|"
+            echo "| esperado (branch gh-pages) | \`$ESPERADO\` |"
+            echo "| servido pelo site | \`${SERVIDO:-vazio}\` |"
+            echo ""
+            echo "O \`subtree push\` funcionou. Quem nao rodou foi o build do Pages."
+            echo "Confira o workflow **pages build and deployment** na aba Actions."
+          } >> "$GITHUB_STEP_SUMMARY"
+
       - name: Resumo
         if: always()
         run: |
