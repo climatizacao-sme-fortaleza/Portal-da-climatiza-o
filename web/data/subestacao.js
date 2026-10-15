@@ -225,7 +225,7 @@ const SUBESTACAO = {
   "303":{p:"SIM",pa:"112,5 KVA",n:"NAO",pf:"",d:"",e:"TEM"},
   "304":{p:"NÃO",pa:"",n:"NOVA",pf:"150 KVA",d:"17/03/2026",e:"FALTA"},
   "305":{p:"NÃO",pa:"",n:"NOVA",pf:"150 KVA",d:"17/03/2026",e:"TEM"},
-  "307":{p:"SIM",pa:"112,5 KVA",n:"AUMENTO",pf:"150KVA",d:"",e:"TEM"},
+  "307":{p:"SIM",pa:"112,5 KVA",n:"AUMENTO",pf:"150 KVA",d:"",e:"TEM"},
   "308":{p:"NÃO",pa:"",n:"NOVA",pf:"112,5 KVA",d:"17/03/2026",e:"FALTA"},
   "309":{p:"NÃO",pa:"",n:"NAO",pf:"",d:"",e:"TEM"},
   "333":{p:"NÃO",pa:"",n:"NAO",pf:"",d:"",e:"FALTA"},
