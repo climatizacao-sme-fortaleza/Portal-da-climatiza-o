@@ -7,7 +7,7 @@
 //   e  = ESTUDO_ELETRICO:      "TEM" | "FALTA" (derivado: status >= 2 => TEM)
 // Join por SGE (string) com ESCOLAS[].sge.
 const SUBESTACAO = {
-  "451":{p:"NÃO",pa:"",n:"NAO",pf:"",d:"",e:"FALTA"},
+  "451":{p:"NÃO",pa:"",n:"NAO",pf:"",d:"",e:"TEM"},
   "82":{p:"NÃO",pa:"",n:"NOVA",pf:"150 KVA",d:"17/03/2026",e:"FALTA"},
   "83":{p:"NÃO",pa:"",n:"NOVA",pf:"112,5 KVA",d:"17/03/2026",e:"TEM"},
   "85":{p:"NÃO",pa:"",n:"NAO",pf:"",d:"",e:"TEM"},
@@ -161,8 +161,8 @@ const SUBESTACAO = {
   "237":{p:"NÃO",pa:"",n:"NAO",pf:"",d:"",e:"FALTA"},
   "232":{p:"NÃO",pa:"",n:"NAO",pf:"",d:"",e:"FALTA"},
   "81":{p:"NÃO",pa:"",n:"NOVA",pf:"112,5 KVA",d:"17/03/2026",e:"TEM"},
-  "233":{p:"NÃO",pa:"",n:"NAO",pf:"",d:"",e:"FALTA"},
-  "226":{p:"NÃO",pa:"",n:"NAO",pf:"",d:"",e:"FALTA"},
+  "233":{p:"NÃO",pa:"",n:"NAO",pf:"",d:"",e:"TEM"},
+  "226":{p:"NÃO",pa:"",n:"NAO",pf:"",d:"",e:"TEM"},
   "242":{p:"NÃO",pa:"",n:"NAO",pf:"",d:"",e:"TEM"},
   "243":{p:"NÃO",pa:"",n:"NOVA",pf:"112,5 KVA",d:"17/03/2026",e:"TEM"},
   "244":{p:"NÃO",pa:"",n:"NAO",pf:"",d:"",e:"TEM"},
@@ -333,7 +333,7 @@ const SUBESTACAO = {
   "424":{p:"NÃO",pa:"",n:"NAO",pf:"",d:"",e:"FALTA"},
   "425":{p:"NÃO",pa:"",n:"NAO",pf:"",d:"",e:"FALTA"},
   "426":{p:"NÃO",pa:"",n:"NAO",pf:"",d:"",e:"FALTA"},
-  "241":{p:"NÃO",pa:"",n:"NAO",pf:"",d:"",e:"FALTA"},
+  "241":{p:"NÃO",pa:"",n:"NAO",pf:"",d:"",e:"TEM"},
   "162":{p:"NÃO",pa:"",n:"NOVA",pf:"112,5 KVA",d:"17/03/2026",e:"TEM"},
   "430":{p:"NÃO",pa:"",n:"NAO",pf:"",d:"",e:"TEM"},
   "431":{p:"NÃO",pa:"",n:"NAO",pf:"",d:"",e:"TEM"},
