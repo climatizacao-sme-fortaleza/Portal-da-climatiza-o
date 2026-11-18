@@ -111,9 +111,24 @@
               <label for="sel-bairro">Bairro</label>
               <select id="sel-bairro"><option value="">Todos</option></select>
             </div>
+            <!-- Status geral: a mesma barrinha de antes, mas abre uma lista de caixinhas
+                 (multipla escolha, estilo Excel). Nenhuma marcada = Todos. -->
             <div class="selgroup">
-              <label for="sel-status">Status geral</label>
-              <select id="sel-status"><option value="">Todos</option></select>
+              <label for="st-barra">Status geral</label>
+              <div class="multisel" id="ms-status">
+                <button type="button" class="ms-barra" id="st-barra"
+                        aria-haspopup="listbox" aria-expanded="false">Todos</button>
+                <div class="ms-pop" id="st-pop" role="listbox" aria-multiselectable="true" hidden>
+                  <label class="ms-op"><input type="checkbox" data-s="iniciar"><span>A iniciar</span></label>
+                  <label class="ms-op"><input type="checkbox" data-s="pipeline"><span>Em execução</span></label>
+                  <label class="ms-op"><input type="checkbox" data-s="parc"><span>Climatizada parcial</span></label>
+                  <label class="ms-op"><input type="checkbox" data-s="clim"><span>Climatizada</span></label>
+                  <div class="ms-rodape">
+                    <button type="button" class="ms-limpar" id="st-todos">Todos</button>
+                    <button type="button" class="ms-ok" id="st-ok">OK</button>
+                  </div>
+                </div>
+              </div>
             </div>
             <button class="btn-limpar" id="f-limpar" type="button">Limpar</button>
           </div>
