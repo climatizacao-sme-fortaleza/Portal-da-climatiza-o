@@ -74,9 +74,10 @@ function txt(v){ return (v===null||v===undefined||v==="") ? "—" : v; }
 // folga real do padding (com o snap=1 padrao o zoom travava no nivel inteiro e o
 // territorio nao crescia mesmo reduzindo o padding). zoomDelta:1 mantem o passo dos botoes +/-.
 const map = L.map("map", { scrollWheelZoom: false, zoomSnap: 0, zoomDelta: 1 }).setView([-3.768, -38.545], 11.4);
-L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
-  maxZoom: 19, subdomains: "abcd",
-  attribution: "&copy; OpenStreetMap &copy; CARTO"
+L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+  maxZoom: 19,
+  attribution: "&copy; OpenStreetMap",
+  className: "tiles-claras"
 }).addTo(map);
 const layer = L.layerGroup().addTo(map);
 
@@ -1535,8 +1536,8 @@ function initMapaSub(){
   const el = document.getElementById("map-sub");
   if (!el || mapSub) return;
   mapSub = L.map("map-sub", { scrollWheelZoom: false, zoomSnap: 0, zoomDelta: 1 }).setView([-3.768, -38.545], 11.4);
-  L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
-    maxZoom: 19, subdomains: "abcd", attribution: "&copy; OpenStreetMap &copy; CARTO"
+  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 19, attribution: "&copy; OpenStreetMap", className: "tiles-claras"
   }).addTo(mapSub);
   // shapes padrao (distritos) como pano de fundo, igual ao nivel 0 do mapa principal.
   // Pane abaixo dos pontos e NAO-interativo, pra os cliques chegarem nos pontos (abrem a ficha).
