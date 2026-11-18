@@ -6,6 +6,19 @@ const DOTCOL = { clim:"#3F9A52", parc:"#6FB97C", pipeline:"#E2A030", iniciar:"#C
 const ROSCA_COR = { clim:"#3F9A52", parc:"#6FB97C", pipeline:"#E2A030", iniciar:"#C45C42" };
 const STCLS  = { clim:"st-clim", parc:"st-parc", pipeline:"st-pipe", iniciar:"st-init" };
 
+// ---------------------------------------------------------------------------
+// O cartao de SALAS CLIMATIZADAS sai da faixa de indicadores enquanto a gestao
+// nao autorizar a divulgacao do numero (pedido de 11/11/2026).
+//
+// PARA TRAZER DE VOLTA: trocar para true. So isso. A faixa volta sozinha para
+// cinco colunas, o cartao reaparece no primeiro lugar e continua verde — a cor
+// de cada cartao vem da classe (.mc-verde, .mc-laranja...) e nao da posicao.
+//
+// O dado continua sendo lido, publicado em web/data e usado no resto do portal;
+// o que muda e so a exibicao deste cartao.
+const MOSTRAR_SALAS_NA_FAIXA = false;
+// ---------------------------------------------------------------------------
+
 const ESCOLAS     = window.ESCOLAS || [];
 const DIAGNOSTICO = window.DIAGNOSTICO || {};
 const OS          = window.OS || {};
@@ -543,10 +556,14 @@ function passaFiltroGeo(e) {
 // climatizadas) sao as a iniciar futuras, planejadas -> "2027/2028". Regra geral: a unidade
 // pertence ao ANO EM QUE A CLIMATIZACAO COMECOU; entao quem tem 01 e 02 conta no mais
 // antigo (2025). Assim todas as 512 tem periodo. PERIODO[sge] e calculado uma vez em montaPeriodos().
-let periodoAtivo = "all";
-// grupo do funil (bucket) ativo: null | "iniciar" | "pipeline" | "parc" | "clim".
-// Filtra mapa/lista por bucket. Hoje so o dropdown "Status geral" usa isso; o FUNIL nao filtra mais.
-let funilBucket = null;
+// Periodos selecionados (MULTIPLA escolha). Conjunto VAZIO = "Todos" (sem recorte).
+// Combina anos livremente: {2025,2026} = "de 2025 a 2026"; {antes,2025} = "antes e 2025";
+// {antes,2025,2026} = "ate 2026". A ordem da sequencia esta em ORD_PERIODO.
+let periodosAtivos = new Set();
+const ORD_PERIODO = { "antes": 0, "2025": 1, "2026": 2, "2027/2028": 3 };
+// grupos do funil (bucket) ativos: subconjunto de "iniciar" | "pipeline" | "parc" | "clim".
+// Conjunto VAZIO = "Todos". Filtra mapa/lista por bucket; o FUNIL nao filtra mais (so abre a lista).
+let bucketsAtivos = new Set();
 // Cartao "Climatizadas por tipo": o que a barra mostra. "ambas" = plenas + parciais empilhadas;
 // clicar num item da legenda isola aquela medida; clicar de novo volta para "ambas".
 let tipoClimModo = "ambas";
@@ -565,16 +582,105 @@ function periodoDaEscola(e) {
 }
 function montaPeriodos() { for (const e of ESCOLAS) PERIODO[e.sge] = periodoDaEscola(e); }
 function passaPeriodo(e) {
-  if (periodoAtivo === "all") return true;
-  return PERIODO[e.sge] === periodoAtivo;
+  if (!periodosAtivos.size) return true;            // vazio = Todos
+  return periodosAtivos.has(PERIODO[e.sge]);        // mostra os periodos marcados
+}
+// Corte ACUMULADO usado pelos NUMEROS (rosca, balao, tamanho): vale ate o periodo
+// MAIS RECENTE que estiver marcado. Ex.: marcando 2025 e 2026, acumula antes+2025+2026.
+function cutoffPeriodo() {
+  if (!periodosAtivos.size) return Infinity;
+  return Math.max(...[...periodosAtivos].map(p => ORD_PERIODO[p] ?? 0));
+}
+
+// ---------- chiprows de MULTIPLA escolha (Periodo e Status geral) ----------
+// Regra, igual nos dois: "Todos" limpa o conjunto; clicar num valor liga/desliga aquele
+// valor; desligar o ultimo volta sozinho para "Todos". Nada de escolha unica.
+// No Periodo, segurar Shift ao clicar marca o INTERVALO entre o ultimo clicado e o atual
+// (ex.: clicar "Antes de 2025" e depois Shift+clicar "2026" marca antes+2025+2026 = "ate 2026").
+const ultimoChip = {};
+function pintaFiltroMulti(idRow, attr, conj) {
+  const row = document.getElementById(idRow);
+  if (!row) return;
+  row.querySelectorAll("button").forEach(b => {
+    const v = b.dataset[attr];
+    b.classList.toggle("on", v === "all" ? conj.size === 0 : conj.has(v));
+    b.setAttribute("aria-pressed", b.classList.contains("on") ? "true" : "false");
+  });
+}
+function ligaFiltroMulti(idRow, attr, conj, permiteIntervalo) {
+  const row = document.getElementById(idRow);
+  if (!row) return;
+  const valores = [...row.querySelectorAll("button")]
+    .map(b => b.dataset[attr]).filter(v => v !== "all");
+  row.querySelectorAll("button").forEach(b => b.addEventListener("click", ev => {
+    const v = b.dataset[attr];
+    if (v === "all") {
+      conj.clear();
+      ultimoChip[idRow] = null;
+    } else if (permiteIntervalo && ev.shiftKey && ultimoChip[idRow]) {
+      // marca tudo entre o ultimo clicado e este (inclusive), sem apagar o que ja estava
+      const a = valores.indexOf(ultimoChip[idRow]), z = valores.indexOf(v);
+      if (a >= 0 && z >= 0) {
+        for (let i = Math.min(a, z); i <= Math.max(a, z); i++) conj.add(valores[i]);
+      }
+      ultimoChip[idRow] = v;
+    } else {
+      if (conj.has(v)) conj.delete(v); else conj.add(v);
+      ultimoChip[idRow] = conj.has(v) ? v : null;
+    }
+    pintaFiltroMulti(idRow, attr, conj);
+    aplicaFiltros();
+  }));
+  pintaFiltroMulti(idRow, attr, conj);
+}
+
+// ---------- Status geral: barrinha que abre caixinhas (multipla escolha, estilo Excel) ----------
+const ROTULO_BUCKET = { iniciar:"A iniciar", pipeline:"Em execução", parc:"Climatizada parcial", clim:"Climatizada" };
+function pintaBarraStatus() {
+  const barra = document.getElementById("st-barra");
+  if (!barra) return;
+  const n = bucketsAtivos.size;
+  barra.textContent = n === 0 ? "Todos"
+    : n === 1 ? ROTULO_BUCKET[[...bucketsAtivos][0]]
+    : `${n} selecionados`;
+  document.querySelectorAll("#st-pop input[type=checkbox]").forEach(cx => {
+    cx.checked = bucketsAtivos.has(cx.dataset.s);
+  });
+}
+function abreStatus(abrir) {
+  const cx = document.getElementById("ms-status"), pop = document.getElementById("st-pop");
+  const barra = document.getElementById("st-barra");
+  if (!cx || !pop || !barra) return;
+  pop.hidden = !abrir;
+  cx.classList.toggle("aberto", abrir);
+  barra.setAttribute("aria-expanded", abrir ? "true" : "false");
+}
+function ligaStatusMulti() {
+  const barra = document.getElementById("st-barra"), pop = document.getElementById("st-pop");
+  if (!barra || !pop) return;
+  barra.addEventListener("click", ev => { ev.stopPropagation(); abreStatus(pop.hidden); });
+  pop.addEventListener("click", ev => ev.stopPropagation());   // clicar dentro nao fecha
+  pop.querySelectorAll("input[type=checkbox]").forEach(cx =>
+    cx.addEventListener("change", () => {
+      if (cx.checked) bucketsAtivos.add(cx.dataset.s); else bucketsAtivos.delete(cx.dataset.s);
+      pintaBarraStatus(); aplicaFiltros();
+    }));
+  document.getElementById("st-todos").addEventListener("click", () => {
+    bucketsAtivos.clear(); pintaBarraStatus(); aplicaFiltros(); abreStatus(false);
+  });
+  // OK so recolhe: o filtro ja foi aplicado a cada caixinha marcada.
+  document.getElementById("st-ok").addEventListener("click", () => abreStatus(false));
+  document.addEventListener("click", () => abreStatus(false));           // clicou fora: fecha
+  document.addEventListener("keydown", e => { if (e.key === "Escape") abreStatus(false); });
+  pintaBarraStatus();
 }
 
 // predicado compartilhado entre mapa e lista (geografico + status + periodo; a busca textual e so da lista)
 function passaFiltro(e) {
   if (!passaFiltroGeo(e)) return false;
-  // Status geral (dropdown) filtra por grupo (funilBucket): A iniciar (0-4) / Em execucao (5-8) /
-  // Climatizada parcial (10) / Climatizada (9). O funil NAO filtra mais (so abre a lista).
-  if (funilBucket && bucket(e.status) !== funilBucket) return false;   // grupo do dropdown Status geral
+  // Status geral filtra por grupo, agora com MULTIPLA escolha: A iniciar (0-4) / Em execucao (5-8) /
+  // Climatizada parcial (10) / Climatizada (9). Vazio = Todos. O funil NAO filtra (so abre a lista).
+  if (bucketsAtivos.size && !bucketsAtivos.has(bucket(e.status))) return false;
   if (!passaPeriodo(e)) return false;
   return true;
 }
@@ -646,15 +752,15 @@ function renderPainelContexto() {
   if (!body) return;
   // ordem dos periodos como SEQUENCIA (antes -> 2025 -> 2026 -> 2027/2028). O periodo selecionado
   // e um corte ACUMULADO: tudo ATE ele entra. Em "Todos" = parque inteiro.
-  const ordPer = { "antes": 0, "2025": 1, "2026": 2, "2027/2028": 3 };
-  const cutoff = (periodoAtivo === "all") ? Infinity : (ordPer[periodoAtivo] ?? Infinity);
+  const ordPer = ORD_PERIODO;
+  const cutoff = cutoffPeriodo();   // acumula ate o periodo MAIS RECENTE que estiver marcado
   const atePeriodo = e => (ordPer[PERIODO[e.sge]] ?? Infinity) <= cutoff;
   // recorte FILTRADO (territorio + Status geral + funil + periodo ACUMULADO): alimenta os NUMEROS
   // (Tamanho e o balao de indicadores). O periodo aqui ACUMULA (igual a rosca): 2025 = antes+2025,
-  // 2026 = antes+2025+2026... — diferente do mapa/lista, que mostram so o periodo exato.
+  // 2026 = antes+2025+2026... — diferente do mapa/lista, que mostram so os periodos marcados.
   const base = ESCOLAS.filter(e =>
     passaFiltroGeo(e)
-    && (!funilBucket || bucket(e.status) === funilBucket)   // Status geral/funil = grupo (funilBucket)
+    && (!bucketsAtivos.size || bucketsAtivos.has(bucket(e.status)))   // Status geral = grupos marcados
     && atePeriodo(e));
   // recorte so do TERRITORIO (geo): alimenta a rosca de avanco e a linha do tempo.
   const baseGeo = ESCOLAS.filter(passaFiltroGeo);
@@ -784,7 +890,7 @@ function renderPainelContexto() {
     //     INSTALADA 2026 -> 2026; CLIMATIZADA/INSTALADA 2025 -> 2025).
     // FANTASMA (previsto, so em 2026/Todos): salas da etapa 02 ainda nao climatizadas/parciais.
     const E2 = window.ETAPA02 || {};
-    const mostraFantasma = (periodoAtivo === "all" || periodoAtivo === "2026");
+    const mostraFantasma = (!periodosAtivos.size || periodosAtivos.has("2026"));
     let salasTerritorio = 0, salasClim = 0, fantasma = 0;
     // DENOMINADORES (territorio inteiro, TODOS os periodos -> FIXOS no filtro de periodo):
     // total de bairros, escolas, CEIs e unidades. Os numeradores (acumulados) vem do baseBalao.
@@ -887,9 +993,14 @@ function renderPainelContexto() {
          <text x="20" y="${(20 + corpoPct * 0.39).toFixed(1)}" text-anchor="middle" class="mini-donut-num" font-size="${corpoPct}">${rotuloPct}</text>
        </svg>`;
     const pctVerba = pctNum(bInv, PARQUE_VERBA);
-    strip.innerHTML =
-      // 1) SALAS (verde): total climatizado + a quebra por natureza da sala
-      `<div class="metricard">
+    // Cada cartao entra na lista; a faixa se monta com os que estiverem visiveis e
+    // o numero de colunas acompanha. A cor vem da classe (mc-verde, mc-laranja...),
+    // entao esconder um nao muda a cor dos outros.
+    const cartoes = [];
+    // 1) SALAS (verde): total climatizado + a quebra por natureza da sala.
+    //    Oculto enquanto MOSTRAR_SALAS_NA_FAIXA for false (ver o topo do arquivo).
+    if (MOSTRAR_SALAS_NA_FAIXA) cartoes.push(
+      `<div class="metricard mc-verde">
          <div class="mc-lab">Salas climatizadas</div>
          <div class="mc-donut-row">${donut}
            <div class="mc-donut-sub">${salasClim.toLocaleString("pt-BR")} de ${salasTerritorio.toLocaleString("pt-BR")} salas</div>
@@ -909,9 +1020,10 @@ function renderPainelContexto() {
              </div>
            </div>
          </div>
-       </div>` +
-      // 2) INVESTIMENTO (laranja): total + barra + quebra por ano e a composicao do gasto
-      `<div class="metricard">
+       </div>`);
+    // 2) INVESTIMENTO (laranja): total + barra + quebra por ano e a composicao do gasto
+    cartoes.push(
+      `<div class="metricard mc-laranja">
          <div class="mc-lab">Investimento</div>
          <div class="mc-num">${moedaCompacta(bInv)}</div>
          <div class="mc-bar"><span style="width:${pctVerba.toFixed(1)}%"></span></div>
@@ -932,26 +1044,29 @@ function renderPainelContexto() {
              </div>
            </div>
          </div>
-       </div>` +
-      // 3) COBERTURA (azul): bairros (grande) + barra (proporcao de bairros) + unidades (menor)
-      `<div class="metricard">
+       </div>`);
+    // 3) COBERTURA (azul): bairros (grande) + barra (proporcao de bairros) + unidades (menor)
+    cartoes.push(
+      `<div class="metricard mc-azul">
          <div class="mc-lab">Cobertura</div>
          <div class="mc-num">${cobBairros.size}<span class="mc-unit"> de ${totBairros.size} bairros</span></div>
          <div class="mc-bar mc-bar-cob"><span style="width:${pctNum(cobBairros.size, totBairros.size).toFixed(1)}%"></span></div>
          <div class="mc-sub">${cobUni.toLocaleString("pt-BR")} de ${totUnidades.toLocaleString("pt-BR")} unidades</div>
-       </div>` +
-      // 4) CLIMATIZADAS POR TIPO (roxo): EMTP / EMTI / CEI, plenas em cima e parciais embaixo.
-      //    Denominador e sempre o total de unidades daquele tipo no territorio.
-      `<div class="metricard">
+       </div>`);
+    // 4) CLIMATIZADAS POR TIPO (roxo): EMTP / EMTI / CEI, plenas em cima e parciais embaixo.
+    //    Denominador e sempre o total de unidades daquele tipo no territorio.
+    cartoes.push(
+      `<div class="metricard mc-roxo">
          <div class="mc-lab">Climatizadas por tipo</div>
          <div class="mc-tipos">${barrasTipo(climTipo, parcTipo)}</div>
          <div class="mc-legenda" id="mc-legenda-tipo" title="Clique para isolar uma das medidas">
            <button type="button" data-modo="plenas" class="${tipoClimModo === "plenas" ? "sel" : ""}${tipoClimModo === "parciais" ? " off" : ""}"><i></i>Climatizadas</button>
            <button type="button" data-modo="parciais" class="${tipoClimModo === "parciais" ? "sel" : ""}${tipoClimModo === "plenas" ? " off" : ""}"><i class="parc"></i>Parcialmente${tipoClimModo === "ambas" ? " (+)" : ""}</button>
          </div>
-       </div>` +
-      // 5) EM EXECUCAO POR TIPO: quantas unidades do status 5-8, quebradas por tipo de unidade
-      `<div class="metricard">
+       </div>`);
+    // 5) EM EXECUCAO POR TIPO: quantas unidades do status 5-8, quebradas por tipo de unidade
+    cartoes.push(
+      `<div class="metricard mc-amarelo">
          <div class="mc-lab">Em execução por tipo</div>
          <div class="mc-num">${execTotal}<span class="mc-unit"> unidade${execTotal === 1 ? "" : "s"}</span></div>
          <div class="mc-tipos">${
@@ -962,7 +1077,12 @@ function renderPainelContexto() {
               </div>`).join("") ||
            `<div class="mc-sub">Nenhuma unidade em execução neste recorte.</div>`
          }</div>
-       </div>`;
+       </div>`);
+    strip.innerHTML = cartoes.join("");
+    // a faixa se redistribui pelo numero de cartoes visiveis; cs-4 cuida de 2+2 no
+    // tablet, onde 3 colunas deixariam um cartao sozinho na segunda linha
+    strip.style.setProperty("--mc-cols", cartoes.length);
+    strip.classList.toggle("cs-4", cartoes.length === 4);
     // legenda do cartao 4 alterna a medida; re-renderiza o painel inteiro (barato) para
     // a barra e o numero acompanharem
     strip.querySelectorAll("#mc-legenda-tipo button").forEach(bt => {
@@ -1532,37 +1652,22 @@ function init(){
   montaChipsRegional(ESCOLAS);
   preencheSelect("sel-distrito", new Set(ESCOLAS.map(e => e.distrito)));
   preencheSelect("sel-bairro", new Set(ESCOLAS.map(e => e.bairro)));
-  // Status geral: os 4 grupos do funil (oculta os status individuais; value = bucket = funilBucket).
-  document.getElementById("sel-status").innerHTML =
-    '<option value="">Todos</option>' +
-    '<option value="iniciar">A iniciar</option>' +
-    '<option value="pipeline">Em execução</option>' +
-    '<option value="parc">Climatizada parcial</option>' +
-    '<option value="clim">Climatizada</option>';
   montaPeriodos();
 
   ["sel-distrito","sel-bairro"].forEach(id =>
     document.getElementById(id).addEventListener("change", aplicaFiltros));
-  // Status geral e o funil sao o MESMO filtro por grupo: mexer no dropdown ajusta o funilBucket
-  document.getElementById("sel-status").addEventListener("change", e => {
-    funilBucket = e.target.value || null; aplicaFiltros();
-  });
-  // botoes de periodo: filtram mapa/lista/funil reusando aplicaFiltros (igual o Status geral)
-  document.querySelectorAll("#f-periodo button").forEach(b => b.addEventListener("click", () => {
-    document.querySelectorAll("#f-periodo button").forEach(x => x.classList.remove("on"));
-    b.classList.add("on");
-    periodoAtivo = b.dataset.p;
-    aplicaFiltros();
-  }));
+  // Periodo: chips de MULTIPLA escolha (com atalho de intervalo no Shift).
+  ligaFiltroMulti("f-periodo", "p", periodosAtivos, true);
+  // Status geral: barrinha com caixinhas de marcar.
+  ligaStatusMulti();
   document.getElementById("f-limpar").addEventListener("click", () => {
     regionalAtiva = "all";
     document.querySelectorAll("#f-regional button").forEach((b,i) => b.classList.toggle("on", i===0));
-    ["sel-distrito","sel-bairro","sel-status"].forEach(id => document.getElementById(id).value = "");
+    ["sel-distrito","sel-bairro"].forEach(id => document.getElementById(id).value = "");
     document.getElementById("q").value = "";
-    // reseta o filtro de periodo de volta para "Todos"
-    periodoAtivo = "all";
-    document.querySelectorAll("#f-periodo button").forEach((b,i) => b.classList.toggle("on", i===0));
-    funilBucket = null;   // limpa o grupo selecionado no funil
+    // reseta Periodo e Status geral de volta para "Todos" (conjuntos vazios)
+    periodosAtivos.clear(); pintaFiltroMulti("f-periodo", "p", periodosAtivos);
+    bucketsAtivos.clear();  pintaBarraStatus();
     // volta o drill ao nivel 0 (mapa cheio com os 6 distritos) sem aplicar filtros 2x
     drillDistrito = null;
     drillRegional = null;

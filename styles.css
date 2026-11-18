@@ -138,6 +138,41 @@ h1 .thin{font-weight:400;color:rgba(255,255,255,.86)}
   justify-content:flex-start;gap:8px;padding:0;width:auto}
 .mapfiltros .selgroup select{min-width:0;width:100%}
 .mapfiltros .btn-limpar{align-self:flex-start}
+/* ---- Status geral: barrinha igual a de antes, abrindo lista de caixinhas (estilo Excel) ----
+   .ms-barra copia exatamente o visual do antigo .selgroup select (borda, raio, chevron). */
+.multisel{position:relative}
+.ms-barra{font-family:var(--fonte-ui);font-size:13px;border:1px solid var(--line);background-color:#fff;
+  color:var(--ink);padding:7px 30px 7px 11px;border-radius:var(--raio-botao);min-width:150px;cursor:pointer;
+  width:100%;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%235C574E' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 10px center;background-size:12px}
+.ms-barra:hover{border-color:var(--cinza)}
+.ms-barra:focus-visible{outline:none;border-color:var(--azul)}
+.multisel.aberto .ms-barra{border-color:var(--azul)}
+/* painel das caixinhas: flutua sobre o conteudo, nao empurra a coluna */
+.ms-pop{position:absolute;z-index:1200;top:calc(100% + 4px);left:0;right:0;min-width:168px;
+  background:#fff;border:1px solid var(--line);border-radius:var(--raio-botao);
+  box-shadow:0 6px 18px rgba(50,85,101,.14);padding:5px;display:flex;flex-direction:column;gap:1px}
+/* OBRIGATORIO: o display:flex acima venceria o display:none que o atributo [hidden] aplica,
+   e o painel ficaria sempre aberto. Esta regra e o que faz o recolher funcionar de verdade. */
+.ms-pop[hidden]{display:none}
+/* .ms-op e um <label> dentro de .selgroup: precisa anular o estilo de rotulo de secao
+   (caixa alta, cinza, espacado) que vale para os labels dos filtros. */
+.selgroup .ms-op{display:flex;align-items:center;gap:7px;padding:5px 7px;border-radius:3px;cursor:pointer;
+  font-family:var(--fonte-ui);font-size:12.5px;font-weight:500;line-height:1.3;
+  color:var(--ink);text-transform:none;letter-spacing:normal;white-space:nowrap}
+.ms-op:hover{background:#F1ECE0}
+.ms-op input{width:13px;height:13px;margin:0;accent-color:var(--laranja);cursor:pointer;flex:0 0 auto}
+/* rodape do painel: 'Todos' limpa a selecao, 'OK' fecha (mesma logica do filtro do Excel) */
+.ms-rodape{display:flex;align-items:center;justify-content:space-between;gap:8px;
+  margin-top:4px;padding:6px 3px 1px;border-top:1px solid var(--line)}
+.ms-limpar{border:0;background:none;cursor:pointer;font-family:var(--fonte-ui);font-size:11px;
+  color:var(--cinza);padding:3px 4px}
+.ms-limpar:hover{color:var(--laranja)}
+.ms-ok{font-family:var(--fonte-ui);font-size:11px;font-weight:600;cursor:pointer;
+  background:#fff;color:var(--ink2);border:1px solid var(--line);
+  padding:5px 14px;border-radius:var(--raio-botao)}
+.ms-ok:hover{border-color:var(--cinza);color:var(--ink)}
 
 /* controles antigos (Distrito, Bairro, chips R1-R12) escondidos: a faixa de navegacao
    ja cobre essa funcao. Ficam no DOM e funcionando (o drill os usa como filtro). */
@@ -186,7 +221,9 @@ h1 .thin{font-weight:400;color:rgba(255,255,255,.86)}
    lado, separadas por divisoria fina vertical, cada uma com uma listra de cor fina no topo. */
 /* faixa de indicadores: card flutuante, fonte Inter (escopo SO da faixa), cantos 14px */
 .cardstrip{grid-column:1 / -1;                                      /* atravessa painel + mapa */
-  display:grid;grid-template-columns:repeat(5,1fr);
+  /* o numero de colunas acompanha quantos cards estao visiveis (--mc-cols, posto pelo
+     app.js). Com um card oculto a faixa se redistribui sozinha e continua preenchida. */
+  display:grid;grid-template-columns:repeat(var(--mc-cols,5),1fr);
   margin-top:12px;
   font-family:var(--fonte-ui);
   background:var(--panel);border:1px solid var(--line);border-radius:14px;
@@ -196,12 +233,19 @@ h1 .thin{font-weight:400;color:rgba(255,255,255,.86)}
   opacity:0;animation:mc-in .5s ease both}                          /* entrada em cascata */
 .metricard + .metricard{border-left:1px solid var(--line)}          /* divisoria fina vertical */
 /* uma cor por card; --mc pinta listra do topo e as barrinhas de dentro do mesmo card.
-   Em execucao herda o amarelo do funil e da legenda do mapa. */
-.metricard:nth-child(1){--mc:var(--verde);animation-delay:0s}
-.metricard:nth-child(2){--mc:var(--laranja);animation-delay:.08s}
-.metricard:nth-child(3){--mc:var(--azul);animation-delay:.16s}
-.metricard:nth-child(4){--mc:var(--roxo);animation-delay:.24s}
-.metricard:nth-child(5){--mc:var(--amarelo);animation-delay:.32s}
+   Em execucao herda o amarelo do funil e da legenda do mapa.
+   A COR vem da classe, nao da posicao: assim esconder um card nao faz os outros
+   trocarem de cor. So o atraso da entrada em cascata segue a ordem na tela. */
+.mc-verde   {--mc:var(--verde)}
+.mc-laranja {--mc:var(--laranja)}
+.mc-azul    {--mc:var(--azul)}
+.mc-roxo    {--mc:var(--roxo)}
+.mc-amarelo {--mc:var(--amarelo)}
+.metricard:nth-child(1){animation-delay:0s}
+.metricard:nth-child(2){animation-delay:.08s}
+.metricard:nth-child(3){animation-delay:.16s}
+.metricard:nth-child(4){animation-delay:.24s}
+.metricard:nth-child(5){animation-delay:.32s}
 /* separador entre os dois assuntos que passaram a dividir o mesmo card */
 .mc-sep{margin-top:10px;padding-top:10px;border-top:1px dotted var(--line)}
 .mc-sep .mc-lab2{font-family:var(--fonte-ui);font-size:9.5px;font-weight:600;letter-spacing:.09em;
@@ -268,7 +312,11 @@ h1 .thin{font-weight:400;color:rgba(255,255,255,.86)}
   font-variant-numeric:tabular-nums;letter-spacing:-.02em}
 /* responsivo do balao: 2 colunas e depois 1; ajusta as divisorias verticais */
 @media(max-width:1200px){.cardstrip{grid-template-columns:repeat(3,1fr)}
-  .metricard:nth-child(3n+1){border-left:0}}
+  .metricard:nth-child(3n+1){border-left:0}
+  /* com 4 cards, 3 colunas deixariam um sozinho na segunda linha; 2+2 fecha certo */
+  .cardstrip.cs-4{grid-template-columns:repeat(2,1fr)}
+  .cardstrip.cs-4 .metricard:nth-child(odd){border-left:0}
+  .cardstrip.cs-4 .metricard:nth-child(even){border-left:1px solid var(--line)}}
 @media(max-width:960px){.cardstrip{grid-template-columns:repeat(2,1fr)}
   .metricard:nth-child(3n+1){border-left:1px solid var(--line)}
   .metricard:nth-child(odd){border-left:0}}
