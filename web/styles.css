@@ -37,6 +37,9 @@
    pra ficar tudo Inter (ex.: faixas do funil, botao de fechar a ficha) */
 button,input,select,textarea{font-family:inherit}
 .leaflet-container{font-family:var(--fonte-ui)}
+/* fundo do mapa (OpenStreetMap): clareia e tira a saturacao pra as ruas virarem pano de fundo
+   e os shapes/pontos institucionais continuarem sendo a leitura principal. */
+.tiles-claras{filter:grayscale(1) brightness(1.12) contrast(.82)}
 html,body{height:100%}
 body{
   background:var(--bg);color:var(--ink);font-family:var(--fonte-ui);line-height:1.45;
