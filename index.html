@@ -230,6 +230,16 @@
   <aside class="drawer" id="drawer" aria-hidden="true">
     <div class="dr-head">
       <button class="close" id="dr-close" aria-label="Fechar">&times;</button>
+      <!-- Baixar a ficha desta escola (PDF/JPEG). So aparencia/export; nao altera dados nem mapa. -->
+      <div class="dr-dl" id="dr-dl">
+        <button class="dr-dl-btn" id="dr-dl-btn" type="button" title="Baixar ficha" aria-label="Baixar ficha" aria-haspopup="true" aria-expanded="false">
+          <svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M12 3.5v11m0 0l-4-4m4 4l4-4M4.5 17v1.5a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2V17"/></svg>
+        </button>
+        <div class="dr-dl-menu" id="dr-dl-menu" role="menu" hidden>
+          <button type="button" role="menuitem" data-fmt="pdf">Baixar PDF</button>
+          <button type="button" role="menuitem" data-fmt="jpg">Baixar imagem (JPEG)</button>
+        </div>
+      </div>
       <div class="dr-selo" id="dr-selo"></div>
       <div class="sge" id="dr-sge"></div>
       <h3 id="dr-nome"></h3>
@@ -259,6 +269,9 @@
   <script src="data/salas_prof.js"></script>
   <script src="data/etapa02.js"></script>
   <script src="data/atualizado.js"></script>
+  <!-- Export da ficha da escola (PDF/JPEG). Carregadas sob demanda no clique; nao afetam o mapa. -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
