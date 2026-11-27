@@ -1,5 +1,5 @@
 {
- "gerado_em": "2026-11-27T01:56-03:00",
+ "gerado_em": "2026-11-27T15:07-03:00",
  "origem": "planilha ao vivo",
  "fonte": "BASE MESTRA (512) — escopo COINF, exclui CRP e CAEE",
  "total": 512,
@@ -5846,8 +5846,8 @@
    "asCivil": "Nº O.S. NÃO DEFINIDA",
    "asEletrica": null,
    "valorCivil": 142227.19,
-   "valorEletrica": null,
-   "valorTotal": 142227.19,
+   "valorEletrica": 114000,
+   "valorTotal": 256227.19,
    "temExecucao": "SIM"
   },
   {
