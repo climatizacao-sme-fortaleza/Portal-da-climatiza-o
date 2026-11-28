@@ -1749,3 +1749,77 @@ init();
   // avisa o container que já está pronto para receber comando
   window.parent.postMessage({ tipo: "portal:pronto" }, "*");
 })();
+
+/* ---------- Baixar ficha da escola (PDF / JPEG) ----------
+   Captura o painel #drawer (ficha aberta) e gera o download. Apenas export visual:
+   nao altera dados, filtros, nem o mapa Leaflet. Usa html2canvas (imagem) e jsPDF (pdf). */
+function slugFicha(s){
+  return String(s || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "")
+    .replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 48);
+}
+async function baixarFicha(fmt){
+  const el = document.getElementById("drawer");
+  if (!el || !el.classList.contains("on")) return;
+  const semLib = (typeof html2canvas === "undefined") ||
+                 (fmt === "pdf" && !(window.jspdf && window.jspdf.jsPDF));
+  if (semLib) { alert("Download indisponível no momento (biblioteca não carregou). Tente recarregar a página."); return; }
+  const sge = (((document.getElementById("dr-sge") || {}).textContent) || "").replace(/[^0-9]/g, "") || "escola";
+  const nome = slugFicha((document.getElementById("dr-nome") || {}).textContent);
+  const base = "ficha-sge-" + sge + (nome ? "-" + nome : "");
+  el.classList.add("exporting");
+  const prev = { h: el.style.height, mh: el.style.maxHeight, ov: el.style.overflow };
+  el.style.height = "auto"; el.style.maxHeight = "none"; el.style.overflow = "visible";
+  try {
+    const canvas = await html2canvas(el, {
+      backgroundColor: "#ffffff", scale: 2, useCORS: true,
+      windowWidth: el.offsetWidth, windowHeight: el.scrollHeight
+    });
+    if (fmt === "jpg") {
+      const a = document.createElement("a");
+      a.href = canvas.toDataURL("image/jpeg", 0.95);
+      a.download = base + ".jpg";
+      document.body.appendChild(a); a.click(); a.remove();
+    } else {
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
+      const margin = 24;
+      const pw = pdf.internal.pageSize.getWidth();
+      const ph = pdf.internal.pageSize.getHeight();
+      const iw = pw - margin * 2;                         // largura util
+      const pageHpx = (ph - margin * 2) * canvas.width / iw;  // altura de 1 pagina, em px do canvas
+      let sY = 0, first = true;
+      while (sY < canvas.height) {
+        const sliceH = Math.min(pageHpx, canvas.height - sY);
+        const c2 = document.createElement("canvas");
+        c2.width = canvas.width; c2.height = sliceH;
+        c2.getContext("2d").drawImage(canvas, 0, sY, canvas.width, sliceH, 0, 0, canvas.width, sliceH);
+        if (!first) pdf.addPage();
+        pdf.addImage(c2.toDataURL("image/jpeg", 0.95), "JPEG", margin, margin, iw, sliceH * iw / canvas.width);
+        sY += sliceH; first = false;
+      }
+      pdf.save(base + ".pdf");
+    }
+  } catch (e) {
+    console.error("baixarFicha:", e);
+    alert("Não foi possível gerar o arquivo da ficha.");
+  } finally {
+    el.style.height = prev.h; el.style.maxHeight = prev.mh; el.style.overflow = prev.ov;
+    el.classList.remove("exporting");
+  }
+}
+(function(){
+  const btn = document.getElementById("dr-dl-btn");
+  const menu = document.getElementById("dr-dl-menu");
+  if (!btn || !menu) return;
+  const fecha = () => { menu.hidden = true; btn.setAttribute("aria-expanded", "false"); };
+  btn.addEventListener("click", e => {
+    e.stopPropagation();
+    menu.hidden = !menu.hidden;
+    btn.setAttribute("aria-expanded", String(!menu.hidden));
+  });
+  menu.querySelectorAll("button[data-fmt]").forEach(b => {
+    b.addEventListener("click", e => { e.stopPropagation(); fecha(); baixarFicha(b.dataset.fmt); });
+  });
+  document.addEventListener("click", () => { if (!menu.hidden) fecha(); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape") fecha(); });
+})();
