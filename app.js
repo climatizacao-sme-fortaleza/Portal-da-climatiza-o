@@ -1766,19 +1766,47 @@ async function baixarFicha(fmt){
   const sge = (((document.getElementById("dr-sge") || {}).textContent) || "").replace(/[^0-9]/g, "") || "escola";
   const nome = slugFicha((document.getElementById("dr-nome") || {}).textContent);
   const base = "ficha-sge-" + sge + (nome ? "-" + nome : "");
+
+  // iOS/Safari (tela wide-gamut + color-mix no CSS) devolve as cores ja resolvidas como
+  // color(srgb ...) / color(display-p3 ...). O html2canvas 1.4.1 nao entende color() e
+  // estoura -- era por isso que so falhava no iPhone. Antes de capturar, congelamos as
+  // cores da ficha para rgb() em estilo inline e restauramos no finally (mesma cor, sem
+  // efeito visual). Em navegador que ja entrega rgb (Chrome), nada e tocado.
+  const PROPS = ["color","backgroundColor","backgroundImage","borderTopColor","borderRightColor",
+    "borderBottomColor","borderLeftColor","outlineColor","textDecorationColor","fill","stroke","boxShadow"];
+  const cvt = v => v.replace(
+    /color\(\s*(?:srgb|display-p3)\s+([0-9.]+)\s+([0-9.]+)\s+([0-9.]+)(?:\s*\/\s*([0-9.]+))?\s*\)/gi,
+    (_m, r, g, b, a) => { const n = x => Math.max(0, Math.min(255, Math.round(parseFloat(x) * 255)));
+      return (a != null && a !== "1") ? "rgba(" + n(r) + "," + n(g) + "," + n(b) + "," + a + ")"
+                                      : "rgb(" + n(r) + "," + n(g) + "," + n(b) + ")"; });
+  const restore = [];
+  const freeze = node => {
+    const cs = getComputedStyle(node);
+    for (const p of PROPS) { const val = cs[p];
+      if (val && val.indexOf("color(") !== -1) { restore.push([node, p, node.style[p]]); node.style[p] = cvt(val); } }
+  };
+  freeze(el); el.querySelectorAll("*").forEach(freeze);
+
   el.classList.add("exporting");
   const prev = { h: el.style.height, mh: el.style.maxHeight, ov: el.style.overflow };
   el.style.height = "auto"; el.style.maxHeight = "none"; el.style.overflow = "visible";
   try {
+    // escala 2 para nitidez, mas sem passar do teto de area de canvas do iOS (~16 MP)
+    const w = el.offsetWidth, h = el.scrollHeight; let scale = 2;
+    const MAXA = 16000000;
+    if (w * h * scale * scale > MAXA) scale = Math.max(1, Math.sqrt(MAXA / (w * h)));
     const canvas = await html2canvas(el, {
-      backgroundColor: "#ffffff", scale: 2, useCORS: true,
+      backgroundColor: "#ffffff", scale: scale, useCORS: true, imageTimeout: 15000,
       windowWidth: el.offsetWidth, windowHeight: el.scrollHeight
     });
     if (fmt === "jpg") {
+      const blob = await new Promise(res => canvas.toBlob(res, "image/jpeg", 0.95));
+      if (!blob) throw new Error("canvas vazio ao gerar JPEG");
+      const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
-      a.href = canvas.toDataURL("image/jpeg", 0.95);
-      a.download = base + ".jpg";
+      a.href = url; a.download = base + ".jpg"; a.rel = "noopener";
       document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 10000);
     } else {
       const { jsPDF } = window.jspdf;
       const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
@@ -1801,8 +1829,9 @@ async function baixarFicha(fmt){
     }
   } catch (e) {
     console.error("baixarFicha:", e);
-    alert("Não foi possível gerar o arquivo da ficha.");
+    alert("Não foi possível gerar o arquivo da ficha.\n(" + ((e && e.message) ? e.message : e) + ")");
   } finally {
+    for (const [node, p, v] of restore) node.style[p] = v;
     el.style.height = prev.h; el.style.maxHeight = prev.mh; el.style.overflow = prev.ov;
     el.classList.remove("exporting");
   }
