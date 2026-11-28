@@ -700,6 +700,20 @@ h1 .thin{font-weight:400;color:rgba(255,255,255,.86)}
   display:inline-block;border:1px solid transparent}
 .close{position:absolute;top:16px;right:18px;font-size:26px;cursor:pointer;color:var(--ink2);
   background:0;border:0;line-height:1}
+/* botao discreto de baixar a ficha (PDF/JPEG), no canto do cabecalho, a esquerda do "x" */
+.dr-dl{position:absolute;top:16px;right:48px}
+.dr-dl-btn{background:0;border:0;padding:4px;margin:0;cursor:pointer;color:var(--cinza);line-height:0;
+  border-radius:6px;transition:color .15s ease,background .15s ease}
+.dr-dl-btn:hover,.dr-dl-btn[aria-expanded="true"]{color:var(--laranja);
+  background:color-mix(in srgb,var(--laranja) 10%,#fff)}
+.dr-dl-menu{position:absolute;top:32px;right:0;min-width:188px;background:#fff;border:1px solid var(--line);
+  border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,.12);padding:4px;z-index:5}
+.dr-dl-menu[hidden]{display:none}
+.dr-dl-menu button{display:block;width:100%;text-align:left;background:0;border:0;cursor:pointer;
+  font-family:var(--fonte-ui);font-size:13px;font-weight:500;color:#325565;padding:9px 12px;border-radius:6px}
+.dr-dl-menu button:hover{background:color-mix(in srgb,var(--laranja) 9%,#fff);color:var(--laranja)}
+/* durante a captura, esconde os controles pra nao sairem na imagem/pdf */
+.drawer.exporting .dr-dl,.drawer.exporting .close{display:none!important}
 /* selo de periodo de climatizacao, em destaque no topo da ficha. Cor pelo periodo:
    verde (mais escuro = mais antigo) p/ climatizada; laranja p/ em processo; neutro a iniciar. */
 .dr-selo{display:inline-block;margin-bottom:14px;padding:7px 15px;border-radius:999px;
