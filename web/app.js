@@ -1757,6 +1757,27 @@ function slugFicha(s){
   return String(s || "").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "")
     .replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 48);
 }
+/* Entrega o arquivo gerado. No celular (iOS/Android) abre a folha de compartilhamento
+   nativa -- de onde da para "Salvar imagem" (vai para a galeria/Fotos), mandar no
+   WhatsApp, etc. No desktop, ou quando o compartilhamento de arquivo nao existe, baixa
+   normalmente. Se o usuario cancelar a folha, nao faz nada. */
+async function entregarArquivo(blob, filename){
+  try {
+    const file = new File([blob], filename, { type: blob.type });
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      await navigator.share({ files: [file], title: filename });
+      return;
+    }
+  } catch (e) {
+    if (e && e.name === "AbortError") return;   // usuario fechou a folha de compartilhamento
+    // qualquer outro motivo (ex.: gesto expirou no iOS) cai no download abaixo
+  }
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = filename; a.rel = "noopener";
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 10000);
+}
 async function baixarFicha(fmt){
   const el = document.getElementById("drawer");
   if (!el || !el.classList.contains("on")) return;
@@ -1799,34 +1820,25 @@ async function baixarFicha(fmt){
       backgroundColor: "#ffffff", scale: scale, useCORS: true, imageTimeout: 15000,
       windowWidth: el.offsetWidth, windowHeight: el.scrollHeight
     });
-    if (fmt === "jpg") {
-      const blob = await new Promise(res => canvas.toBlob(res, "image/jpeg", 0.95));
-      if (!blob) throw new Error("canvas vazio ao gerar JPEG");
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url; a.download = base + ".jpg"; a.rel = "noopener";
-      document.body.appendChild(a); a.click(); a.remove();
-      setTimeout(() => URL.revokeObjectURL(url), 10000);
-    } else {
+    let blob, filename;
+    if (fmt === "pdf") {
+      // PDF do tamanho da propria ficha (uma pagina sob medida), em vez de um A4 com a
+      // ficha pequena no meio da folha. Fica um documento limpo, igual a ficha na tela.
       const { jsPDF } = window.jspdf;
-      const pdf = new jsPDF({ orientation: "portrait", unit: "pt", format: "a4" });
-      const margin = 24;
-      const pw = pdf.internal.pageSize.getWidth();
-      const ph = pdf.internal.pageSize.getHeight();
-      const iw = pw - margin * 2;                         // largura util
-      const pageHpx = (ph - margin * 2) * canvas.width / iw;  // altura de 1 pagina, em px do canvas
-      let sY = 0, first = true;
-      while (sY < canvas.height) {
-        const sliceH = Math.min(pageHpx, canvas.height - sY);
-        const c2 = document.createElement("canvas");
-        c2.width = canvas.width; c2.height = sliceH;
-        c2.getContext("2d").drawImage(canvas, 0, sY, canvas.width, sliceH, 0, 0, canvas.width, sliceH);
-        if (!first) pdf.addPage();
-        pdf.addImage(c2.toDataURL("image/jpeg", 0.95), "JPEG", margin, margin, iw, sliceH * iw / canvas.width);
-        sY += sliceH; first = false;
-      }
-      pdf.save(base + ".pdf");
+      const margin = 16, imgW = 520;
+      const imgH = imgW * canvas.height / canvas.width;
+      const pageW = imgW + margin * 2, pageH = imgH + margin * 2;
+      const pdf = new jsPDF({ orientation: pageH >= pageW ? "portrait" : "landscape", unit: "pt", format: [pageW, pageH] });
+      pdf.addImage(canvas.toDataURL("image/jpeg", 0.95), "JPEG", margin, margin, imgW, imgH);
+      blob = pdf.output("blob");
+      filename = base + ".pdf";
+    } else {
+      const mime = (fmt === "png") ? "image/png" : "image/jpeg";
+      blob = await new Promise(res => canvas.toBlob(res, mime, 0.95));
+      if (!blob) throw new Error("canvas vazio ao gerar imagem");
+      filename = base + (fmt === "png" ? ".png" : ".jpg");
     }
+    await entregarArquivo(blob, filename);
   } catch (e) {
     console.error("baixarFicha:", e);
     alert("Não foi possível gerar o arquivo da ficha.\n(" + ((e && e.message) ? e.message : e) + ")");
